@@ -5,7 +5,8 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { StyleSheet, Image,Text,SafeAreaView, Pressable,View } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 
-import OnboardingPage from './pages/onbarding';
+// import OnboardingPage from './pages/onbarding';
+import OnboardingPage from './pages/onboarding/onbarding';
 import 'react-native-gesture-handler';
 import Login from './pages/login';
 import Register from './pages/register';
@@ -48,6 +49,8 @@ import Minutes from './pages/minutes';
 import Notifications from './pages/Notification';
 import Profile from './pages/Profile/profile';
 import EditProfile from './pages/Profile/EditProfile';
+import SplashScreen from './pages/splashScreen';
+import Chapters from './pages/onboarding/Chapters';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator();
@@ -113,6 +116,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown:false}} >
+        <Stack.Screen name='splashScreen' component={SplashScreen}/>
         <Stack.Screen name="home" component={OnboardingPage} />  
         <Stack.Screen name='login' component={Login}/>  
         <Stack.Screen name='register' component={Register}/>  
@@ -139,6 +143,7 @@ export default function App() {
         <Stack.Screen name='view-member' component={ViewMember}/>
         <Stack.Screen name='profile' component={Profile}/>
         <Stack.Screen name='editProfile' component={EditProfile}/>
+        <Stack.Screen name='chapters' component={Chapters}/>
 
         <Stack.Screen name='dashboard'>
         {()=>(
@@ -168,7 +173,7 @@ export default function App() {
                 <Ionicon
                    name="md-home"
                    size={size}
-                   color={focused ? '#7F02A2' : '#c4c4c4'}
+                   color={focused ? '#365C2A' : '#c4c4c4'}
                 />
              ),}} 
               component={TabScreen} 
@@ -177,7 +182,7 @@ export default function App() {
             <Drawer.Screen 
               name="event" 
               options={{drawerLabel:'Events',drawerIcon: ({focused, size}) => (
-                 <MaterialIcon name='event-available' style={tw`text-center pb-2`} color={focused ? '#7F02A2' : '#C4C4C4'} size={size}/>
+                 <MaterialIcon name='event-available' style={tw`text-center pb-2`} color={focused ? '#365C2A' : '#C4C4C4'} size={size}/>
              ),}} 
               component={Events} 
             />
@@ -185,19 +190,19 @@ export default function App() {
             <Drawer.Screen 
               
               name="gallery" options={{ drawerLabel:'Gallery',drawerIcon: ({focused, size}) => (
-                <FontAwesome name="photo" size={size} color={focused ? '#7F02A2' : '#c4c4c4'}
+                <FontAwesome name="photo" size={size} color={focused ? '#365C2A' : '#c4c4c4'}
                 /> ),}} component={Gallery} 
             />
             <Drawer.Screen 
               name="election" 
               options={{drawerLabel:'Elections',drawerIcon: ({focused, size}) => (
-                <MaterialIcon name="how-to-vote" size={size} color={focused ? '#7F02A2' : '#c4c4c4'}
+                <MaterialIcon name="how-to-vote" size={size} color={focused ? '#365C2A' : '#c4c4c4'}
                 /> ),}} component={Elections} 
             />
             <Drawer.Screen 
               name="subscribe" 
               options={{drawerLabel:'Subscription',drawerIcon: ({focused, size}) => (
-                <MaterialIcon name="subscriptions" size={size} color={focused ? '#7F02A2' : '#c4c4c4'}
+                <MaterialIcon name="subscriptions" size={size} color={focused ? '#365C2A' : '#c4c4c4'}
                 /> ),}} component={Subscribe} 
             />
 
@@ -207,7 +212,7 @@ export default function App() {
                 <MaterialIcon
                    name="headset-mic"
                    size={size}
-                   color={focused ? '#7F02A2' : '#c4c4c4'}
+                   color={focused ? '#365C2A' : '#c4c4c4'}
                 />
              ),}} 
               component={Support} 
@@ -218,7 +223,7 @@ export default function App() {
               options={{drawerLabel:'Logout',drawerIcon: ({focused, size}) => (
                 <>
                 {focused ? <Logout/>:<></>}
-                <MaterialIcon name="logout" size={size} color={focused ? '#7F02A2' : '#c4c4c4'}
+                <MaterialIcon name="logout" size={size} color={focused ? '#365C2A' : '#c4c4c4'}
                 /></> ),}} component={TabScreen} 
             />
           </Drawer.Navigator>)}

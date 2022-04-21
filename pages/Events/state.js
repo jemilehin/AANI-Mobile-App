@@ -2,6 +2,7 @@ import { View, FlatList,Text } from 'react-native'
 import React from 'react'
 import NewsCard from '../../components/News/NewsCard'
 import tw from 'tailwind-react-native-classnames'
+import EventsCard from '../../components/Events/EventsCard'
 
 const State = (props) => {
   
@@ -19,7 +20,7 @@ const State = (props) => {
             renderItem={
                 ({item}) => (
                 //   <Pressable style={tw`w-1/2`}>
-                  <NewsCard 
+                  <EventsCard 
                     image={item.picture}
                     head={item.title}
                     body={item.body}

@@ -10,8 +10,8 @@ const MessageField = () => {
         <View style={tw`bg-gray-100 flex-row rounded-xl my-auto w-11/12 mx-2 p-3`}>
         {/* <Text>WriteCommentCard</Text> */}
         <Ionicon name='attach' size={25}/>
-        <TextInput placeholder='Write Comment' multiline style={tw`w-10/12`}/>
-        <Ionicon name='md-send' size={25} style={tw`text-purple-700`}/>
+        <TextInput placeholder='Write Message' multiline style={tw`w-10/12`}/>
+        <Ionicon name='md-send' size={25} style={{color:'#365C2A'}}/>
     </View>
 </View>
   )

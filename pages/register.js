@@ -6,7 +6,7 @@ import RoundedButton from '../components/button/RoundedButton'
 const Register = ({navigation}) => {
   return (
     <View>
-      <Image style={tw`mx-auto my-8`} source={require('../images/Logo/r8Logo.png')}/>
+      <Image style={tw`mx-auto my-8`} source={require('../images/Logo/ANNILogo.png')}/>
       <View style={tw`mx-10`}>
          <Text style={tw`text-base font-bold`}>Register</Text>
           <Text>Input details to register</Text>
@@ -83,7 +83,7 @@ const Register = ({navigation}) => {
           <View style={tw`flex-row mx-auto py-2`}>
               <Text>Already have an Account?</Text>
               <TouchableOpacity onPress={()=>navigation.navigate('login')}>
-                <Text style={tw`text-purple-800 font-bold`}> Login</Text>
+                <Text style={tw`text-green-800 font-bold`}> Login</Text>
               </TouchableOpacity>
           </View>
       </View>

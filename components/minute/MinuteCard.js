@@ -5,9 +5,9 @@ import tw from 'tailwind-react-native-classnames'
 
 export default function MinuteCard(props) {
   return (
-    <View style={tw`bg-purple-100 px-3 py-5 rounded-lg`}>
-      <Ionicon name='ios-folder-open' style={tw`text-center text-purple-900`} size={30}/>
-      <Text style={tw`text-xs text-center text-purple-900`} >{props.name}</Text>
+    <View style={tw`bg-green-100 px-3 py-5 rounded-lg`}>
+      <Ionicon name='ios-folder-open' style={tw`text-center text-green-900`} size={30}/>
+      <Text style={tw`text-xs text-center text-green-900`} >{props.name}</Text>
     </View>
   )
 }

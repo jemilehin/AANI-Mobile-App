@@ -2,9 +2,9 @@ import { View,Text,SafeAreaView, Image } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import Onboarding from "../components/Onboarding";
-import FirstBoard from "../components/onboarding/firstBoard";
-import Secondoard from "../components/onboarding/secondBoard";
-import ThirdBoard from "../components/onboarding/thirdBoard";
+import FirstBoard from "../../components/onboarding/firstBoard";
+import Secondoard from "../../components/onboarding/secondBoard";
+import ThirdBoard from "../../components/onboarding/thirdBoard";
 
 
 export default function OnboardingPage(){

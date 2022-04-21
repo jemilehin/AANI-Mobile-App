@@ -9,7 +9,7 @@ const FirstBoard = ({navigation}) => {
     <View>
       <Onboarding
         image={require('../../images/onboarding/guy.png')}
-        title='Welcome to REL8'
+        title='Welcome to AANI'
         body='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet consequat pellentesque eget nisl. Amet consequat pellentesque eget nLorem ipsum dolor sit amet, consectetur adipiscing elit. Amet consequat pellentesque eget nisl. Amet consequat pellentesque eget n'
         navigation= {navigation}
         next={'second'}
@@ -20,7 +20,7 @@ const FirstBoard = ({navigation}) => {
                         <Text>Skip</Text>
                     </View>
                     <View style={tw`my-auto`}>
-                        <Ionicon onPress={()=>navigation.navigate('second')} name='ios-arrow-forward-circle' size={38} color='#7F02A2' />
+                        <Ionicon onPress={()=>navigation.navigate('second')} name='ios-arrow-forward-circle' size={38} color='#365C2A' />
                     </View>
                 </View>
             </View> */}

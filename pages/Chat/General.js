@@ -16,11 +16,12 @@ const General = () => {
       ]
   return (
     <View style={tw`h-full`}>
-      <KeyboardAvoidingView behavior='height' style={tw`flex bg-purple-50 rounded-lg mx-3 h-full justify-end `}>
+      <KeyboardAvoidingView behavior='height' style={tw`flex bg-green-50 rounded-lg mx-3 h-full justify-end `}>
         <FlatList
             data={data}
             keyExtractor={ (item, index) => item.id }
             showsVerticalScrollIndicator={false}
+            ListFooterComponent={<View style={tw`h-20`}></View>}
             renderItem={
                 ({item}) => (
             <ChatsCard 
@@ -33,7 +34,7 @@ const General = () => {
                 )}
         />
         </KeyboardAvoidingView>
-        <KeyboardAvoidingView behavior='padding'>
+        <KeyboardAvoidingView style={tw`absolute bg-white bottom-0 left-1 w-full`} behavior='position'>
             <MessageField/> 
         </KeyboardAvoidingView>
     </View>

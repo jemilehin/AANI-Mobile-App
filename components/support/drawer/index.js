@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Image,SafeAreaView, Text, Pressable } from 'react-native';
+import { View, Image,SafeAreaView, ScrollView,Text, Pressable } from 'react-native';
 import { DrawerItem} from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
@@ -19,7 +19,7 @@ const handlePress=(props)=>{
 
 const DrawerButton =(props)=>{
     return(
-        <DrawerItem activeTintColor='purple'
+        <DrawerItem activeTintColor='#365C2A'
             key={props.id}
             style={tw`${props.bg}`}
                 label={props.label}
@@ -33,6 +33,13 @@ export default function CustomDrawerList({navigation}) {
     const [selected, setSelected] = useState(1)
     const [visible, setVisible] = useState(false)
     const [showDropdown, setshowDropdown] = useState(false)
+    const [showPlatforms, setshowPlaform] = useState(false)
+    const [currentPlatform, setCurrentPlatform] =useState('Member')
+
+    const handlePlatform =(platform)=>{
+        setCurrentPlatform(platform)
+        setshowPlaform(false)
+    }
     const drawerData=[
         {id:1, label:'Home', to:'dashboard', icon:<Ionicon name='md-home' size={22} color={'grey'}/>},
         {id:2, label:'Events', to:'events', icon:(<MaterialIcon name='event-available' style={tw`text-center `} color={'grey'} size={22}/>)},
@@ -66,6 +73,7 @@ export default function CustomDrawerList({navigation}) {
     }
   return (
         <SafeAreaView style={{flex:1}}>
+            
              <ModalTemplate 
                 visible={visible}
                 body={<Logout setVisible={setVisible}/>}
@@ -73,15 +81,28 @@ export default function CustomDrawerList({navigation}) {
             <View style={tw`border-b  flex-row justify-around border-gray-400 mx-4 py-4 mb-6 w-10/12`}>
                   
                   <Image style={tw`h-20 w-20 rounded-full `} source={require('../../../images/onboarding/phone.png')}/>
-                  <View style={tw`my-auto`}>
+                
+                 <View style={tw`my-auto`}>
                     <Pressable>
                       <Text style={tw`py-1 text-base font-bold`}>Rasheed Johnson</Text>
-                      <Text style={tw`py-0.5`}> Member Platform</Text>
+                      <Text style={tw`py-0.5`}> {currentPlatform} Platform</Text>
                     </Pressable>
-                    
-                    
+                    <Pressable  onPress={()=>setshowPlaform(!showPlatforms)} style={tw`bg-green-900 px-2 flex-row rounded-full mt-1 py-1`}>
+                        <MaterialCom color='white' style={tw`my-auto pr-2`} size={17} name='account-switch-outline'/>
+                        <Text style={tw`text-center text-white text-xs`}>Switch Platform</Text>
+                    </Pressable>
+                     { showPlatforms ?
+                    <View>
+                        <Pressable onPress={()=>handlePlatform('Exco')} style={tw`px-2 flex-row rounded-full mt-0.5 py-1`}>    
+                            <Text style={tw`text-center text-black`}>Exco Platform</Text>
+                        </Pressable>
+                        <Pressable onPress={()=>handlePlatform('Committee')}style={tw`px-2 flex-row rounded-full mt-0.5 py-1`}>    
+                            <Text style={tw`text-center text-black`}>Committee Platform</Text>
+                        </Pressable>                    
+                    </View> :<></>}       
                   </View>
             </View>
+            <ScrollView>
             { drawerData.map(e=>
             
                 <DrawerButton
@@ -91,7 +112,7 @@ export default function CustomDrawerList({navigation}) {
                     to={e.to}
                     setSelected={setSelected}
                     selected={selected}
-                    bg={selected == e.id ?'bg-purple-200':''}
+                    bg={selected == e.id ?'bg-green-200':''}
                     icon={e.icon}
                 />)}
             
@@ -113,7 +134,7 @@ export default function CustomDrawerList({navigation}) {
                 to={e.to}
                 setSelected={setSelected}
                 selected={selected}
-                bg={selected == e.id ?'bg-purple-200':''}
+                bg={selected == e.id ?'bg-green-200':''}
                 icon={e.icon}
             />)}
             
@@ -121,7 +142,7 @@ export default function CustomDrawerList({navigation}) {
                 <MaterialIcon name='logout' style={tw`mr-8 my-auto text-gray-500`} size={22} />
                 <Text>Logout</Text>
             </Pressable>
-            {/* s */}
+            </ScrollView>
         </SafeAreaView>
   );
 }

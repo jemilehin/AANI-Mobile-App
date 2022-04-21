@@ -8,7 +8,7 @@ const ConfirmCode = ({navigation}) => {
   const [boxValues, setBoxValue]= useState([0,1,2,3])
   return (
     <View>
-      <Image style={tw`mx-auto my-8`} source={require('../images/Logo/r8Logo.png')}/>
+      <Image style={tw`mx-auto my-8`} source={require('../images/Logo/ANNILogo.png')}/>
       <View style={tw`mx-10`}>
          <Text style={tw`text-base font-bold`}>Code</Text>
           <Text>Input 4 digit code received to proceed</Text>
