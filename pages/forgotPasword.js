@@ -6,7 +6,7 @@ import RoundedButton from '../components/button/RoundedButton'
 const ForgotPassword = ({navigation}) => {
   return (
     <View>
-      <Image style={tw`mx-auto my-8`} source={require('../images/Logo/r8Logo.png')}/>
+      <Image style={tw`mx-auto my-8`} source={require('../images/Logo/ANNILogo.png')}/>
       <View style={tw`mx-10`}>
          <Text style={tw`text-base font-bold`}>Forgot Password</Text>
           <Text>Enter email address to recover account</Text>

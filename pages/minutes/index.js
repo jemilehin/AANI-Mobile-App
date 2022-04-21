@@ -20,18 +20,18 @@ const Minutes = ({navigation}) => {
 
     return (
         <SafeAreaView style={tw`bg-white px-4`}>
-            <StatusBar style={tw`bg-purple-900`}/>
+            <StatusBar style={tw`bg-green-900`}/>
             <TobBar
                 body={
                 <View style={tw`flex-row justify-between`}>
                     <Ionicon name='ios-chevron-back' onPress={()=>navigation.goBack()} size={30}/>
                     <Text style={tw`my-auto font-bold text-base`}>Subscribe</Text>
-                    <Ionicon name='md-notifications' style={tw`text-purple-800`} size={30}/>
+                    <Ionicon name='md-notifications' onPress={()=>navigation.navigate('notifications')} style={tw`text-green-800`} size={30}/>
                 </View>
                 }
             />
 
-            <Text style={tw`text-purple-900 text-base font-bold px-4 pt-4`}>
+            <Text style={tw`text-green-900 text-base font-bold px-4 pt-4`}>
                 Upload Minutes
             </Text>
 
@@ -39,9 +39,9 @@ const Minutes = ({navigation}) => {
             Select file you will like to upload
             </Text>
 
-            <View style={[tw`py-5 my-4 mx-auto  w-11/12 `,{borderWidth:1,borderColor:'purple', borderStyle: 'dotted',
+            <View style={[tw`py-5 my-4 mx-auto  w-11/12 `,{borderWidth:1,borderColor:'#365C2A', borderStyle: 'dotted',
                 borderRadius: 1, borderStyle:'dashed',}]}>
-                <Ionicon name="ios-cloud-upload" style={tw`m-auto text-purple-400`} size={50}/>
+                <Ionicon name="ios-cloud-upload" style={tw`m-auto text-green-400`} size={50}/>
                 <Text style={tw`text-center text-gray-400`}>Upload Meeting</Text>
             </View>
             <Text style={tw`font-bold text-base pt-2 pb-2`}>All Minutes</Text>

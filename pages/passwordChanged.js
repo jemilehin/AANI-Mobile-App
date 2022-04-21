@@ -7,10 +7,10 @@ const PasswordChanged = ({navigation}) => {
   return (
     <View  style={tw`h-full`}>
         <View style={tw`m-auto`}> 
-            <Ionicon style={tw`mx-auto`} color='#7F02A2' name='md-checkmark-circle' size={80}/>
+            <Ionicon style={tw`mx-auto`} color='#365C2A' name='md-checkmark-circle' size={80}/>
             <Text>Password successfully changed. </Text>
             <TouchableOpacity onPress={()=>navigation.navigate('accountCreated')}>
-                <Text style={tw`mx-auto font-bold text-purple-800`} >Login to continue </Text>
+                <Text style={tw`mx-auto font-bold text-green-800`} >Login to continue </Text>
             </TouchableOpacity>
         </View>
     </View>

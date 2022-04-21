@@ -17,7 +17,7 @@ const ViewPublication = ({navigation}) => {
           <View style={tw`flex-row justify-between px-3`}>
             <Ionicon name='ios-chevron-back' onPress={()=>navigation.goBack()} size={30}/>
             <Text style={tw`my-auto font-bold text-base`}>Publications</Text>
-            <Ionicon name='md-notifications' style={tw`text-purple-800`} size={30}/>
+            <Ionicon name='md-notifications' onPress={()=>navigation.navigate('notifications')} style={tw`text-green-800`} size={30}/>
           </View>
         }
         />
@@ -30,7 +30,7 @@ const ViewPublication = ({navigation}) => {
             source={require('../../images/onboarding/phone.png')}/>
         </View>
         <View style={tw`px-4 py-2`}>
-            <Text style={tw`text-base font-bold text-purple-800 py-1`}>24th Annual Anniversary Celebration</Text>
+            <Text style={tw`text-base font-bold text-green-800 py-1`}>24th Annual Anniversary Celebration</Text>
             <Text style={tw`text-justify text-gray-800 py-1`}>
             Lorem ipsum dolor sit amet, consectetur adipiscing 
             elit. Et lacus lacus, proin proin egestas. Augue 

@@ -27,7 +27,7 @@ const send=()=>{
 const Loading =()=>{
     return(
         <View style={tw`my-auto my-12`}>
-            <ActivityIndicator size={40} color='purple'/>
+            <ActivityIndicator size={40} color='#365C2A'/>
             <Text style={tw`mx-auto text-gray-500`}>Sending Message</Text>
         </View>
     )
@@ -36,7 +36,7 @@ const Loading =()=>{
 const Sent = () =>{
     return(
         <View style={tw`my-auto mt-8 mb-6 px-10`}>
-            <Ionicon style={tw` mx-auto text-purple-900`} name='md-checkmark-circle' size={50}/>
+            <Ionicon style={tw` mx-auto text-green-900`} name='md-checkmark-circle' size={50}/>
             <Text style={tw`mx-auto text-base text-gray-500 py-3`}>Message Sent</Text>
             <View style={tw`pt-6 w-5/12 mx-auto`}>
                 <RoundedButton text='Ok' pressed={()=>props.setVisible('false')}/>
@@ -56,8 +56,8 @@ const Sent = () =>{
                 <Sent/> 
                 :
                 <>
-                <View style={tw`border-b border-purple-300 my-3 mx-5`}>
-                    <Text style={tw`font-bold text-lg text-center text-purple-500 py-2`}>Message Support</Text>
+                <View style={tw`border-b border-green-300 my-3 mx-5`}>
+                    <Text style={tw`font-bold text-lg text-center text-green-500 py-2`}>Message Support</Text>
                 </View>
                 
                 <View style={tw`mb-1`}>

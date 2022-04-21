@@ -17,7 +17,7 @@ export default function Subscribe({navigation}) {
                 <View style={tw`flex-row justify-between px-3`}>
                     <Ionicon name='ios-chevron-back' onPress={()=>navigation.goBack()} size={30}/>
                     <Text style={tw`my-auto font-bold text-base`}>Subscribe</Text>
-                    <Ionicon name='md-notifications' style={tw`text-purple-800`} size={30}/>
+                    <Ionicon name='md-notifications' onPress={()=>navigation.navigate('notifications')} style={tw`text-green-800`} size={30}/>
                 </View>
             }
         />
@@ -28,7 +28,7 @@ export default function Subscribe({navigation}) {
                 <PlanCard 
                     duration='3 Months'
                     amount='N200/Month'
-                    bg='bg-purple-900'
+                    bg='bg-green-900'
                     features={[
                         {name:'Chat with alumnus members', status:true},
                         {name:'Get all news and event update', status:true},
@@ -42,7 +42,7 @@ export default function Subscribe({navigation}) {
                 <PlanCard 
                     duration='6 Months'
                     amount='N200/Month'
-                    bg='bg-purple-700'
+                    bg='bg-green-700'
                     features={[
                         {name:'Chat with alumnus members', status:true},
                         {name:'Get all news and event update', status:true},

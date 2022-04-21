@@ -63,13 +63,13 @@ const MyAccount = ({navigation}) => {
             amount={5000} description='Total Paid'
              color='text-white'
              icon={<Ionicon name='wallet' size={25}  style={tw`my-auto text-white mr-2`}/>}
-             bg='bg-purple-900'
+             bg='bg-green-900'
         />
         <BalanceCard 
             amount={5000000} description='Outstanding' 
-            color='text-purple-900'
-            bg='bg-purple-200'
-            icon={<Ionicon name='wallet' size={25}  style={tw`my-auto text-purple-900 mr-2`}/>}
+            color='text-green-900'
+            bg='bg-green-200'
+            icon={<Ionicon name='wallet' size={25}  style={tw`my-auto text-green-900 mr-2`}/>}
         />
        </View>
         <View style={tw`flex-row justify-around pt-3`}>

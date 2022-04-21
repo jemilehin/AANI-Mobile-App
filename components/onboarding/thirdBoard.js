@@ -10,7 +10,7 @@ const ThirdBoard = ({navigation}) => {
         title='Connect with all Members'
         body='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet consequat pellentesque eget nisl. Amet consequat pellentesque eget nLorem ipsum dolor sit amet, consectetur adipiscing elit. Amet consequat pellentesque eget nisl. Amet consequat pellentesque eget n'
         navigation= {navigation}
-        next='login'
+        next='chapters'
         // next={navigation.navigate('first')}
       />
     </View>

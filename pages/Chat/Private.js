@@ -19,7 +19,7 @@ const Private = ({navigation}) => {
       ]
   return (
     <View style={tw`bg-white`}>
-        <View style={tw`flex-row  px-2 py-2 bg-purple-100 rounded-lg mx-5 my-2`}>
+        <View style={tw`flex-row  px-2 py-2 bg-green-100 rounded-lg mx-5 my-2`}>
             <Ionicon  name='search' style={tw`text-gray-500`} size={24}/>
             <Text  style={tw`my-auto px-4 text-gray-500`}>Search</Text>
           </View>

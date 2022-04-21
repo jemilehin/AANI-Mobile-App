@@ -41,7 +41,7 @@ const Home = ({navigation}) => {
             </Pressable>
           </View>
 
-          <View style={tw`flex-row my-3 bg-purple-800 justify-between p-2 rounded-lg`}>
+          <View style={tw`flex-row my-3 bg-green-800 justify-between p-2 rounded-lg`}>
             <Text style={tw`font-bold text-white`}>News</Text>
             <Text style={tw`text-xs text-white`}>See All (500)</Text>
           </View>
@@ -53,7 +53,7 @@ const Home = ({navigation}) => {
 
   return (
     <SafeAreaView style={tw`mx-3`}>
-      <StatusBar backgroundColor={'purple'} showHideTransition='slide'/>
+      <StatusBar backgroundColor={'#365C2A'} showHideTransition='slide'/>
       {/* <Text>home</Text> */}
       <TobBar
         body={
@@ -63,12 +63,12 @@ const Home = ({navigation}) => {
             <Pressable onPress={()=>navigation.navigate('profile')}>
               <Image style={tw`h-8 w-8 rounded-full`} source={require('../images/onboarding/phone.png')}/>
             </Pressable>
-            <Ionicon name='notifications' onPress={()=>navigation.navigate('notifications')} size={28} color='purple'/>
+            <Ionicon name='notifications' onPress={()=>navigation.navigate('notifications')} size={28} color='#365C2A'/>
           </View>
         }
       />
       {/* <ScrollView> */}
-      <View style={tw`flex-row bg-purple-100 my-3 rounded-lg py-2  px-2`}> 
+      <View style={tw`flex-row bg-green-100 my-3 rounded-lg py-2  px-2`}> 
         <Ionicon name='ios-search' size={25} style={tw`mr-2`} />
         <TextInput
           placeholder='Search'

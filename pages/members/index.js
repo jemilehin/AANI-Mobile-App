@@ -23,13 +23,13 @@ export const Members  =({navigation})=>{
       ]
     return (
         <SafeAreaView>
-            <View style={tw`flex-row justify-between bg-purple-100 p-3 mx-4 my-3`}>
+            <View style={tw`flex-row justify-between bg-green-100 p-3 mx-4 my-3`}>
                 <Ionicon name='ios-search' size={25} style={tw`mr-2`} />
                 <TextInput
                 placeholder='Search by date'
                 style={tw`w-9/12`}
                 />
-                <Feather name='sliders' style={tw`my-auto`} size={20} color='purple'/>
+                <Feather name='sliders' style={tw`my-auto`} size={20} color='#365C2A'/>
             </View>
             <FlatList
                 data={data}
