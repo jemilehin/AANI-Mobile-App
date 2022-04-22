@@ -24,7 +24,7 @@ const Home = ({navigation}) => {
             <Image style={tw`h-32 w-full rounded-lg`} source={require('../images/onboarding/network.png')}/>
           </View>
 
-          <Text style={tw`text-base font-bold my-2`}> Feeds </Text>
+          <Text style={tw`text-base font-bold my-2 mt-6`}> Feeds </Text>
           <View style={tw`flex-row justify-between px-5`}>
             <Pressable onPress={()=>navigation.navigate('events')}>
               <MaterialIcon name='event-available' style={tw`text-center pb-2`} color='#C4C4C4' size={35}/>
@@ -35,13 +35,13 @@ const Home = ({navigation}) => {
               <Text style={tw`text-xs`}>Gallery</Text>
             </Pressable>
 
-            <Pressable onPress={()=>navigation.navigate('news')}>
+            <Pressable onPress={()=>navigation.navigate('publication')}>
               <Ionicon name='book' style={tw`text-center pb-2`} color='#C4C4C4' size={30}/>
               <Text style={tw`text-xs`}>Publications</Text>
             </Pressable>
           </View>
 
-          <View style={tw`flex-row my-3 bg-green-800 justify-between p-2 rounded-lg`}>
+          <View style={tw`flex-row my-3 bg-green-800 mt-7 justify-between p-2 rounded-lg`}>
             <Text style={tw`font-bold text-white`}>News</Text>
             <Text style={tw`text-xs text-white`}>See All (500)</Text>
           </View>
