@@ -6,8 +6,9 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import NewsCard from '../components/News/NewsCard'
 import TobBar from '../components/topBar'
+import TodoList from '../components/committee/todoList'
 
-const Home = ({navigation}) => {
+const Home = ({navigation, route}) => {
   const data =[
     {id:1,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../images/onboarding/phone.png')},
     {id:2,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../images/onboarding/phone.png')},
@@ -16,13 +17,19 @@ const Home = ({navigation}) => {
     {id:5,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../images/onboarding/phone.png')},
   ]
 
+  const todoData=[
+    {day:'27th', month:'May', body:'Lorem ipsum dolor sit amet, consectetur adipiscing '},
+    {day:'27th', month:'May', body:'Lorem ipsum dolor sit amet, consectetur adipiscing '},
+    {day:'27th', month:'May', body:'Lorem ipsum dolor sit amet, consectetur adipiscing '},
+  ]
+
   const UpperComponent=()=>{
     return(
       <View>
-          <Text style={tw`text-base font-bold mb-2`}> Latest Update </Text>
+          {/* <Text style={tw`text-base font-bold mb-2`}> Latest Update </Text>
           <View>
             <Image style={tw`h-32 w-full rounded-lg`} source={require('../images/onboarding/network.png')}/>
-          </View>
+          </View> */}
 
           <Text style={tw`text-base font-bold my-2 mt-6`}> Feeds </Text>
           <View style={tw`flex-row justify-between px-5`}>
@@ -88,7 +95,17 @@ const Home = ({navigation}) => {
             // contentOffset={1}
             ListFooterComponent={<View style={tw`h-32`}></View>}
             ListHeaderComponent={
+              <View>
+                {!route.params || route.params.type != 'committee' ?
+                <View>
+                  <Text style={tw`text-base font-bold mb-2`}> Latest Update </Text>
+                  <Image style={tw`h-32 w-full rounded-lg`} source={require('../images/onboarding/network.png')}/>
+                </View>   : 
+                 <TodoList data={todoData}/>}
+
+                  
               <UpperComponent/>
+              </View>
             }
             renderItem={
                 ({item}) => (

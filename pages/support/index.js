@@ -48,7 +48,7 @@ export default function Support({navigation}) {
                 <SupportCard title={item.title} body={item.body} id={1}/>
 
             }
-        // {data.map(e=>
+        // {data#7(e=>
         //     <SupportCard title={e.title} body={e.body} id={1}/>
         // )}
         />

@@ -51,6 +51,7 @@ import Profile from './pages/Profile/profile';
 import EditProfile from './pages/Profile/EditProfile';
 import SplashScreen from './pages/splashScreen';
 import Chapters from './pages/onboarding/Chapters';
+import About from './pages/about'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator();
@@ -144,6 +145,7 @@ export default function App() {
         <Stack.Screen name='profile' component={Profile}/>
         <Stack.Screen name='editProfile' component={EditProfile}/>
         <Stack.Screen name='chapters' component={Chapters}/>
+        <Stack.Screen name='about' component={About}/>
 
         <Stack.Screen name='dashboard'>
         {()=>(
