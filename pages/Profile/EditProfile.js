@@ -1,12 +1,29 @@
 
 import { View, SafeAreaView, TextInput, Image,Text, ScrollView } from 'react-native'
 import React from 'react'
+import * as ImagePicker from 'expo-image-picker';
+
 import TobBar from '../../components/topBar'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 import tw from 'tailwind-react-native-classnames'
 import RoundedButton from '../../components/button/RoundedButton'
 
 export default function EditProfile({navigation}) {
+    const [image, setImage] =useState(null);
+
+    const pickImage = async () => {
+      // No permissions request is necessary for launching the image library
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        setImage(result.uri);
+      //   console.log(result.uri)
+      }
+    }
   return (
     <SafeAreaView>
         <ScrollView>
@@ -18,9 +35,17 @@ export default function EditProfile({navigation}) {
                         <View style={tw`w-8`}></View>
                     </View>
                 }/>
-                <View style={tw`bg-gray-200 mx-3 rounded-t-xl`}>
-                    <Image  style={tw`h-28 w-28 rounded-full mx-auto my-2`} resizeMode='cover' source={require('../../images/onboarding/phone.png')}/>
-                </View> 
+                {/* <View style={tw`bg-gray-200 mx-3 rounded-t-xl`}> */}
+                <Pressable onPress={()=>pickImage()} style={tw`bg-gray-200 mx-3 rounded-t-xl`}>
+                    {   image ?
+                        <Image  style={tw`h-28 w-28 rounded-full mx-auto my-2`} resizeMode='cover' source={{uri:image}}/>:
+                        <Image  style={tw`h-28 w-28 rounded-full mx-auto my-2`} resizeMode='cover' source={require('../../images/onboarding/phone.png')}/>
+                    }
+            
+                        <Text style={[tw`font-bold mx-auto`,{color:'#0092ED'}]}>Click to change image</Text>
+                
+                </Pressable> 
+                {/* </View>  */}
                 <View style={tw` pt-3 py-1 mx-5`}>
                     <Text style={tw`text-green-900 pb-1`}>Name:</Text>
                     {/* <Text>Bolaji Johnson</Text> */}

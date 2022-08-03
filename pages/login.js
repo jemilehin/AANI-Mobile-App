@@ -4,6 +4,7 @@ import tw from 'tailwind-react-native-classnames'
 import RoundedButton from '../components/button/RoundedButton'
 import ModalTemplate from '../components/Modal'
 import Ionicon from 'react-native-vector-icons/Ionicons'
+import { LoginUser } from '../connection/actions/authentication/authentication'
 
 
 const OwingWidget=()=>{
@@ -41,6 +42,25 @@ const OwingWidget=()=>{
 }
 
 const Login = ({navigation, route}) => {
+
+  const [loginData, setLoginData] = useState({email:'', password:''})
+  const [loading, setLoading] = useState(false)
+
+  console.log(loginData)
+  const callback =()=>{
+    setLoading(false)
+    navigation.navigate('dashboard')
+  }
+
+  const handleLogin =()=>{
+    if(loginData.password.length>2 && loginData.password.length>4){
+      LoginUser(loginData, 'aani', callback, setLoading)
+    }
+
+  }
+
+  
+
   return (
     <SafeAreaView >
       {/* <ModalTemplate body={<OwingWidget/>} /> */}
@@ -56,23 +76,26 @@ const Login = ({navigation, route}) => {
               <View style={tw`my-3 border-b`}>
                 <Text>Username</Text>
                 <TextInput
-                placeholder='username'
-                style={tw`py-2`}
+                  placeholder='username'
+                  style={tw`py-2`}
+                  onChangeText= {(text)=>setLoginData({...loginData, 'email':text})}
                 />
               </View>
               <View style={tw`my-3 border-b`}>
                 <Text>Password</Text>
                 <TextInput
-                placeholder='Pasword'
-                style={tw`py-2`}
-                secureTextEntry={true}
+                  placeholder='Pasword'
+                  style={tw`py-2`}
+                  secureTextEntry={true}
+                  onChangeText= {(text)=>setLoginData({...loginData, 'password':text})}
+
                 />
               </View>
           </View>
           <View style={tw`my-3`}>
             <RoundedButton 
               text='Login'
-              pressed={()=>navigation.navigate('dashboard')}
+              pressed={handleLogin}
             />
           </View>
           <TouchableOpacity onPress={()=>navigation.navigate('forgotPassword')}> 

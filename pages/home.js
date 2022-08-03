@@ -1,13 +1,15 @@
 import { View, Text, TextInput, FlatList,SafeAreaView, ScrollView, Image, StatusBar, Pressable } from 'react-native'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import tw from 'tailwind-react-native-classnames'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import NewsCard from '../components/News/NewsCard'
 import TobBar from '../components/topBar'
+import TodoList from '../components/committee/todoList'
+import { GetNews, LikeDisLikeNews } from '../connection/actions/user.actions'
 
-const Home = ({navigation}) => {
+const Home = ({navigation, route}) => {
   const data =[
     {id:1,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../images/onboarding/phone.png')},
     {id:2,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../images/onboarding/phone.png')},
@@ -16,15 +18,42 @@ const Home = ({navigation}) => {
     {id:5,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../images/onboarding/phone.png')},
   ]
 
+  const todoData=[
+    {day:'27th', month:'May', body:'Lorem ipsum dolor sit amet, consectetur adipiscing '},
+    {day:'27th', month:'May', body:'Lorem ipsum dolor sit amet, consectetur adipiscing '},
+    {day:'27th', month:'May', body:'Lorem ipsum dolor sit amet, consectetur adipiscing '},
+  ]
+
+  const [news, setNews] = useState(null)
+  const [refresh, setRefresh] = useState(false)
+
+  useEffect(()=>{
+    setRefresh(!refresh)
+    setTimeout(
+        function() {
+    GetNews(callback)
+          
+        }, 1500);
+  },[])
+
+  const likeNews=(data) =>{
+    LikeDisLikeNews({id: data.id, like:'true', dislike:'false'})
+  }
+
+  const callback=(res)=>{
+    setNews(res.data.data)
+    // console.log(res.data.data.map(e=>e))
+  }
+
   const UpperComponent=()=>{
     return(
       <View>
-          <Text style={tw`text-base font-bold mb-2`}> Latest Update </Text>
+          {/* <Text style={tw`text-base font-bold mb-2`}> Latest Update </Text>
           <View>
             <Image style={tw`h-32 w-full rounded-lg`} source={require('../images/onboarding/network.png')}/>
-          </View>
+          </View> */}
 
-          <Text style={tw`text-base font-bold my-2`}> Feeds </Text>
+          <Text style={tw`text-base font-bold my-2 mt-6`}> Feeds </Text>
           <View style={tw`flex-row justify-between px-5`}>
             <Pressable onPress={()=>navigation.navigate('events')}>
               <MaterialIcon name='event-available' style={tw`text-center pb-2`} color='#C4C4C4' size={35}/>
@@ -35,13 +64,13 @@ const Home = ({navigation}) => {
               <Text style={tw`text-xs`}>Gallery</Text>
             </Pressable>
 
-            <Pressable onPress={()=>navigation.navigate('news')}>
+            <Pressable onPress={()=>navigation.navigate('publication')}>
               <Ionicon name='book' style={tw`text-center pb-2`} color='#C4C4C4' size={30}/>
               <Text style={tw`text-xs`}>Publications</Text>
             </Pressable>
           </View>
 
-          <View style={tw`flex-row my-3 bg-green-800 justify-between p-2 rounded-lg`}>
+          <View style={tw`flex-row my-3 bg-green-800 mt-7 justify-between p-2 rounded-lg`}>
             <Text style={tw`font-bold text-white`}>News</Text>
             <Text style={tw`text-xs text-white`}>See All (500)</Text>
           </View>
@@ -79,7 +108,7 @@ const Home = ({navigation}) => {
       {/* <View> */}
         
         <FlatList
-            data={data}
+            data={news}
             keyExtractor={ (item, index) => item.id }
             // contentContainerStyle={styles.container}
             numColumns={2}
@@ -88,16 +117,30 @@ const Home = ({navigation}) => {
             // contentOffset={1}
             ListFooterComponent={<View style={tw`h-32`}></View>}
             ListHeaderComponent={
+              <View>
+                {!route.params || route.params.type != 'committee' ?
+                <View>
+                  <Text style={tw`text-base font-bold mb-2`}> Latest Update </Text>
+                  <Image style={tw`h-32 w-full rounded-lg`} source={require('../images/onboarding/network.png')}/>
+                </View>   : 
+                 <TodoList data={todoData}/>}
+
+                  
               <UpperComponent/>
+              </View>
             }
             renderItem={
                 ({item}) => (
                   
                   <NewsCard 
-                        image={item.picture}
-                        head={item.title}
+                        image={item.image}
+                        head={item.name}
                         body={item.body}
+                        item={item}
                         navigation = {navigation}
+                        isLiked={item.likes}
+                        pressLike={()=>likeNews(item)}
+                        pressDisLike={()=>alert('like')}
                         to='viewNews'
                   />
                   )}/>

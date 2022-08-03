@@ -1,13 +1,26 @@
 import { View,FlatList, SafeAreaView,TextInput, Text, Pressable } from 'react-native'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import GalleryCard from '../../components/Gallery/GalleryCard'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 import Feather from 'react-native-vector-icons/Feather'
 import tw from 'tailwind-react-native-classnames'
 import TobBar from '../../components/topBar'
+import { GetGallery } from '../../connection/actions/user.actions'
 
 
 const Gallery = ({navigation}) => {
+
+  const [gallery, setGallery] = useState(null)
+
+  useEffect(()=>{
+    GetGallery(false, callback)
+  },[])
+
+  const callback =(res)=>{
+    console.log(res)
+    setGallery(res)
+  }
+
   const data =[
     {id:1, title:'Monthly Exco Meeting', image:require('../../images/Gallery/1.jpeg')},
     {id:2, title:'Monthly Exco Meeting', image:require('../../images/Gallery/2.jpeg')},

@@ -8,7 +8,7 @@ import CommentCard from '../../components/News/CommentCard'
 import WriteCommentCard from '../../components/News/WriteCommentCard'
 import TobBar from '../../components/topBar'
 
-const ViewNews = ({navigation}) => {
+const ViewNews = ({navigation, route}) => {
   return (
     <SafeAreaView style={tw`h-full`}>
       <TobBar
@@ -16,7 +16,7 @@ const ViewNews = ({navigation}) => {
           <View style={tw`flex-row pb-1 justify-between px-3`}>
             <Ionicon name='ios-chevron-back' onPress={()=>navigation.goBack()} size={30}/>
             <Text style={tw`my-auto font-bold text-base`}>News</Text>
-            <Ionicon name='md-notifications' onPress={()=>navigation.navigate('notifications')} style={tw`text-green-800`} size={30}/>
+            <Ionicon name='md-notifications' style={tw`text-purple-800`} size={30}/>
           </View>
         }
         />
@@ -29,25 +29,20 @@ const ViewNews = ({navigation}) => {
             source={require('../../images/onboarding/phone.png')}/>
         </View>
         <View style={tw`px-4 py-2`}>
-            <Text style={tw`text-base font-bold text-green-800 py-1`}>24th Annual Anniversary Celebration</Text>
+            <Text style={tw`text-base font-bold text-purple-800 py-1`}>{route.params.item.name}</Text>
             <Text style={tw`text-justify text-gray-800 py-1`}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing 
-            elit. Et lacus lacus, proin proin egestas. Augue 
-            scelerisque pellentesque nullam montes, pretium. 
-            Nisl, in netus Et lacus lacus, proin proin egestas. 
-            Augue scelerisque pellentesque nullam montes,
-             pretium. Nisl, in netus 
+            {route.params.item.body}
             </Text>
             <Text style={tw`text-justify text-gray-400 py-1`}>5 Likes</Text>
 
         <View style={tw`border-t border-b flex-row justify-around border-gray-500 py-2`}>
           <View style={tw`flex-row pl-5`}>
-            <MaterialIcon name='thumb-up-off-alt' color='#365C2A' size={23}/>
+            <MaterialIcon name='thumb-up-off-alt' color='purple' size={23}/>
             <Text style={tw`my-auto px-2`}>Like</Text>
           </View>
 
           <View style={tw`flex-row px-5`}>
-            <FontAwesome name='commenting-o' color='#365C2A' size={23}/>
+            <FontAwesome name='commenting-o' color='purple' size={23}/>
             <Text style={tw`my-auto px-2`}>Like</Text>
           </View>
 
@@ -60,7 +55,7 @@ const ViewNews = ({navigation}) => {
         </View>
 
         {/* //View More */}
-        <Text style={tw`text-green-800 font-bold`}>View 3 More Comments</Text>
+        <Text style={tw`text-purple-800 font-bold`}>View 3 More Comments</Text>
         </View>  
         <View>
           <WriteCommentCard/>

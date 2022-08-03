@@ -13,8 +13,8 @@ export default function PlanCard(props) {
         </View>
         <Text style={tw`text-gray-800  py-2 text-center text-base`}>{props.amount}</Text>
         {
-            props.features ? props.features.map((e)=>
-        <View style={tw`flex-row justify-between px-3 py-1`}>
+            props.features ? props.features.map((e, index)=>
+        <View key={index} style={tw`flex-row justify-between px-3 py-1`}>
             <Text style={tw`my-auto w-10/12`}>{e.name}</Text>
             {e.status ?
             <Ionicon name='md-checkmark' style={tw`my-auto px-2`} color='green' size={20}/>
