@@ -1,13 +1,25 @@
 import { View, SafeAreaView, Text, FlatList, TextInput, Pressable } from 'react-native'
-import React from 'react'
+import React, {useEffect,useState} from 'react'
 import tw from 'tailwind-react-native-classnames'
 import NewsCard from '../../components/News/NewsCard'
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 import TobBar from '../../components/topBar'
 import ExcoCard from '../../components/Publication/ExcoCard'
+import { GetExcos } from '../../connection/actions/user.actions'
 
 const Exco = ({navigation}) => {
+
+  const [excos, setExcos]= useState(null)
+
+  useEffect(()=>{
+    GetExcos(false, callback)
+  },[excos])
+
+  const callback =(res)=>{
+    setExcos(res.data.data[0])
+    // console.log(res.data.data)
+  }
     const data =[
       {id:1,title: 'MD Abubakar ', company:'Blaid Group  MD/ CEO', portfolio:'Chairman', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../../images/onboarding/phone.png')},
       {id:2,title: 'MD Abubakar ', company:'Blaid Group  MD/ CEO', portfolio:'Chairman', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../../images/onboarding/phone.png')},
@@ -39,7 +51,7 @@ const Exco = ({navigation}) => {
       </View>
       <View style={tw` flex-row mt-0 `}>
         <FlatList
-            data={data}
+            data={excos}
             keyExtractor={ (item, index) => item.id }
             numColumns={2}
             showsVerticalScrollIndicator={false}
@@ -48,12 +60,13 @@ const Exco = ({navigation}) => {
                 ({item}) => (
                   <ExcoCard 
                     image={item.picture}
-                    head={item.title}
-                    portfolio={item.portfolio}
+                    // head={item[0].exco_info[0].name}
+                    // portfolio={item[0].exco_info[0].name}
                     company={item.company}
-                    body={item.body}
+                    // body={item[0].exco_info[0].about}
                     navigation={navigation}
-                    // to='viewExco'
+                    item={item}
+                    to='viewExco'
                   />
                   )}/>
         </View>

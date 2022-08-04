@@ -56,8 +56,8 @@ export default function CustomDrawerList({navigation}) {
     const drawerData2 =[
         {id:5, label:'Gallery', to:'gallery', icon:<FontAwesome name="photo" size={22} color={'grey'}
         /> },
-        // {id:6, label:'Election', to:'election', icon:<MaterialIcon name="how-to-vote" size={22} color={'grey'}
-        // />},
+        {id:6, label:'Election Portal', to:'election', icon:<MaterialIcon name="how-to-vote" size={22} color={'grey'}
+        />},
         // {id:7, label:'Subscribe', to:'subscribe', icon:<MaterialIcon name="subscriptions" size={22} color={'grey'}
         // />},
         {id:8, label:'Support', to:'support', icon:<MaterialIcon name="headset-mic" size={22} color={'grey'}

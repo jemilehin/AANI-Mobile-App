@@ -1,9 +1,36 @@
 import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, {useState} from 'react'
 import tw from 'tailwind-react-native-classnames'
 import RoundedButton from '../components/button/RoundedButton'
+import { ValidateMember } from '../connection/actions/authentication/authentication'
 
 const Register = ({navigation}) => {
+
+  const [loading, setLoading] = useState(false)
+  const [sigUpData, setSignUpData] = useState({
+      firstname:null,
+      lastname:null,
+      email:'',
+      password:'',
+      phone:'',
+      graduation_year:'',
+      department:'',
+      chapter: ''
+  })
+
+  const callback = () =>{
+    console.log('yeah')
+    navigation.navigate('accountCreated')
+  }
+
+  const handleSignUp =()=>{
+    if(setSignUpData.firstname !==null && setSignUpData.lastname !==null){
+      ValidateMember(setSignUpData,'aani',callback,setLoading)
+    }
+  }
+
+  console.log(sigUpData)
+
   return (
     <View>
       <Image style={tw`mx-auto my-8`} source={require('../images/Logo/ANNILogo.png')}/>
@@ -16,69 +43,90 @@ const Register = ({navigation}) => {
           
           <View>
             <View style={tw`flex-row justify-between`}>
-              <View style={tw`my-1 w-5/12 border-b`}>
+              <View style={tw`my-2 w-5/12 border-b`}>
                 <Text>First Name</Text>
                 <TextInput
-                placeholder='First Name'
+                  placeholder='First Name'
+                  style={tw`py-1.5`}
+                  onChangeText={(text)=>setSignUpData({...sigUpData, 'firstname':text})}
                 />
               </View>
-              <View style={tw`my-1 w-5/12 border-b`}>
+              <View style={tw`my-2 w-5/12 border-b`}>
                 <Text>Last Name</Text>
                 <TextInput
-                placeholder='Last Name'
+                  placeholder='Last Name'
+                  style={tw`py-1.5`}
+                  onChangeText={(text)=>setSignUpData({...sigUpData, 'lastname':text})}
                 />
               </View>
             </View>
             
-              <View style={tw`my-1 border-b`}>
+              <View style={tw`my-2 border-b`}>
                 <Text>Email Address</Text>
                 <TextInput
-                placeholder='email Address'
+                  style={tw`py-1.5`}
+                  placeholder='email Address'
+                  onChangeText={(text)=>setSignUpData({...sigUpData, 'email':text})}
                 />
               </View>
-              <View style={tw`my-1 border-b`}>
+              <View style={tw`my-2 border-b`}>
                 <Text>Password</Text>
                 <TextInput
-                placeholder='Pasword'
-                secureTextEntry={true}
+                  placeholder='Password'
+                  secureTextEntry={true}
+                  style={tw`py-1.5`}
+                  onChangeText={(text)=>setSignUpData({...sigUpData, 'password':text})}
                 />
               </View>
           </View>
 
           <View style={tw`flex-row justify-between`}>
-              <View style={tw`my-1 w-5/12 border-b`}>
+              <View style={tw`my-2 w-5/12 border-b`}>
                 <Text>Phone Number</Text>
                 <TextInput
-                placeholder='Phone Number'
-              
+                  placeholder='Phone Number'
+                  style={tw`py-1.5`}
+                  onChangeText={(text)=>setSignUpData({...sigUpData, 'phone':text})}
                 />
               </View>
-              <View style={tw`my-1 w-5/12 border-b`}>
+              <View style={tw`my-2 w-5/12 border-b`}>
                 <Text>Graduation Year</Text>
                 <TextInput
-                placeholder='graduation Year'
+                  placeholder='graduation Year'
+                  style={tw`py-1.5`}
+                  onChangeText={(text)=>setSignUpData({...sigUpData, 'graduation_year':text})}
+
                 />
               </View>
             </View>
 
             <View style={tw`flex-row justify-between`}>
-              <View style={tw`my-1 w-5/12 border-b`}>
+              <View style={tw`my-2 w-5/12 border-b`}>
                 <Text>Department</Text>
                 <TextInput
-                placeholder='Department'
+                  placeholder='Department'
+                  style={tw`py-1.5`}
+                  onChangeText={(text)=>setSignUpData({...sigUpData, 'department':text})}
                 />
               </View>
-              <View style={tw`my-1 w-5/12 border-b`}>
+              <View style={tw`my-2 w-5/12 border-b`}>
                 <Text>Chapter</Text>
                 <TextInput
-                placeholder='Chapter'
+                  placeholder='Chapter'
+                  style={tw`py-1.5`}
+                  onChangeText={(text)=>setSignUpData({...sigUpData, 'chapter':text})}
+
                 />
               </View>
             </View>
 
-          <RoundedButton 
-            text='Register'
-            pressed={()=>navigation.navigate('accountCreated')}/>
+          <View style={tw`mt-3`}>
+            <RoundedButton 
+              text='Register'
+              pressed={()=>handleSignUp()}
+            />
+          </View>
+          
           {/* <Text>Forgot Password?</Text> */}
           <View style={tw`flex-row mx-auto py-2`}>
               <Text>Already have an Account?</Text>

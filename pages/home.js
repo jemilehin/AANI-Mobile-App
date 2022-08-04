@@ -1,5 +1,5 @@
 import { View, Text, TextInput, FlatList,SafeAreaView, ScrollView, Image, StatusBar, Pressable } from 'react-native'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import tw from 'tailwind-react-native-classnames'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
@@ -7,6 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import NewsCard from '../components/News/NewsCard'
 import TobBar from '../components/topBar'
 import TodoList from '../components/committee/todoList'
+import { GetNews, LikeDisLikeNews } from '../connection/actions/user.actions'
 
 const Home = ({navigation, route}) => {
   const data =[
@@ -22,6 +23,27 @@ const Home = ({navigation, route}) => {
     {day:'27th', month:'May', body:'Lorem ipsum dolor sit amet, consectetur adipiscing '},
     {day:'27th', month:'May', body:'Lorem ipsum dolor sit amet, consectetur adipiscing '},
   ]
+
+  const [news, setNews] = useState(null)
+  const [refresh, setRefresh] = useState(false)
+
+  useEffect(()=>{
+    setRefresh(!refresh)
+    setTimeout(
+        function() {
+    GetNews(callback)
+          
+        }, 1500);
+  },[])
+
+  const likeNews=(data) =>{
+    LikeDisLikeNews({id: data.id, like:'true', dislike:'false'})
+  }
+
+  const callback=(res)=>{
+    setNews(res.data.data)
+    // console.log(res.data.data.map(e=>e))
+  }
 
   const UpperComponent=()=>{
     return(
@@ -86,7 +108,7 @@ const Home = ({navigation, route}) => {
       {/* <View> */}
         
         <FlatList
-            data={data}
+            data={news}
             keyExtractor={ (item, index) => item.id }
             // contentContainerStyle={styles.container}
             numColumns={2}
@@ -111,10 +133,14 @@ const Home = ({navigation, route}) => {
                 ({item}) => (
                   
                   <NewsCard 
-                        image={item.picture}
-                        head={item.title}
+                        image={item.image}
+                        head={item.name}
                         body={item.body}
+                        item={item}
                         navigation = {navigation}
+                        isLiked={item.likes}
+                        pressLike={()=>likeNews(item)}
+                        pressDisLike={()=>alert('like')}
                         to='viewNews'
                   />
                   )}/>
