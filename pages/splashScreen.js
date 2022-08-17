@@ -7,7 +7,7 @@ import RoundedButton from '../components/button/RoundedButton'
 export default function SplashScreen({navigation}) {
   
   const [load, setLoad] = useState(false)
-
+  
     useEffect(()=>{
       // if(!load){
         setTimeout(
