@@ -7,7 +7,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons'
 const NewsCard = (props) => {
     const [isLiked, setIsLiked] = useState(false)
   return (
-    <Pressable onPress={()=>props.navigation.navigate(props.to)} style={{width:'48%', marginVertical:9,marginHorizontal:5}}>
+    <Pressable onPress={()=>props.navigation.navigate(props.to, {props})} style={{width:'48%', marginVertical:9,marginHorizontal:5}}>
     { props.image ?<Image  style={tw`w-full h-20  rounded-t-2xl`} resizeMode='cover' resizeMethod='resize' source={{uri:props.image}}/>
         : 
         <View style={tw`w-full h-20 bg-purple-100 rounded-t-xl`}>

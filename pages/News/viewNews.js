@@ -9,6 +9,8 @@ import WriteCommentCard from '../../components/News/WriteCommentCard'
 import TobBar from '../../components/topBar'
 
 const ViewNews = ({navigation, route}) => {
+  // console.log(route.params.props)
+  const newsProps = route.params.props
   return (
     <SafeAreaView style={tw`h-full`}>
       <TobBar
@@ -26,24 +28,27 @@ const ViewNews = ({navigation, route}) => {
             <Image  
             resizeMode='cover'
             style={tw`h-full w-full rounded-lg`}
-            source={require('../../images/onboarding/phone.png')}/>
+            source={{uri: route.params.props.image}}
+            />
         </View>
         <View style={tw`px-4 py-2`}>
-            <Text style={tw`text-base font-bold text-purple-800 py-1`}>{route.params.item.name}</Text>
+            <Text style={tw`text-base font-bold text-purple-800 py-1`}>
+              {route.params.props.item.name}
+              </Text>
             <Text style={tw`text-justify text-gray-800 py-1`}>
-            {route.params.item.body}
+            {route.params.body}
             </Text>
-            <Text style={tw`text-justify text-gray-400 py-1`}>5 Likes</Text>
+            <Text style={tw`text-justify text-gray-400 py-1`}>{newsProps.item.likes === null ? "0" : newsProps.item.likes} Likes</Text>
 
         <View style={tw`border-t border-b flex-row justify-around border-gray-500 py-2`}>
           <View style={tw`flex-row pl-5`}>
-            <MaterialIcon name='thumb-up-off-alt' color='purple' size={23}/>
+            {newsProps.isLiked === null ? <MaterialIcon name='thumb-up-off-alt' color='purple' size={23}/> : <MaterialIcon name='thumb-up-alt' color='purple' size={23}/>}
             <Text style={tw`my-auto px-2`}>Like</Text>
           </View>
 
           <View style={tw`flex-row px-5`}>
             <FontAwesome name='commenting-o' color='purple' size={23}/>
-            <Text style={tw`my-auto px-2`}>Like</Text>
+            <Text style={tw`my-auto px-2`}>Comment</Text>
           </View>
 
           
