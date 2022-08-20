@@ -19,7 +19,6 @@ const Register = ({navigation}) => {
   })
 
   const callback = () =>{
-    console.log('yeah')
     navigation.navigate('accountCreated')
   }
 
@@ -32,7 +31,7 @@ const Register = ({navigation}) => {
   console.log(sigUpData)
 
   return (
-    <View>
+    <View style={tw`flex-1`}>
       <Image style={tw`mx-auto my-8`} source={require('../images/Logo/ANNILogo.png')}/>
       <View style={tw`mx-10`}>
          <Text style={tw`text-base font-bold`}>Register</Text>
