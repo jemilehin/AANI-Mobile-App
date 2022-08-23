@@ -29,7 +29,7 @@ const Onboarding = (props) => {
 
             <View style={tw` absolute bottom-0 px-3 w-full`}>
                 <View style={tw`flex-row  justify-between py-2`}>
-                    <TouchableOpacity onPress={()=>props.navigation.navigate('login')} style={tw`my-auto`}>
+                    <TouchableOpacity onPress={()=>props.navigation.navigate('chapters')} style={tw`my-auto`}>
                         <Text>Skip</Text>
                     </TouchableOpacity>
                     <View style={tw`my-auto`}>

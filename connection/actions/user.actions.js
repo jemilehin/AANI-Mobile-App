@@ -1,16 +1,17 @@
 import api from '../api'
 import localStorage from 'react-native-sync-localstorage'
 import { call } from 'react-native-reanimated';
+import { data } from 'autoprefixer';
 
 const org_name ='medal'
-export const LoginUser = async(data, org,callback, setLoading)=>{
+export const LoginUser = async(data,callback)=>{
     try {
-        const response = await api.post(`tenant/${org}/tenant/auth/login/`,data);
+        const response = await api.post(`tenant/anni/tenant/auth/login/`,data);
        
         if (response.status ==200) {
             // console.log(response.data)
             callback(response)
-            setLoading(false)
+            // setLoading(false)
             localStorage.setItem('token',response.data.token)
             localStorage.setItem('org_name',org)
             localStorage.setItem('email',data.email)
@@ -21,12 +22,12 @@ export const LoginUser = async(data, org,callback, setLoading)=>{
         //   console.log(response.data)
           alert(response.message)
         //   callback(response.data)
-        setLoading(false)
+        // setLoading(false)
         }
     } catch (error) {
         console.error(error.message)
         // if(error.code)
-        setLoading(false)
+        // setLoading(false)
         if(error.message.includes('401')||error.message.includes('404')){
             alert('Invalid Login Details.')
         }else{
@@ -372,3 +373,10 @@ export const GetContestants = async(id,callback, setLoading)=>{
 
     }
 }
+
+// export const ValidateMember = (email,callback, errCallback) => {
+//     api.post(`/tenant/anni/tenant/auth/ManageMemberValidation/`,email)
+//     .then(res => res.data)
+//     .then(data => console.log(data))
+//     .catch(e => console.log(e))
+// }

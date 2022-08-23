@@ -39,18 +39,20 @@ export const LoginUser = async(data, org,callback, setLoading)=>{
 
     }
 }
-export const ValidateMember = async(data,org_name ,callback,setErrCallback)=> {
+export const ValidateMember = async(data,org_name ,callback, setLoading)=> {
     try {
         const response = await api.post(`tenant/${org_name}/tenant/auth/ManageMemberValidation/`, data);
-
+         
         if(response.status == 200){
+            setLoading(false)
             alert('registration Successsful');
             callback(response)
         }else {
             alert(response.message)
         }
     }catch(error){
-        setErrCallback(error)
+        setLoading(false);
+        alert(error.message)
     }
 }
 
