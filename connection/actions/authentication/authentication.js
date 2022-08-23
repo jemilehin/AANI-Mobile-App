@@ -2,7 +2,7 @@ import api from '../../api';
 import localStorage from 'react-native-sync-localstorage'
 
 
-export const LoginUser = async(data, org,callback, setLoading)=>{
+export const LoginUser = async(data, callback, setLoading)=>{
     try { 
         const response = await api.post(`tenant/medal/tenant/auth/login/`,data);
         // console.log(response)
