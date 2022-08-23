@@ -47,6 +47,7 @@ const Login = ({navigation, route}) => {
   const [loading, setLoading] = useState(false)
 
   console.log(loginData)
+  console.log(route.params.user)
   const callback =()=>{
     setLoading(false)
     navigation.navigate('dashboard')
@@ -54,7 +55,7 @@ const Login = ({navigation, route}) => {
 
   const handleLogin =()=>{
     if(loginData.password.length>2 && loginData.password.length>4){
-      LoginUser(loginData, 'aani', callback, setLoading)
+      LoginUser(loginData, callback)
     }
 
   }
