@@ -32,10 +32,12 @@ const Register = ({ navigation, route }) => {
 
   const offsetVertical = useSharedValue(0);
 
+
   const callback = () => {
     navigation.navigate("dashboard");
     setLoading(false);
   };
+
 
   const errCallback = (res) => {
     alert("One or more fields is empty");
@@ -71,6 +73,7 @@ const Register = ({ navigation, route }) => {
         />
         <View style={tw`mx-10`}>
           <Text style={tw`text-base font-bold`}>Register</Text>
+
           <Text>Input details to register</Text>
         </View>
 
