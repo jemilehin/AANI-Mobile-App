@@ -44,7 +44,6 @@ export const ValidateMember = async(data,callback,errCallback)=> {
         const response = await api.post(`tenant/anni/tenant/auth/ManageMemberValidation/`, data);
          
         if(response.status == 200){
-            alert('registration Successsful');
             callback(response.data.data[0].user)
         }else {
             alert(response.message)
@@ -53,6 +52,22 @@ export const ValidateMember = async(data,callback,errCallback)=> {
     }catch(error){
         errCallback(error)
         alert(error.message)
+    }
+}
+
+export const RegisterAsMember =async (data, callback,errCallback) => {
+    try {
+        const response = await api.post('tenant/anni/tenant/auth/ManageMemberValidation/create_member/', data)
+
+        if(response.status == 200){
+            callback(response.data)
+        }else {
+            // alert(response.message)
+            errCallback(response.message)
+        }
+    }
+    catch (error) {
+        errCallback(error)
     }
 }
 

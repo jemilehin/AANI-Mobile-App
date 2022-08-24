@@ -1,8 +1,8 @@
-import { View, Text, FlatList, Pressable, Modal } from "react-native";
+import { View, Text, FlatList, Pressable, Modal,ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import tw from "tailwind-react-native-classnames";
-import Ionicon from "react-native-vector-icons/Ionicons";
+import Ionicon from "react-native-vector-icons/AntDesign";
 import Chapterchip from "../../components/onboarding/chapterchip";
 import { TextInput } from "react-native-gesture-handler";
 import RoundedButton from "../../components/button/RoundedButton";
@@ -14,81 +14,68 @@ export default function Chapters({ navigation }) {
   const [email, setEmail] = useState({});
   const [mem, setMem] = useState();
   const [show, setShow] = useState(false);
-  //   const data = [
-  //     { id: 1, name: "Lagos" },
-  //     { id: 2, name: "Anambra" },
-  //     { id: 3, name: "Ogun" },
-  //     { id: 4, name: "Jos" },
-  //     { id: 5, name: "Kaduna" },
-  //     { id: 6, name: "Cross River" },
-  //   ];
 
   const callback = (response) => {
     setMem(response);
-    setShow(true);
+    setShowState(false);
+    if (response !== null) {
+      setShow(true);
+    } else {
+      alert("Incorrect Email: email is case sensitive");
+    }
   };
 
   const errCallback = (err) => {
-    console.log(err);
+    setShowState(false);
   };
 
   const validateMemberByEmail = () => {
-    ValidateMember(email, callback, errCallback);
+    if (email.email !== "") {
+      setShowState(true);
+      ValidateMember(email, callback, errCallback);
+    }
   };
 
-  const ModalBody = ({mem}) => {
+  const ModalBody = ({ mem }) => {
+    const objectPropMap = () => {
+      let objectArr = [];
+      for (const key in mem) {
+        objectArr.push({ name: key, prop: mem[key] });
+      }
+      return objectArr;
+    };
     return (
-      <View style={tw`flex-1 bg-red-50 pt-14 px-4`}>
+      <View style={tw`flex-1 bg-red-50 py-3 px-4`}>
+        <View style={tw`flex flex-row justify-end mb-5`}>
+          <Ionicon
+            name="closesquareo"
+            size={30}
+            onPress={() => setShow(false)}
+          />
+        </View>
         <Text style={tw`text-4xl font-bold tracking-wide`}>Verify Details</Text>
-        <Text style={tw`text-sm`}>Check details is correct before continue.</Text>
-        <View style={tw`flex-row justify-between my-8`}>
-          <View>
-            <View style={tw`my-2`}>
-              <Text style={tw`font-light`}>name:</Text>
-              {/* <Text style={tw`font-semibold`}>Temidayo</Text> */}
-              <Text style={tw`font-semibold`}>{mem['First Name']}</Text>
-            </View>
-            <View style={tw`my-2`}>
-              <Text style={tw`font-light`}>Surname:</Text>
-              {/* <Text style={tw`font-semibold`}>Jemilehin</Text> */}
-              <Text style={tw`font-semibold`}>{mem['Surname']}</Text>
-            </View>
-            <View style={tw`my-2`}>
-              <Text style={tw`font-light`}>email:</Text>
-              {/* <Text style={tw`font-semibold`}>Jemilehin@gmail.com</Text> */}
-              <Text style={tw`font-semibold`}>{mem['email']}</Text>
-            </View>
-            <View style={tw`my-2`}>
-              <Text style={tw`font-light`}>age:</Text>
-              {/* <Text style={tw`font-semibold`}>30</Text> */}
-              <Text style={tw`font-semibold`}>{mem['age']}</Text>
-            </View>
-          </View>
-          <View>
-            <View style={tw`my-2`}>
-              <Text style={tw`font-light`}>name:</Text>
-              {/* <Text style={tw`font-semibold`}>Temidayo</Text> */}
-              <Text style={tw`font-semibold`}>{mem['First Name']}</Text>
-            </View>
-            <View style={tw`my-2`}>
-              <Text style={tw`font-light`}>Surname:</Text>
-              {/* <Text style={tw`font-semibold`}>Jemilehin</Text> */}
-              <Text style={tw`font-semibold`}>{mem['Surname']}</Text>
-            </View>
-            <View style={tw`my-2`}>
-              <Text style={tw`font-light`}>email:</Text>
-              {/* <Text style={tw`font-semibold`}>Jemilehin@gmail.com</Text> */}
-              <Text style={tw`font-semibold`}>{mem['email']}</Text>
-            </View>
-            <View style={tw`my-2`}>
-              <Text style={tw`font-light`}>age:</Text>
-              {/* <Text style={tw`font-semibold`}>30</Text> */}
-              <Text style={tw`font-semibold`}>{mem['age']}</Text>
-            </View>
+        <Text style={tw`text-sm`}>
+          Check details is correct before continue.
+        </Text>
+        <View style={tw`flex-row justify-between my-4`}>
+          <View style={tw`w-full`}>
+            {objectPropMap().map((val) => (
+              <View style={tw`my-1 w-11/12 border-b`}>
+                <Text style={tw`font-light`}>{val.name}</Text>
+                <TextInput
+                  defaultValue={val.prop.toString()}
+                  style={tw`py-1.5 font-semibold`}
+                  // onChangeText={(text)=>setSignUpData({...sigUpData, 'firstname':text})}
+                />
+              </View>
+            ))}
           </View>
         </View>
-        <View style={tw`mx-auto w-6/12 mt-8`}>
-            <RoundedButton text="Continue"  pressed={() => navigation.navigate('register', {user: mem})}/>
+        <View style={tw`mx-auto w-6/12 mt-5`}>
+          <RoundedButton
+            text="Continue"
+            pressed={() => navigation.navigate("register", { user: mem })}
+          />
         </View>
       </View>
     );
@@ -122,13 +109,13 @@ export default function Chapters({ navigation }) {
             </View>
           </View>
 
-          <RoundedButton
+          {showState ? <ActivityIndicator color='purple' size='large' /> : <RoundedButton
             text="Submit"
             pressed={() =>
               // navigation.navigate("login")
               validateMemberByEmail()
             }
-          />
+          />}
         </View>
 
         {/* <Pressable onPress={()=>setShowState(!showState)} style={tw`bg-gray-200 rounded-lg flex-row justify-between px-3 py-2.5 mb-3`}>
