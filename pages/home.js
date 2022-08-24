@@ -37,12 +37,13 @@ const Home = ({navigation, route}) => {
   },[])
 
   const likeNews=(data) =>{
+    // console.log(like,data)
     LikeDisLikeNews({id: data.id, like:'true', dislike:'false'})
   }
 
   const callback=(res)=>{
     setNews(res.data.data)
-    // console.log(res.data.data.map(e=>e))
+    // console.log(res.data.data)
   }
 
   const UpperComponent=()=>{
@@ -122,11 +123,12 @@ const Home = ({navigation, route}) => {
                 <View>
                   <Text style={tw`text-base font-bold mb-2`}> Latest Update </Text>
                   <Image style={tw`h-32 w-full rounded-lg`} source={require('../images/onboarding/network.png')}/>
-                </View>   : 
+                </View> 
+                 : 
                  <TodoList data={todoData}/>}
 
-                  
-              <UpperComponent/>
+                 {/* feeds: quick links */}
+                <UpperComponent/>
               </View>
             }
             renderItem={
