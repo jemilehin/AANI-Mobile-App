@@ -74,7 +74,10 @@ export default function Chapters({ navigation }) {
         <View style={tw`mx-auto w-6/12 mt-5`}>
           <RoundedButton
             text="Continue"
-            pressed={() => navigation.navigate("register", { user: mem })}
+            pressed={() => {
+              setShow(false)
+              navigation.navigate("register", { user: mem })
+            }}
           />
         </View>
       </View>

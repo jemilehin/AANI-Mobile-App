@@ -5,14 +5,14 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
-  StyleSheet,
+  Keyboard
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import tw from "tailwind-react-native-classnames";
 import RoundedButton from "../components/button/RoundedButton";
 import { RegisterAsMember } from "../connection/actions/authentication/authentication";
-import { GestureDetector } from "react-native-gesture-handler";
-import Animated,{ useSharedValue,useAnimatedStyle,withSpring  } from 'react-native-reanimated';
+import { GestureDetector, PanGestureHandler } from "react-native-gesture-handler";
+import Animated,{ useSharedValue,useAnimatedStyle,withSpring, useAnimatedGestureHandler  } from 'react-native-reanimated';
 
 const Register = ({ navigation, route }) => {
   const newMember = route.params.user;
@@ -25,13 +25,31 @@ const Register = ({ navigation, route }) => {
     password: "",
     phone: newMember !== undefined ? newMember["Phone"].toString() : "",
     graduation_year:
-      newMember !== undefined ? newMember["Graduation Year"] : "",
+      newMember !== undefined ? newMember["Graduation Year"].toString() : "",
     department: newMember !== undefined ? newMember["Department"] : "",
     chapter: "",
   });
-
+  const [keyboardStatus, setKeyboardStatus] = useState(false)
+  
   const offsetVertical = useSharedValue(0);
 
+  
+
+  useEffect(()=> {
+    const keyboardListener = Keyboard.addListener('keyboardDidShow',() => {
+      setKeyboardStatus(true)
+    })
+  
+    const removeKeyboardListener = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus(false)
+      offsetVertical.value = -10
+    })
+
+    return () => {
+      keyboardListener.remove();
+      removeKeyboardListener.remove()
+    }
+  },[])
 
   const callback = () => {
     navigation.navigate("dashboard");
@@ -41,6 +59,7 @@ const Register = ({ navigation, route }) => {
 
   const errCallback = (res) => {
     alert("One or more fields is empty");
+    console.log(res)
     setLoading(false);
   };
 
@@ -51,22 +70,30 @@ const Register = ({ navigation, route }) => {
     }
   };
 
-  const styles = StyleSheet.create({
-    dragup:{
-      flex: 1
-    }
-  })
-
   const scrollUp = useAnimatedStyle(() => {
     return{
-      transform: [{translateY: withSpring(offsetVertical.value)}]
+      transform: [{translateY: offsetVertical.value}]
     }
+  },[])
+
+  const gestureHandler =  useAnimatedGestureHandler({
+    onStart: (event,context) => {
+      context.translateY = offsetVertical.value
+    },
+    onActive: (event,context) => {
+      keyboardStatus ? offsetVertical.value = event.translationY + context.translateY : null
+    },
+    onEnd: (event) => {}
   })
 
-
   return (
-    <GestureDetector>
-      <Animated.View style={[styles.dragup, scrollUp]}>
+    <PanGestureHandler onGestureEvent={
+      // !keyboardStatus ? null : 
+      gestureHandler}>
+      <Animated.View 
+        style={scrollUp}
+      >
+
         <Image
           style={tw`mx-auto my-8`}
           source={require("../images/Logo/ANNILogo.png")}
@@ -76,7 +103,7 @@ const Register = ({ navigation, route }) => {
 
           <Text>Input details to register</Text>
         </View>
-
+        
         <View style={tw`mt-3 mx-7 py-4 bg-white shadow-sm rounded-3xl px-5`}>
           <View>
             <View style={tw`flex-row justify-between`}>
@@ -193,8 +220,9 @@ const Register = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
         </View>
+        
       </Animated.View>
-    </GestureDetector>
+    </PanGestureHandler>
   );
 };
 
