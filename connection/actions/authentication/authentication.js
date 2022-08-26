@@ -62,7 +62,6 @@ export const RegisterAsMember =async (data, callback,errCallback) => {
         if(response.status == 200){
             callback(response.data)
         }else {
-            // alert(response.message)
             errCallback(response.message)
         }
     }
