@@ -5,68 +5,140 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
-  StyleSheet,
+  Keyboard,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import tw from "tailwind-react-native-classnames";
 import RoundedButton from "../components/button/RoundedButton";
 import { RegisterAsMember } from "../connection/actions/authentication/authentication";
-import { GestureDetector } from "react-native-gesture-handler";
-import Animated,{ useSharedValue,useAnimatedStyle,withSpring  } from 'react-native-reanimated';
+import {
+  GestureDetector,
+  PanGestureHandler,
+} from "react-native-gesture-handler";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  useAnimatedGestureHandler,
+} from "react-native-reanimated";
+import { ConvertObjectToArray } from "../components/utilitiyFunctions";
 
 const Register = ({ navigation, route }) => {
   const newMember = route.params.user;
 
   const [loading, setLoading] = useState(false);
-  const [sigUpData, setSignUpData] = useState({
-    firstname: newMember !== undefined ? newMember["First Name"] : null,
-    lastname: newMember !== undefined ? newMember["Last Name"] : null,
-    email: newMember !== undefined ? newMember["email"] : "",
-    password: "",
-    phone: newMember !== undefined ? newMember["Phone"].toString() : "",
-    graduation_year:
-      newMember !== undefined ? newMember["Graduation Year"] : "",
-    department: newMember !== undefined ? newMember["Department"] : "",
-    chapter: "",
-  });
+  const [signUpData, setSignUpData] = useState(newMember);
+  const [keyboardStatus, setKeyboardStatus] = useState(false);
 
   const offsetVertical = useSharedValue(0);
 
+  useEffect(() => {
+    const keyboardListener = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus(true);
+    });
+
+    const removeKeyboardListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardStatus(false);
+        offsetVertical.value = -10;
+      }
+    );
+
+    return () => {
+      keyboardListener.remove();
+      removeKeyboardListener.remove();
+    };
+  }, []);
 
   const callback = () => {
     navigation.navigate("dashboard");
     setLoading(false);
   };
 
-
   const errCallback = (res) => {
     alert("One or more fields is empty");
+    console.log(res);
     setLoading(false);
   };
 
   const handleSignUp = () => {
     if (setSignUpData.firstname !== null && setSignUpData.lastname !== null) {
       setLoading(true);
-      RegisterAsMember(sigUpData, callback, errCallback);
+      RegisterAsMember(signUpData, callback, errCallback);
     }
   };
 
-  const styles = StyleSheet.create({
-    dragup:{
-      flex: 1
-    }
-  })
-
   const scrollUp = useAnimatedStyle(() => {
-    return{
-      transform: [{translateY: withSpring(offsetVertical.value)}]
-    }
-  })
+    return {
+      transform: [{ translateY: offsetVertical.value }],
+    };
+  }, []);
 
+  const gestureHandler = useAnimatedGestureHandler({
+    onStart: (event, context) => {
+      context.translateY = offsetVertical.value;
+    },
+    onActive: (event, context) => {
+      keyboardStatus
+        ? (offsetVertical.value = event.translationY + context.translateY)
+        : null;
+    },
+    onEnd: (event) => {},
+  });
+
+  
+  const objectLength = ConvertObjectToArray(signUpData).length;
+  const starting = 0;
+  const half = objectLength/2;
+
+  const MemberInput = ({start,half,length}) => {
+    // const firstArrEnd = length/2
+    for (let index = 0; index < length; index++) {
+      if (index === start) {
+        return ConvertObjectToArray(signUpData)
+          .slice(index, half)
+          .map((val) => (
+            <View style={tw`my-2 w-5/12 border-b`}>
+              <Text>{val.name}</Text>
+              <TextInput
+                placeholder={val.name}
+                style={tw`py-1.5`}
+                defaultValue={val.name}
+                onChangeText={(text) =>
+                  setSignUpData({ ...signUpData, [val.name]: text })
+                }
+              />
+            </View>
+          ));
+      } else {
+        return ConvertObjectToArray(signUpData)
+          .slice(half+1, length)
+          .map((val) => (
+            <View style={tw`my-2 w-5/12 border-b`}>
+              <Text>{val.name}</Text>
+              <TextInput
+                placeholder={val.name}
+                style={tw`py-1.5`}
+                defaultValue={val.name}
+                onChangeText={(text) =>
+                  setSignUpData({ ...signUpData, [val.name]: text })
+                }
+              />
+            </View>
+          ));
+      }
+    }
+  };
 
   return (
-    <GestureDetector>
-      <Animated.View style={[styles.dragup, scrollUp]}>
+    <PanGestureHandler
+      onGestureEvent={
+        // !keyboardStatus ? null :
+        gestureHandler
+      }
+    >
+      <Animated.View style={scrollUp}>
         <Image
           style={tw`mx-auto my-8`}
           source={require("../images/Logo/ANNILogo.png")}
@@ -79,15 +151,15 @@ const Register = ({ navigation, route }) => {
 
         <View style={tw`mt-3 mx-7 py-4 bg-white shadow-sm rounded-3xl px-5`}>
           <View>
-            <View style={tw`flex-row justify-between`}>
+            {/* <View style={tw`flex-row justify-between`}>
               <View style={tw`my-2 w-5/12 border-b`}>
                 <Text>First Name</Text>
                 <TextInput
                   placeholder="First Name"
                   style={tw`py-1.5`}
-                  defaultValue={sigUpData.firstname}
+                  defaultValue={signUpData.firstname}
                   onChangeText={(text) =>
-                    setSignUpData({ ...sigUpData, firstname: text })
+                    setSignUpData({ ...signUpData, firstname: text })
                   }
                 />
               </View>
@@ -95,10 +167,10 @@ const Register = ({ navigation, route }) => {
                 <Text>Last Name</Text>
                 <TextInput
                   placeholder="Last Name"
-                  defaultValue={sigUpData.lastname}
+                  defaultValue={signUpData.lastname}
                   style={tw`py-1.5`}
                   onChangeText={(text) =>
-                    setSignUpData({ ...sigUpData, lastname: text })
+                    setSignUpData({ ...signUpData, lastname: text })
                   }
                 />
               </View>
@@ -111,7 +183,7 @@ const Register = ({ navigation, route }) => {
                 defaultValue={newMember["email"]}
                 placeholder="email Address"
                 onChangeText={(text) =>
-                  setSignUpData({ ...sigUpData, email: text })
+                  setSignUpData({ ...signUpData, email: text })
                 }
               />
             </View>
@@ -122,21 +194,22 @@ const Register = ({ navigation, route }) => {
                 secureTextEntry={true}
                 style={tw`py-1.5`}
                 onChangeText={(text) =>
-                  setSignUpData({ ...sigUpData, password: text })
+                  setSignUpData({ ...signUpData, password: text })
                 }
               />
-            </View>
+            </View> */}
+            <MemberInput start={starting} half={half} length={objectLength} />
           </View>
 
           <View style={tw`flex-row justify-between`}>
-            <View style={tw`my-2 w-5/12 border-b`}>
+            {/* <View style={tw`my-2 w-5/12 border-b`}>
               <Text>Phone Number</Text>
               <TextInput
                 placeholder="Phone Number"
                 style={tw`py-1.5`}
                 defaultValue={newMember["Phone"].toString()}
                 onChangeText={(text) =>
-                  setSignUpData({ ...sigUpData, phone: text })
+                  setSignUpData({ ...signUpData, phone: text })
                 }
               />
             </View>
@@ -147,10 +220,11 @@ const Register = ({ navigation, route }) => {
                 style={tw`py-1.5`}
                 defaultValue={newMember["Graduation Year"].toString()}
                 onChangeText={(text) =>
-                  setSignUpData({ ...sigUpData, graduation_year: text })
+                  setSignUpData({ ...signUpData, graduation_year: text })
                 }
               />
-            </View>
+            </View> */}
+            <MemberInput start={half} half={half} length={objectLength} />
           </View>
 
           <View style={tw`flex-row justify-between`}>
@@ -161,7 +235,7 @@ const Register = ({ navigation, route }) => {
                 defaultValue={newMember["Department"]}
                 style={tw`py-1.5`}
                 onChangeText={(text) =>
-                  setSignUpData({ ...sigUpData, department: text })
+                  setSignUpData({ ...signUpData, department: text })
                 }
               />
             </View>
@@ -171,7 +245,7 @@ const Register = ({ navigation, route }) => {
                 placeholder="Chapter"
                 style={tw`py-1.5`}
                 onChangeText={(text) =>
-                  setSignUpData({ ...sigUpData, chapter: text })
+                  setSignUpData({ ...signUpData, chapter: text })
                 }
               />
             </View>
@@ -194,7 +268,7 @@ const Register = ({ navigation, route }) => {
           </View>
         </View>
       </Animated.View>
-    </GestureDetector>
+    </PanGestureHandler>
   );
 };
 
