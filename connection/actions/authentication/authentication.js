@@ -4,7 +4,7 @@ import localStorage from 'react-native-sync-localstorage'
 
 export const LoginUser = async(data, callback, setLoading)=>{
     try { 
-        const response = await api.post(`tenant/medal/tenant/auth/login/`,data);
+        const response = await api.post(`tenant/anni/tenant/auth/login/`,data);
         // console.log(response)
         // alert(org)
         if (response.status == 200) {
@@ -60,10 +60,11 @@ export const RegisterAsMember =async (data, callback,errCallback) => {
         if(response.status == 200){
             callback(response.data)
         }else {
-            errCallback(response.message)
+            throw new Error(response.data)
         }
     }
     catch (error) {
+        console.log(error)
         errCallback(error)
     }
 }

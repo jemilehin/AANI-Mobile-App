@@ -39,22 +39,25 @@ export default function Chapters({ navigation }) {
   };
 
   let memObjArr = []
-  const handleInputSubmit = useCallback((ev,prop,name,index) => {
-    const input =  ev.nativeEvent.text;
-    mem[name] = input
-    for(const key in memObjArr[index]){
-      if(key === 'prop'){
-        memObjArr[index][key] = input
-      }
-    }
-  },[]);
-
   for (const key in mem) {
     memObjArr.push({ name: key, prop: mem[key] });
   }
 
-  const ModalBody = () => {
-    
+  const ModalBody = ({arr,user,setUser}) => {
+    let arrMem = arr;
+
+    const handleInputSubmit = useCallback((ev,prop,name,index) => {
+      const input =  ev.nativeEvent.text;
+      // setUser({...user, [name]: input})
+      // console.log(user)
+      user[name] = input
+      for(const key in arrMem[index]){
+        if(key === 'prop'){
+          arrMem[index][key] = input
+        }
+      }
+    },[]);
+  
     return (
       <View style={tw`flex-1 bg-red-50 py-3 px-4`}>
         <View style={tw`flex flex-row justify-end mb-5`}>
@@ -70,7 +73,7 @@ export default function Chapters({ navigation }) {
         </Text>
         <View style={tw`flex-row justify-between my-4`}>
           <View style={tw`w-full`}>
-            {memObjArr.map((val,i) => (
+            {arrMem.map((val,i) => (
               <View style={tw`my-1 w-11/12 border-b`} key={i}>
                 <Text style={tw`font-light`}>{val.name}</Text>
                 <TextInput
@@ -93,7 +96,7 @@ export default function Chapters({ navigation }) {
             text="Continue"
             pressed={() => {
               setShow(false)
-              navigation.navigate("register", { user: mem })
+              navigation.navigate("register", { user: user })
             }}
           />
         </View>
@@ -103,7 +106,7 @@ export default function Chapters({ navigation }) {
 
   return (
     <View style={tw`h-full`}>
-      <ModalTemplate visible={show} body={<ModalBody />} />
+      <ModalTemplate visible={show} body={<ModalBody arr={memObjArr} user={mem} setUser={setMem} />} />
       <View style={tw`m-auto w-10/12 `}>
         <Text style={tw`text-lg text-center text-green-800 font-bold `}>
           Welcome to Alumni Assocation of National Institute (Lagos Chapter)

@@ -24,6 +24,7 @@ import Animated, {
 
 const Register = ({ navigation, route }) => {
   const newMember = route.params.user;
+  // console.log('user',newMember)
 
   const [loading, setLoading] = useState(false);
   const [signUpData, setSignUpData] = useState({...newMember, rel8Email: newMember.email});
@@ -57,7 +58,7 @@ const Register = ({ navigation, route }) => {
 
   const errCallback = (res) => {
     alert("One or more fields is empty");
-    console.log(res);
+    // console.log(res);
     setLoading(false);
   };
 
@@ -85,8 +86,6 @@ const Register = ({ navigation, route }) => {
     },
     onEnd: (event) => {},
   });
-
-  console.log(signUpData)
   return (
     <PanGestureHandler
       onGestureEvent={
