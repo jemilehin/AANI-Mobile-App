@@ -1,6 +1,6 @@
-import { View, Text, FlatList, Pressable, Modal,ActivityIndicator } from "react-native";
+import { View, Text, FlatList, Pressable, Modal,ActivityIndicator,Keyboard } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback, useRef } from "react";
 import tw from "tailwind-react-native-classnames";
 import Ionicon from "react-native-vector-icons/AntDesign";
 import Chapterchip from "../../components/onboarding/chapterchip";
@@ -12,8 +12,10 @@ import ModalTemplate from "../../components/Modal";
 export default function Chapters({ navigation }) {
   const [showState, setShowState] = useState(false);
   const [email, setEmail] = useState({});
-  const [mem, setMem] = useState();
+  const [mem, setMem] = useState({});
   const [show, setShow] = useState(false);
+
+  const inputEl = useRef(null)
 
   const callback = (response) => {
     setMem(response);
@@ -36,14 +38,23 @@ export default function Chapters({ navigation }) {
     }
   };
 
-  const ModalBody = ({ mem }) => {
-    const objectPropMap = () => {
-      let objectArr = [];
-      for (const key in mem) {
-        objectArr.push({ name: key, prop: mem[key] });
+  let memObjArr = []
+  const handleInputSubmit = useCallback((ev,prop,name,index) => {
+    const input =  ev.nativeEvent.text;
+    mem[name] = input
+    for(const key in memObjArr[index]){
+      if(key === 'prop'){
+        memObjArr[index][key] = input
       }
-      return objectArr;
-    };
+    }
+  },[]);
+
+  for (const key in mem) {
+    memObjArr.push({ name: key, prop: mem[key] });
+  }
+
+  const ModalBody = () => {
+    
     return (
       <View style={tw`flex-1 bg-red-50 py-3 px-4`}>
         <View style={tw`flex flex-row justify-end mb-5`}>
@@ -59,13 +70,19 @@ export default function Chapters({ navigation }) {
         </Text>
         <View style={tw`flex-row justify-between my-4`}>
           <View style={tw`w-full`}>
-            {objectPropMap().map((val) => (
-              <View style={tw`my-1 w-11/12 border-b`}>
+            {memObjArr.map((val,i) => (
+              <View style={tw`my-1 w-11/12 border-b`} key={i}>
                 <Text style={tw`font-light`}>{val.name}</Text>
                 <TextInput
-                  defaultValue={val.prop.toString()}
+                  ref={inputEl}
+                  defaultValue={val !== undefined ? val.prop.toString() : null}
                   style={tw`py-1.5 font-semibold`}
-                  // onChangeText={(text)=>setSignUpData({...sigUpData, 'firstname':text})}
+                  // onFocus={()=>setMem({editingIndex:i,text:val.name})}
+                  // onBlur={()=>{
+                  //   setMem(defaultTemp)
+                  // }}
+                  // onChangeText={(text)=> setMem({...mem, [val.name]:text})}
+                  onEndEditing={(e)=> handleInputSubmit(e,val.prop,val.name,i) }
                 />
               </View>
             ))}
@@ -86,7 +103,7 @@ export default function Chapters({ navigation }) {
 
   return (
     <View style={tw`h-full`}>
-      <ModalTemplate visible={show} body={<ModalBody mem={mem} />} />
+      <ModalTemplate visible={show} body={<ModalBody />} />
       <View style={tw`m-auto w-10/12 `}>
         <Text style={tw`text-lg text-center text-green-800 font-bold `}>
           Welcome to Alumni Assocation of National Institute (Lagos Chapter)

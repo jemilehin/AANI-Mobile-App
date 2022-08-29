@@ -5,7 +5,7 @@ import localStorage from 'react-native-sync-localstorage'
 
 
 
-const URL = 'http://rel8backend.herokuapp.com/'
+const URL = 'https://rel8backend.herokuapp.com'
 // const navigation = useNavigation()
 
 const instance = axios.create({

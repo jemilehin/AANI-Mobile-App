@@ -21,13 +21,12 @@ import Animated, {
   withSpring,
   useAnimatedGestureHandler,
 } from "react-native-reanimated";
-import { ConvertObjectToArray } from "../components/utilitiyFunctions";
 
 const Register = ({ navigation, route }) => {
   const newMember = route.params.user;
 
   const [loading, setLoading] = useState(false);
-  const [signUpData, setSignUpData] = useState(newMember);
+  const [signUpData, setSignUpData] = useState({...newMember, rel8Email: newMember.email});
   const [keyboardStatus, setKeyboardStatus] = useState(false);
 
   const offsetVertical = useSharedValue(0);
@@ -63,7 +62,7 @@ const Register = ({ navigation, route }) => {
   };
 
   const handleSignUp = () => {
-    if (setSignUpData.firstname !== null && setSignUpData.lastname !== null) {
+    if (signUpData.password !== null) {
       setLoading(true);
       RegisterAsMember(signUpData, callback, errCallback);
     }
@@ -87,54 +86,10 @@ const Register = ({ navigation, route }) => {
     onEnd: (event) => {},
   });
 
-  
-  const objectLength = ConvertObjectToArray(signUpData).length;
-  const starting = 0;
-  const half = objectLength/2;
-
-  const MemberInput = ({start,half,length}) => {
-    // const firstArrEnd = length/2
-    for (let index = 0; index < length; index++) {
-      if (index === start) {
-        return ConvertObjectToArray(signUpData)
-          .slice(index, half)
-          .map((val) => (
-            <View style={tw`my-2 w-5/12 border-b`}>
-              <Text>{val.name}</Text>
-              <TextInput
-                placeholder={val.name}
-                style={tw`py-1.5`}
-                defaultValue={val.name}
-                onChangeText={(text) =>
-                  setSignUpData({ ...signUpData, [val.name]: text })
-                }
-              />
-            </View>
-          ));
-      } else {
-        return ConvertObjectToArray(signUpData)
-          .slice(half+1, length)
-          .map((val) => (
-            <View style={tw`my-2 w-5/12 border-b`}>
-              <Text>{val.name}</Text>
-              <TextInput
-                placeholder={val.name}
-                style={tw`py-1.5`}
-                defaultValue={val.name}
-                onChangeText={(text) =>
-                  setSignUpData({ ...signUpData, [val.name]: text })
-                }
-              />
-            </View>
-          ));
-      }
-    }
-  };
-
+  console.log(signUpData)
   return (
     <PanGestureHandler
       onGestureEvent={
-        // !keyboardStatus ? null :
         gestureHandler
       }
     >
@@ -146,7 +101,7 @@ const Register = ({ navigation, route }) => {
         <View style={tw`mx-10`}>
           <Text style={tw`text-base font-bold`}>Register</Text>
 
-          <Text>Input details to register</Text>
+          <Text>Input password to register</Text>
         </View>
 
         <View style={tw`mt-3 mx-7 py-4 bg-white shadow-sm rounded-3xl px-5`}>
@@ -174,7 +129,7 @@ const Register = ({ navigation, route }) => {
                   }
                 />
               </View>
-            </View>
+            </View> */}
 
             <View style={tw`my-2 border-b`}>
               <Text>Email Address</Text>
@@ -183,7 +138,7 @@ const Register = ({ navigation, route }) => {
                 defaultValue={newMember["email"]}
                 placeholder="email Address"
                 onChangeText={(text) =>
-                  setSignUpData({ ...signUpData, email: text })
+                  setSignUpData({ ...signUpData, rel8Email: text })
                 }
               />
             </View>
@@ -197,11 +152,11 @@ const Register = ({ navigation, route }) => {
                   setSignUpData({ ...signUpData, password: text })
                 }
               />
-            </View> */}
-            <MemberInput start={starting} half={half} length={objectLength} />
+            </View>
+            {/* <MemberInput start={starting} half={half} length={objectLength} /> */}
           </View>
 
-          <View style={tw`flex-row justify-between`}>
+          {/* <View style={tw`flex-row justify-between`}> */}
             {/* <View style={tw`my-2 w-5/12 border-b`}>
               <Text>Phone Number</Text>
               <TextInput
@@ -224,10 +179,10 @@ const Register = ({ navigation, route }) => {
                 }
               />
             </View> */}
-            <MemberInput start={half} half={half} length={objectLength} />
-          </View>
+            {/* <MemberInput start={half} half={half} length={objectLength} /> */}
+          {/* </View> */}
 
-          <View style={tw`flex-row justify-between`}>
+          {/* <View style={tw`flex-row justify-between`}>
             <View style={tw`my-2 w-5/12 border-b`}>
               <Text>Department</Text>
               <TextInput
@@ -249,7 +204,7 @@ const Register = ({ navigation, route }) => {
                 }
               />
             </View>
-          </View>
+          </View> */}
 
           <View style={tw`mt-3`}>
             {loading ? (
