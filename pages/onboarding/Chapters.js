@@ -22,17 +22,17 @@ export default function Chapters({ navigation }) {
     setShowState(false);
     if (response !== null) {
       setShow(true);
-    } else {
-      alert("Incorrect Email: email is case sensitive");
     }
   };
 
   const errCallback = (err) => {
     setShowState(false);
+    alert("Email does not exist:check email is correct.")
+    console.log('response',err)
   };
 
   const validateMemberByEmail = () => {
-    if (email.email !== "") {
+    if (email.email !== undefined) {
       setShowState(true);
       ValidateMember(email, callback, errCallback);
     }
