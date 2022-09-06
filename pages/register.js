@@ -86,7 +86,6 @@ const Register = ({ navigation, route }) => {
     onEnd: (event) => {},
   });
 
-  console.log(signUpData)
   return (
     <PanGestureHandler
       onGestureEvent={
