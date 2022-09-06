@@ -23,11 +23,12 @@ import Animated, {
 } from "react-native-reanimated";
 
 const Register = ({ navigation, route }) => {
-  const newMember = route.params.user;
+  // console.log(route.params)
+  const newMember = route.params === undefined ? null : route.params.user;
 
-  const [loading, setLoading] = useState(false);
-  const [signUpData, setSignUpData] = useState({...newMember, rel8Email: newMember.email});
+  const [signUpData, setSignUpData] = useState({rel8Email: newMember === null ? '' : newMember.email});
   const [keyboardStatus, setKeyboardStatus] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const offsetVertical = useSharedValue(0);
 
@@ -56,15 +57,15 @@ const Register = ({ navigation, route }) => {
   };
 
   const errCallback = (res) => {
-    alert("One or more fields is empty");
-    console.log(res);
+    alert("Email does not exist or email already used.");
     setLoading(false);
   };
 
   const handleSignUp = () => {
     if (signUpData.password !== null) {
       setLoading(true);
-      RegisterAsMember(signUpData, callback, errCallback);
+      let data = newMember !== null ? {...signUpData, ...newMember} : signUpData;
+      RegisterAsMember(data, callback, errCallback);
     }
   };
 
@@ -85,7 +86,6 @@ const Register = ({ navigation, route }) => {
     },
     onEnd: (event) => {},
   });
-
   return (
     <PanGestureHandler
       onGestureEvent={
@@ -134,8 +134,8 @@ const Register = ({ navigation, route }) => {
               <Text>Email Address</Text>
               <TextInput
                 style={tw`py-1.5`}
-                defaultValue={newMember["email"]}
-                placeholder="email Address"
+                defaultValue={newMember !== null ? newMember["email"] : ''}
+                placeholder="Email Address"
                 onChangeText={(text) =>
                   setSignUpData({ ...signUpData, rel8Email: text })
                 }

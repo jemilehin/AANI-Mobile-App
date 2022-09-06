@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Pressable, Modal,ActivityIndicator,Keyboard, ScrollView } from "react-native";
+import { View, Text, FlatList, Pressable, Modal,ActivityIndicator,Keyboard, ScrollView, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState,useCallback, useRef } from "react";
 import tw from "tailwind-react-native-classnames";
@@ -22,39 +22,42 @@ export default function Chapters({ navigation }) {
     setShowState(false);
     if (response !== null) {
       setShow(true);
-    } else {
-      alert("Incorrect Email: email is case sensitive");
     }
   };
 
   const errCallback = (err) => {
     setShowState(false);
+    alert("Email does not exist:check email is correct.")
+    console.log('response',err)
   };
 
   const validateMemberByEmail = () => {
-    if (email.email !== "") {
+    if (email.email !== undefined) {
       setShowState(true);
       ValidateMember(email, callback, errCallback);
     }
   };
 
   let memObjArr = []
-  const handleInputSubmit = useCallback((ev,prop,name,index) => {
-    const input =  ev.nativeEvent.text;
-    mem[name] = input
-    for(const key in memObjArr[index]){
-      if(key === 'prop'){
-        memObjArr[index][key] = input
-      }
-    }
-  },[]);
-
   for (const key in mem) {
     memObjArr.push({ name: key, prop: mem[key] });
   }
 
-  const ModalBody = () => {
-    
+  const ModalBody = ({arr,user,setUser}) => {
+    let arrMem = arr;
+
+    const handleInputSubmit = useCallback((ev,prop,name,index) => {
+      const input =  ev.nativeEvent.text;
+      // setUser({...user, [name]: input})
+      // console.log(user)
+      user[name] = input
+      for(const key in arrMem[index]){
+        if(key === 'prop'){
+          arrMem[index][key] = input
+        }
+      }
+    },[]);
+  
     return (
       <ScrollView style={tw`flex-1`}>
       <View style={tw`flex-1 bg-red-50 py-3 px-4`}>
@@ -71,7 +74,7 @@ export default function Chapters({ navigation }) {
         </Text>
         <View style={tw`flex-row justify-between my-4`}>
           <View style={tw`w-full`}>
-            {memObjArr.map((val,i) => (
+            {arrMem.map((val,i) => (
               <View style={tw`my-1 w-11/12 border-b`} key={i}>
                 <Text style={tw`font-light`}>{val.name}</Text>
                 <TextInput
@@ -89,7 +92,7 @@ export default function Chapters({ navigation }) {
             text="Continue"
             pressed={() => {
               setShow(false)
-              navigation.navigate("register", { user: mem })
+              navigation.navigate("register", { user: user })
             }}
           />
         </View>
@@ -100,7 +103,7 @@ export default function Chapters({ navigation }) {
 
   return (
     <View style={tw`h-full`}>
-      <ModalTemplate visible={show} body={<ModalBody />} />
+      <ModalTemplate visible={show} body={<ModalBody arr={memObjArr} user={mem} setUser={setMem} />} />
       <View style={tw`m-auto w-10/12 `}>
         <Text style={tw`text-lg text-center text-green-800 font-bold `}>
           Welcome to Alumni Assocation of National Institute (Lagos Chapter)
@@ -134,6 +137,12 @@ export default function Chapters({ navigation }) {
             }
           />}
         </View>
+        <View style={tw`flex-row mx-auto py-2`}>
+            <Text>Already have an Account?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("login")}>
+              <Text style={tw`text-green-800 font-bold`}> Login</Text>
+            </TouchableOpacity>
+          </View>
 
         {/* <Pressable onPress={()=>setShowState(!showState)} style={tw`bg-gray-200 rounded-lg flex-row justify-between px-3 py-2.5 mb-3`}>
                 <Text style={tw`text-gray-700`}>Chapter</Text>
