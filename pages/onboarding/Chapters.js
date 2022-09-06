@@ -1,9 +1,9 @@
-import { View, Text, FlatList, Pressable, Modal,ActivityIndicator,Keyboard } from "react-native";
+import { View, Text, FlatList, Pressable, Modal,ActivityIndicator,Keyboard, ScrollView, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState,useCallback, useRef } from "react";
 import tw from "tailwind-react-native-classnames";
 import Ionicon from "react-native-vector-icons/AntDesign";
-import Chapterchip from "../../components/onboarding/chapterchip";
+// import Chapterchip from "../../components/onboarding/chapterchip";
 import { TextInput } from "react-native-gesture-handler";
 import RoundedButton from "../../components/button/RoundedButton";
 import { ValidateMember } from "../../connection/actions/authentication/authentication";
@@ -59,6 +59,7 @@ export default function Chapters({ navigation }) {
     },[]);
   
     return (
+      <ScrollView style={tw`flex-1`}>
       <View style={tw`flex-1 bg-red-50 py-3 px-4`}>
         <View style={tw`flex flex-row justify-end mb-5`}>
           <Ionicon
@@ -80,11 +81,6 @@ export default function Chapters({ navigation }) {
                   ref={inputEl}
                   defaultValue={val !== undefined ? val.prop.toString() : null}
                   style={tw`py-1.5 font-semibold`}
-                  // onFocus={()=>setMem({editingIndex:i,text:val.name})}
-                  // onBlur={()=>{
-                  //   setMem(defaultTemp)
-                  // }}
-                  // onChangeText={(text)=> setMem({...mem, [val.name]:text})}
                   onEndEditing={(e)=> handleInputSubmit(e,val.prop,val.name,i) }
                 />
               </View>
@@ -101,6 +97,7 @@ export default function Chapters({ navigation }) {
           />
         </View>
       </View>
+      </ScrollView>
     );
   };
 
@@ -140,6 +137,12 @@ export default function Chapters({ navigation }) {
             }
           />}
         </View>
+        <View style={tw`flex-row mx-auto py-2`}>
+            <Text>Already have an Account?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("login")}>
+              <Text style={tw`text-green-800 font-bold`}> Login</Text>
+            </TouchableOpacity>
+          </View>
 
         {/* <Pressable onPress={()=>setShowState(!showState)} style={tw`bg-gray-200 rounded-lg flex-row justify-between px-3 py-2.5 mb-3`}>
                 <Text style={tw`text-gray-700`}>Chapter</Text>

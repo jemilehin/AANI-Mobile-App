@@ -1,4 +1,4 @@
-import { View, SafeAreaView,Text, Image, TextInput,TouchableOpacity } from 'react-native'
+import { View, SafeAreaView,Text, Image, TextInput,TouchableOpacity, ActivityIndicator } from 'react-native'
 import {useState} from 'react'
 import tw from 'tailwind-react-native-classnames'
 import RoundedButton from '../components/button/RoundedButton'
@@ -46,18 +46,21 @@ const Login = ({navigation, route}) => {
   const [loginData, setLoginData] = useState({email:'', password:''})
   const [loading, setLoading] = useState(false)
 
-  console.log(loginData)
-  console.log(route.params.user)
+  // console.log(route.params.user)
   const callback =()=>{
     setLoading(false)
     navigation.navigate('dashboard')
   }
 
+  const errcallback =()=>{
+    setLoading(false)
+  }
+
   const handleLogin =()=>{
     if(loginData.password.length>2 && loginData.password.length>4){
-      LoginUser(loginData, callback)
+      setLoading(true)
+      LoginUser(loginData, callback,errcallback)
     }
-
   }
 
   
@@ -93,11 +96,12 @@ const Login = ({navigation, route}) => {
                 />
               </View>
           </View>
-          <View style={tw`my-3`}>
-            <RoundedButton 
-              text='Login'
-              pressed={handleLogin}
-            />
+          <View style={tw`mt-3`}>
+            {loading ? (
+              <ActivityIndicator color="purple" size="large" />
+            ) : (
+              <RoundedButton text="Login" pressed={() => handleLogin()} />
+            )}
           </View>
           <TouchableOpacity onPress={()=>navigation.navigate('forgotPassword')}> 
             <Text style={tw`text-xs`}>Forgot Password?</Text>
