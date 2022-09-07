@@ -106,12 +106,12 @@ const Login = ({navigation, route}) => {
           <TouchableOpacity onPress={()=>navigation.navigate('forgotPassword')}> 
             <Text style={tw`text-xs`}>Forgot Password?</Text>
           </TouchableOpacity>
-          <View style={tw`flex-row mx-auto py-4`}>
+          {/* <View style={tw`flex-row mx-auto py-4`}>
               <Text>Don't have an Account?</Text>
               <TouchableOpacity onPress={()=>navigation.navigate('register')}>
                 <Text style={[tw`font-bold`, {color:'#365C2A'}]}> Register</Text>
               </TouchableOpacity>
-          </View>
+          </View> */}
       </View>
     </SafeAreaView>
   )
