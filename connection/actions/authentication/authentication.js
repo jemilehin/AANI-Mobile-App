@@ -14,12 +14,10 @@ export const LoginUser = async(data, callback, errcallback)=>{
             localStorage.setItem('email',data.email)
             localStorage.setItem('password',data.password)
             localStorage.setItem('user_type',response.data.user_type)
-            console.log('res',response.data.user_type)
         }
     }catch (error) {
         errcallback()
         alert('Incorrect login password or username')
-        console.log('err',error)
     }
 }
 export const ValidateMember = async(data,callback,errCallback)=> {

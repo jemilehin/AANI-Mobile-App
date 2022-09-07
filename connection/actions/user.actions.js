@@ -44,10 +44,9 @@ export const LoginUser = async(data,callback)=>{
 //Gets News for a Member
 export const GetNews = async(callback)=>{
     try {
-        const response = await api.get(`tenant/medal/tenant/news/getyournews/`)
+        const response = await api.get(`tenant/anni/tenant/news/getyournews/`)
     //    con
         if (response.status==200) {
-            // console.log(response)
             callback(response);
         } else {
             console.log(response.status)
@@ -56,9 +55,9 @@ export const GetNews = async(callback)=>{
         //   callback(response)
         }
     } catch (error) {
-        console.error(error)
+        console.error('newserr',error)
         // console.log(error.response.detail)
-        alert(error)
+        // alert(error)
         // setLoading(false)
 
     }
@@ -83,9 +82,9 @@ export const LikeDisLikeNews = async(data,callback)=>{
 }
 
 //Get Publications
-export const GetPublications = async(status,callback)=>{
+export const GetPublications = async(callback)=>{
     try {
-        const response = await api.get(`tenant/${org_name}/tenant/publication/getyourpublication/`)
+        const response = await api.get(`tenant/anni/tenant/publication/getyourpublication/`)
        
         if (response.status==200) {
             callback(response);
