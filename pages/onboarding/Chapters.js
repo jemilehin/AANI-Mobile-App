@@ -23,7 +23,7 @@ export default function Chapters({ navigation }) {
     if (response !== null) {
       setShow(true);
     }
-  };
+  }
 
   const errCallback = (err) => {
     setShowState(false);
