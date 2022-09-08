@@ -10,10 +10,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TobBar from '../../components/topBar'
 import National from './national'
 import Member from './member'
+// import { GetEvents } from '../../connection/actions/user.actions'
 // import { GetEvents } from '../../connection/user.actions'
 
 const Events = ({navigation}) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
+  // const [events, setEvents] = useState([])
 const Stack = createNativeStackNavigator()
 
   const data =[
@@ -25,11 +27,11 @@ const Stack = createNativeStackNavigator()
       ]
 
       // useEffect(()=>{
-      //   GetEvents(false, callback)
+      //   GetEvents(callback)
       // },[])
 
-      // const callback =(res)=>{
-      //   console.log(res)
+      // const callback = (res) =>{
+      //   setEvents(res.data.data)
       // }
 
       const handleSelect =(index)=>{
@@ -91,7 +93,7 @@ const Stack = createNativeStackNavigator()
       </View>
       {/* <View style={tw` flex-row mt-0 `}>
         <FlatList
-            data={data}
+            data={events}
             keyExtractor={ (item, index) => item.id }
             // contentContainerStyle={styles.container}
             numColumns={2}

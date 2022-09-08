@@ -120,9 +120,9 @@ export const LikeDisLikePublication = async(data,callback)=>{
 
 // Get Events
 // /tenant/event/eventview/get_events/?is_chapter=true
-export const GetEvents = async(status,callback)=>{
+export const GetEvents = async(callback)=>{
     try {
-        const response = await api.get(`tenant/${org_name}/tenant/event/eventview/get_events/?is_chapter=true`)
+        const response = await api.get(`tenant/anni/tenant/event/eventview/get_events/`)
        
         if (response.status==200) {
             callback(response);

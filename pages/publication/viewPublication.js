@@ -6,6 +6,7 @@ import TobBar from '../../components/topBar'
 import RoundedButton from '../../components/button/RoundedButton'
 
 const ViewPublication = ({navigation, route}) => {
+  console.log(route.params.props.item)
   return (
     <SafeAreaView>
       <TobBar
@@ -20,18 +21,19 @@ const ViewPublication = ({navigation, route}) => {
     <ScrollView style={tw`h-full`}>
       
         <View style={tw`h-60 p-3`}>
-            { route.params.item.image ?
+            { route.params.props.item.image ?
             <Image  
             resizeMode='cover'
             style={tw`h-full w-full rounded-lg`}
-            source={{uri:route.params.item.image}}/>:
+            source={{uri:route.params.props.item.image}}
+            />:
             <Ionicon name='image' style={tw`text-purple-400 m-auto`} size={60}/>
             }
         </View>
         <View style={tw`px-4 py-2`}>
-            <Text style={tw`text-base font-bold text-purple-800 py-1`}>{route.params.item.name}</Text>
+            <Text style={tw`text-base font-bold text-purple-800 py-1`}>{route.params.props.item.name}</Text>
             <Text style={tw`text-justify text-gray-800 py-1`}>
-            {route.params.item.body}
+            {route.params.props.item.body}
             </Text>
       </View>
       <View style={tw`mx-5`}>

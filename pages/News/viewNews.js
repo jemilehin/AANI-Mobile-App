@@ -9,7 +9,7 @@ import WriteCommentCard from '../../components/News/WriteCommentCard'
 import TobBar from '../../components/topBar'
 
 const ViewNews = ({navigation, route}) => {
-  // console.log(route.params.props)
+  console.log(route.params.props)
   const newsProps = route.params.props
   return (
     <SafeAreaView style={tw`h-full`}>
