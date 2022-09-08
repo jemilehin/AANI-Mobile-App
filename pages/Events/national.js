@@ -4,6 +4,8 @@ import NewsCard from '../../components/News/NewsCard'
 import tw from 'tailwind-react-native-classnames'
 import EventsCard from '../../components/Events/EventsCard'
 import { GetEvents } from '../../connection/actions/user.actions'
+import moment from 'moment/moment'
+
 
 const National = ({navigation}) => {
 
@@ -45,8 +47,8 @@ const National = ({navigation}) => {
                     image={item.picture}
                     head={item.name}
                     body={item.body}
-                    startdate={item.startDate}
-                    start_time={item.startTime}
+                    startdate={moment(item.startDate).format("MMMM Do, YYYY")}
+                    start_time={item.startTime.substring(0,5)}
                     item={item}
                     navigation={navigation}
                     to='viewEvents'

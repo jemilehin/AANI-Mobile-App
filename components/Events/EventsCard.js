@@ -7,7 +7,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons'
 const EventsCard = (props) => {
     const [isLiked, setIsLiked] = useState(false)
   return (
-    <Pressable onPress={()=>props.navigation.navigate(props.to)} style={{width:'48%', marginVertical:9,marginHorizontal:5}}>
+    <Pressable onPress={()=>props.navigation.navigate(props.to, {item: props.item})} style={{width:'48%', marginVertical:9,marginHorizontal:5}}>
     
         <Image style={tw`w-full h-20  rounded-t-2xl`} resizeMode='cover' resizeMethod='resize' source={props.image}/>
        
