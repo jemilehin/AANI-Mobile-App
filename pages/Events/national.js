@@ -19,11 +19,10 @@ const National = ({navigation}) => {
   ]
 
   useEffect(()=>{
-    GetEvents(false, callback)
+    GetEvents(callback)
   },[])
 
   const callback =(res)=>{
-    console.log(res.data.data)
     setEvent(res.data.data)
   }
 
@@ -46,6 +45,8 @@ const National = ({navigation}) => {
                     image={item.picture}
                     head={item.name}
                     body={item.body}
+                    startdate={item.startDate}
+                    start_time={item.startTime}
                     item={item}
                     navigation={navigation}
                     to='viewEvents'

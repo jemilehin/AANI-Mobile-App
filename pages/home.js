@@ -183,7 +183,7 @@ const Home = ({navigation, route}) => {
                         isLiked={item.likes}
                         pressLike={()=>likeNews(item)}
                         pressDisLike={()=>alert('like')}
-                        to='viewNews'
+                        to='viewPublication'
                   />
                   )}/>
         {/* </View> */}

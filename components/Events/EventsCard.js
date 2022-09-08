@@ -11,8 +11,11 @@ const EventsCard = (props) => {
     
         <Image style={tw`w-full h-20  rounded-t-2xl`} resizeMode='cover' resizeMethod='resize' source={props.image}/>
        
+        <Text style={tw`font-bold`}>{props.startdate+" - "+props.start_time}</Text>
         <Text style={tw`font-bold`}>{props.head}</Text>
-        <Text style={tw`text-justify text-xs`}>{props.body < 50 ? props.body : props.body.substr(0,49)+'...'}</Text>
+        {props.body ? <Text style={tw`text-justify text-xs`}>{props.body < 50 ? props.body : props.body.substring(0,49)+'...'}</Text> 
+        
+      : null }
         
     </Pressable>
   )

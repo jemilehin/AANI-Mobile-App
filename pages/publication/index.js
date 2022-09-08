@@ -11,11 +11,10 @@ const Publication = ({navigation}) => {
   const [data, setData]= useState(null)
 
   useEffect(()=>{
-    GetPublications(false, callback)
+    GetPublications(callback)
   }, [data])
 
   const callback=(res)=>{
-    // console.log(res.data.data)
     setData(res.data.data)
   }
 
@@ -46,9 +45,10 @@ const Publication = ({navigation}) => {
             showsVerticalScrollIndicator={false}
             renderItem={
                 ({item}) => (
-                  <NewsCard 
-                    image={item.picture}
-                    head={item.title}
+                  <NewsCard
+                    item={item}
+                    image={item.image}
+                    head={item.name}
                     body={item.body}
                     navigation={navigation}
                     to='viewPublication'
