@@ -54,12 +54,12 @@ const ViewEvent = ({navigation,route}) => {
           <View style={tw`border-t border-b border-gray-500 my-2 py-2`}>
             <View style={tw`flex-row`}> 
               <MaterialIcon name='event' size={25} color='purple'/>
-              <Text style={tw`ml-3`}>{route.params.item.startDate + ' - '+ route.params.item.startTime}</Text>
+              <Text style={tw`ml-3`}>{moment(route.params.item.startDate).format("MMMM Do, YYYY") + ' - '+ route.params.item.startTime}</Text>
             </View>
             
             <View style={tw`flex-row my-2 pr-2`}> 
               <MaterialIcon name='location-on' color='purple' size={25}/>
-              <Text style={tw`ml-3`}>{route.params.item.address}</Text>
+              <Text style={tw`ml-3`}>{route.params.item.event_access.link}</Text>
             </View>
 
           </View>
@@ -86,7 +86,7 @@ const ViewEvent = ({navigation,route}) => {
 
         {/* //View More */}
         <Text style={tw`text-purple-800 pt-2 font-bold`}>Gate Fee</Text>
-        <Text style={tw`text-black font-bold`}>{route.params.item.is_paid_event ? 'N'+route.params.item.amount: 'Free'}</Text>
+        <Text style={tw`text-black font-bold`}>{route.params.item.event_access.has_paid ? 'N '+route.params.item.amount: 'Free'}</Text>
         
         {/* Regiser Button */}
         <View style={tw`my-7 mx-5`}>
