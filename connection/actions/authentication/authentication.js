@@ -34,7 +34,6 @@ export const ValidateMember = async (data, callback, errCallback) => {
 };
 
 export const RegisterAsMember = async (data, callback, errCallback) => {
-  console.log("plus", data);
   try {
     const response = await api.post(
       "tenant/aani/tenant/auth/ManageMemberValidation/create_member/",
