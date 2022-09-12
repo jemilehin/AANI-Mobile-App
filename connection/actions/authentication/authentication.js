@@ -25,7 +25,7 @@ export const ValidateMember = async (data, callback, errCallback) => {
       `tenant/aani/tenant/auth/ManageMemberValidation/`,
       data
     );
-    if (response.status == 200) {
+    if (response.status === 200) {
       callback(response.data.data[0].user);
     }
   } catch (error) {

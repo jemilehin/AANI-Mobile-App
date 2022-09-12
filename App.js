@@ -118,7 +118,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown:false}} >
         <Stack.Screen name='splashScreen' component={SplashScreen}/>
-        <Stack.Screen name="home" component={OnboardingPage} />  
+        {/* <Stack.Screen name="home" component={OnboardingPage} />   */}
         <Stack.Screen name='login' component={Login}/>  
         <Stack.Screen name='register' component={Register}/>  
         <Stack.Screen name='forgotPassword' component={ForgotPassword}/>  
@@ -144,7 +144,7 @@ export default function App() {
         <Stack.Screen name='view-member' component={ViewMember}/>
         <Stack.Screen name='profile' component={Profile}/>
         <Stack.Screen name='editProfile' component={EditProfile}/>
-        <Stack.Screen name='chapters' component={Chapters}/>
+        <Stack.Screen name='home' component={Chapters}/>
         <Stack.Screen name='about' component={About}/>
 
         <Stack.Screen name='dashboard'>
