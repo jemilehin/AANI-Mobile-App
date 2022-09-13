@@ -25,7 +25,7 @@ export const ValidateMember = async (data, callback, errCallback) => {
       `tenant/aani/tenant/auth/ManageMemberValidation/`,
       data
     );
-    if (response.status == 200) {
+    if (response.status === 200) {
       callback(response.data.data[0].user);
     }
   } catch (error) {
@@ -34,7 +34,6 @@ export const ValidateMember = async (data, callback, errCallback) => {
 };
 
 export const RegisterAsMember = async (data, callback, errCallback) => {
-  console.log("plus", data);
   try {
     const response = await api.post(
       "tenant/aani/tenant/auth/ManageMemberValidation/create_member/",

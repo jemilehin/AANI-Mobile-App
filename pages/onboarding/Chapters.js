@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Pressable, Modal,ActivityIndicator,Keyboard, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, Pressable, Modal,ActivityIndicator,Keyboard, ScrollView, TouchableOpacity, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState,useCallback, useRef } from "react";
 import tw from "tailwind-react-native-classnames";
@@ -18,17 +18,18 @@ export default function Chapters({ navigation }) {
   const inputEl = useRef(null)
 
   const callback = (response) => {
-    setMem(response);
     setShowState(false);
     if (response !== null) {
+      setMem(response);
       setShow(true);
+    }else{
+      alert("Details does not Exist.")
     }
   }
 
   const errCallback = (err) => {
     setShowState(false);
-    alert("Email does not exist:check email is correct.")
-    console.log('response',err)
+    alert("Email does not exist:check if email is correct.")
   };
 
   const validateMemberByEmail = () => {
@@ -40,7 +41,7 @@ export default function Chapters({ navigation }) {
 
   let memObjArr = []
   for (const key in mem) {
-    memObjArr.push({ name: key, prop: mem[key] });
+    memObjArr.push({ name: key, value: mem[key] });
   }
 
   const ModalBody = ({arr,user,setUser}) => {
@@ -48,8 +49,6 @@ export default function Chapters({ navigation }) {
 
     const handleInputSubmit = useCallback((ev,prop,name,index) => {
       const input =  ev.nativeEvent.text;
-      // setUser({...user, [name]: input})
-      // console.log(user)
       user[name] = input
       for(const key in arrMem[index]){
         if(key === 'prop'){
@@ -77,9 +76,10 @@ export default function Chapters({ navigation }) {
             {arrMem.map((val,i) => (
               <View style={tw`my-1 w-11/12 border-b`} key={i}>
                 <Text style={tw`font-light`}>{val.name}</Text>
+                {console.log(val)}
                 <TextInput
                   ref={inputEl}
-                  defaultValue={val !== undefined ? val.prop.toString() : null}
+                  defaultValue={val.value === null || val.value === "NA" ? `Type ${val.name}` : val.value.toString()}
                   style={tw`py-1.5 font-semibold`}
                   onEndEditing={(e)=> handleInputSubmit(e,val.prop,val.name,i) }
                 />
@@ -104,9 +104,10 @@ export default function Chapters({ navigation }) {
   return (
     <View style={tw`h-full`}>
       <ModalTemplate visible={show} body={<ModalBody arr={memObjArr} user={mem} setUser={setMem} />} />
-      <View style={tw`m-auto w-10/12 `}>
+      <Image style={tw`h-24 m-auto`} resizeMode='contain' source={require('../../images/Logo/AANI-Splash.png')}/>  
+      <View style={tw` m-auto w-10/12 `}>
         <Text style={tw`text-lg text-center text-green-800 font-bold `}>
-          Welcome to Alumni Assocation of National Institute (Lagos Chapter)
+          Welcome to Alumni Assocation of National Institute{'\n'}(Lagos Chapter)
         </Text>
 
         {/* <Pressable onPress={()=>navigation.navigate('login')} style={tw`mx-auto my-2 px-3 flex-row py-2 bg-green-800 rounded-lg`}>
