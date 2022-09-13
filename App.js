@@ -31,7 +31,8 @@ import Chat from './pages/Chat';
 import PrivateSingle from './pages/Chat/privateSingle';
 import MyAccount from './pages/MyAccount';
 import { Members } from './pages/members';
-import {ViewMember} from './pages/members/ViewMember' 
+import {ViewMember} from './pages/members/ViewMember'
+import AppWelcomeScreen from './pages/WelcomeScreen';
 
 // import DrawerContent from './components/drawer/drawerContent';
 import { createDrawerNavigator , DrawerItem,DrawerContentScrollView} from '@react-navigation/drawer';
@@ -119,6 +120,7 @@ export default function App() {
       <Stack.Navigator screenOptions={{headerShown:false}} >
         <Stack.Screen name='splashScreen' component={SplashScreen}/>
         {/* <Stack.Screen name="home" component={OnboardingPage} />   */}
+        <Stack.Screen name='home' component={AppWelcomeScreen} />
         <Stack.Screen name='login' component={Login}/>  
         <Stack.Screen name='register' component={Register}/>  
         <Stack.Screen name='forgotPassword' component={ForgotPassword}/>  
@@ -144,7 +146,7 @@ export default function App() {
         <Stack.Screen name='view-member' component={ViewMember}/>
         <Stack.Screen name='profile' component={Profile}/>
         <Stack.Screen name='editProfile' component={EditProfile}/>
-        <Stack.Screen name='home' component={Chapters}/>
+        <Stack.Screen name='verification' component={Chapters}/>
         <Stack.Screen name='about' component={About}/>
 
         <Stack.Screen name='dashboard'>

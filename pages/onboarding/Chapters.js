@@ -18,23 +18,23 @@ export default function Chapters({ navigation }) {
   const inputEl = useRef(null)
 
   const callback = (response) => {
-    setMem(response);
     setShowState(false);
     if (response !== null) {
+      setMem(response);
       setShow(true);
+    }else{
+      alert("Details does not Exist.")
     }
-    console.log('successful',response)
   }
 
   const errCallback = (err) => {
     setShowState(false);
     alert("Email does not exist:check if email is correct.")
-    console.log('err',err)
   };
 
   const validateMemberByEmail = () => {
     if (email.email !== undefined) {
-      setShowState(false);
+      setShowState(true);
       ValidateMember(email, callback, errCallback);
     }
   };
