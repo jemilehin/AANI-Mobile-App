@@ -17,8 +17,9 @@ import TobBar from '../../components/topBar'
 const ViewEvent = ({navigation,route}) => {
   const [register, setRegister] = useState(false)
   const [status, setStatus] = useState(false)
+  // const [events]
 
-  console.log(route.params.item)
+  // console.log(route.params.item)
   return (
     <SafeAreaView>
       <TobBar

@@ -42,10 +42,10 @@ export const LoginUser = async (data, callback) => {
 //Gets News for a Member
 export const GetNews = async (callback) => {
   try {
-    const response = await api.get(`tenant/aani/tenant/news/getyournews/`);
+    const response = await api.get(`tenant/aani/tenant/news/newsview/get_news/`);
     //    con
     if (response.status == 200) {
-      callback(response);
+      callback(response.data.data);
     } else {
       console.log(response.status);
       //   console.log(response.data.statusText)
@@ -61,7 +61,7 @@ export const GetNews = async (callback) => {
 };
 
 // Like News
-export const LikeDisLikeNews = async (data, callback) => {
+export const LikeDisLikeNews = async (data, callback,errcallback) => {
   try {
     const response = await api.post(
       `tenant/${org_name}/tenant/news/getyournews/`,
@@ -69,14 +69,13 @@ export const LikeDisLikeNews = async (data, callback) => {
     );
 
     if (response.status == 200) {
-      callback(response);
+      callback(response.data);
     } else {
       //   console.log(response.data.status)
       callback(response.data);
     }
-  } catch (error) {
-    console.error(error);
-    // setLoading(false)
+  } catch(error) {
+    errcallback(error)
   }
 };
 
@@ -162,20 +161,21 @@ export const GetMyDues = async (status, callback) => {
 // /tenant/dues/AdminManageDue/due_list_and_owning_members/
 // Get Gallery
 
-export const GetGallery = async (status, callback) => {
+export const GetGallery = async (status, callback,errcallback) => {
   try {
     const response = await api.get(
-      `tenant/${org_name}/tenant/extras/galleryview/`
+      `tenant/aani/tenant/extras/galleryview/member_get_gallery/`
     );
 
     if (response.status == 200) {
-      callback(response);
+      callback(response.data.data);
     } else {
       console.log(response.status);
       callback(response.status);
     }
   } catch (error) {
     console.error(error);
+    errcallback(error)
     // setLoading(false)
   }
 };
@@ -384,10 +384,3 @@ export const GetContestants = async (id, callback, setLoading) => {
     // setLoading(false)
   }
 };
-
-// export const ValidateMember = (email,callback, errCallback) => {
-//     api.post(`/tenant/aani/tenant/auth/ManageMemberValidation/`,email)
-//     .then(res => res.data)
-//     .then(data => console.log(data))
-//     .catch(e => console.log(e))
-// }

@@ -1,27 +1,18 @@
 import { View, FlatList,Text } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import NewsCard from '../../components/News/NewsCard'
 import tw from 'tailwind-react-native-classnames'
 import EventsCard from '../../components/Events/EventsCard'
 
 const State = ({navigation}) => {
-
-  const data =[
-    {id:1,title: 'Lorem ip dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../../images/onboarding/phone.png')},
-    {id:2,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../../images/onboarding/phone.png')},
-    {id:3,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../../images/onboarding/phone.png')},
-    {id:4,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../../images/onboarding/phone.png')},
-    {id:5,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../../images/onboarding/phone.png')},
-    {id:6,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../../images/onboarding/phone.png')},
-    {id:7,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../../images/onboarding/phone.png')},
-  ]
+  const [events,setEvents] = useState([])
 
   
   return (
     <View>
       <View style={tw` flex-row mt-0 `}>
         <FlatList
-            data={data}
+            data={events}
             keyExtractor={ (item, index) => item.id }
             // contentContainerStyle={styles.container}
             numColumns={2}

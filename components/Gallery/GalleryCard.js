@@ -8,7 +8,7 @@ const GalleryCard = (props) => {
   return (
     <View style={{width:'95%', marginVertical:9,marginHorizontal:4}}>
     
-        <Image style={tw`w-full h-28  rounded-t-3xl`} resizeMode='cover' resizeMethod='resize' source={props.image}/>
+        <Image style={tw`w-full h-28  rounded-t-3xl`} resizeMode='cover' resizeMethod='resize' source={{uri: props.image}}/>
       
         <Text style={tw`font-bold`}>{props.head}</Text>
         

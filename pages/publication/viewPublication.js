@@ -6,7 +6,7 @@ import TobBar from '../../components/topBar'
 import RoundedButton from '../../components/button/RoundedButton'
 
 const ViewPublication = ({navigation, route}) => {
-  console.log(route.params.props.item)
+  // console.log(route.params.props.item)
   return (
     <SafeAreaView>
       <TobBar

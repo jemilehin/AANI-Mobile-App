@@ -7,7 +7,7 @@ const ModalTemplate = (props) => {
       <Modal
         visible={props.visible}
         transparent={true}
-        
+        style={{borderWidth: 2,borderColor: "#000"}}
         // onDismiss={}
       >
           {props.body}

@@ -9,15 +9,19 @@ import TobBar from '../../components/topBar'
 import { GetNews } from '../../connection/actions/user.actions'
 
 const News = ({navigation}) => {
-  const [news, setNews] = useState(null)
+  const [news, setNews] = useState([])
 
-      useEffect(()=>{
+    useEffect(()=>{
+      const unsubscribe = navigation.addListener('focus', () => {
         GetNews(callback)
-      },[])
+      });
+    
+        return unsubscribe;
+    },[])
 
-      const callback=(res)=>{
-        setNews(res.data.data)
-      }
+    const callback=(res)=>{
+      setNews(res.data.data)
+    }
   return (
     <SafeAreaView style={tw`px-2`}>
       <TobBar
