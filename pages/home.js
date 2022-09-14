@@ -7,18 +7,13 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import NewsCard from '../components/News/NewsCard'
 import TobBar from '../components/topBar'
 import TodoList from '../components/committee/todoList'
-import { GetNews, GetPublications, LikeDisLikeNews } from '../connection/actions/user.actions'
+import { GetGallery, GetNews, GetPublications, LikeDisLikeNews } from '../connection/actions/user.actions'
 
 const Home = ({navigation, route}) => {
 
-  const todoData=[
-    {day:'27th', month:'May', body:'Lorem ipsum dolor sit amet, consectetur adipiscing '},
-    {day:'27th', month:'May', body:'Lorem ipsum dolor sit amet, consectetur adipiscing '},
-    {day:'27th', month:'May', body:'Lorem ipsum dolor sit amet, consectetur adipiscing '},
-  ]
-
   const [news, setNews] = useState(null)
   const [publications,setPublications] = useState([]);
+  const [gallery,setGallery] = useState([])
   const [refresh, setRefresh] = useState(false)
 
   useEffect(()=>{
@@ -27,8 +22,17 @@ const Home = ({navigation, route}) => {
         function() {
     GetNews(callback)
     GetPublications(pCallback)
+    GetGallery(false, gcallback,gerrcallback)
         }, 1500);
   },[])
+
+  const gcallback = (res) => {
+    setGallery(res)
+  }
+
+  const gerrcallback = (res) => {
+    console.log("error occured")
+  }  
 
   const likeNews=(data) =>{
     // console.log(like,data)
@@ -36,9 +40,9 @@ const Home = ({navigation, route}) => {
   }
 
   const callback=(res)=>{
-    setNews(res.data.data)
+    setNews(res)
   }
-  const pCallback=(res)=>{
+  const pCallback= (res) => {
     setPublications(res.data.data)
   }
 
@@ -81,12 +85,13 @@ const Home = ({navigation, route}) => {
       <TobBar
         body={
           <View style={tw`flex-row justify-between `}>
-            <View style={{flexGrow: 4}}>
+            <View>
               <Ionicon  name='menu' onPress={()=>navigation.toggleDrawer()} size={34}/>
             </View>
+            <View style={{flexGrow: 2}}></View>
             {/* <Text  style={tw`my-auto px-4`}>Welcome Rasheed</Text> */}
-            <Pressable onPress={()=>navigation.navigate('profile')}>
-              <Image style={tw`h-8 w-8 rounded-full`} source={require('../images/onboarding/phone.png')}/>
+            <Pressable style={{flexGrow: 0.1}} onPress={()=>navigation.navigate('profile')}>
+              <Image style={tw`h-8 w-8 rounded-full`} source={require('../images/user.png')}/>
             </Pressable>
             <Ionicon name='notifications' onPress={()=>navigation.navigate('notifications')} size={28} color='#365C2A'/>
           </View>

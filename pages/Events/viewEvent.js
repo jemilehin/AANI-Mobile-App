@@ -11,15 +11,15 @@ import RoundedButton from '../../components/button/RoundedButton'
 import ModalTemplate from '../../components/Modal'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import TobBar from '../../components/topBar'
+import moment from 'moment'
 
 
 
 const ViewEvent = ({navigation,route}) => {
   const [register, setRegister] = useState(false)
   const [status, setStatus] = useState(false)
-  // const [events]
 
-  // console.log(route.params.item)
+  console.log(route.params.item)
   return (
     <SafeAreaView>
       <TobBar
@@ -42,12 +42,12 @@ const ViewEvent = ({navigation,route}) => {
         body={<ModalSucess setVisible={setStatus}  setStatus={setStatus}/>}
       />
 
-        <View style={tw`h-60 p-3`}>
+        {/* <View style={tw`h-60 p-3`}>
             <Image  
             resizeMode='cover'
             style={tw`h-full w-full rounded-lg`}
             source={require('../../images/onboarding/phone.png')}/>
-        </View>
+        </View> */}
         
         <View style={tw`px-4 py-2`}>
             <Text style={tw`text-base font-bold text-purple-800 py-1`}>{route.params.item.name}</Text>
@@ -60,7 +60,7 @@ const ViewEvent = ({navigation,route}) => {
             
             <View style={tw`flex-row my-2 pr-2`}> 
               <MaterialIcon name='location-on' color='purple' size={25}/>
-              <Text style={tw`ml-3`}>{route.params.item.event_access.link}</Text>
+              <Text style={tw`ml-3`}>{route.params.item.event_access.link === "" ? "No Link attached yet" : route.params.item.event_access.link}</Text>
             </View>
 
           </View>
@@ -70,7 +70,7 @@ const ViewEvent = ({navigation,route}) => {
 
             {/* <Text style={tw`text-justify text-gray-400 py-1`}>5 Likes</Text> */}
 
-        <View style={tw`border-t border-b border-gray-500 py-2`}>
+        {/* <View style={tw`border-t border-b border-gray-500 py-2`}>
           <Text style={tw`text-purple-800 font-bold`}>Details</Text>
 
           <Text style={tw`text-justify text-gray-800 py-1`}>
@@ -82,19 +82,21 @@ const ViewEvent = ({navigation,route}) => {
              pretium. Nisl, in netus 
           </Text>
           
-        </View>
+        </View> */}
        
 
         {/* //View More */}
-        <Text style={tw`text-purple-800 pt-2 font-bold`}>Gate Fee</Text>
-        <Text style={tw`text-black font-bold`}>{route.params.item.event_access.has_paid ? 'N '+route.params.item.amount: 'Free'}</Text>
-        
-        {/* Regiser Button */}
-        <View style={tw`my-7 mx-5`}>
-          <RoundedButton 
-            text='Register'
-            pressed={()=>setRegister(true)}
-          />
+        <View style={[tw``,{marginTop: "90%"}]}>
+          <Text style={tw`text-purple-800 pt-2 font-bold`}>Gate Fee</Text>
+          <Text style={tw`text-black font-bold`}>{route.params.item.event_access.has_paid ? 'N '+route.params.item.amount: 'Free'}</Text>
+          
+          {/* Regiser Button */}
+          <View style={tw`my-7 mx-5`}>
+            <RoundedButton 
+              text='Register'
+              pressed={()=>setRegister(true)}
+            />
+          </View>
         </View>
         </View>  
         

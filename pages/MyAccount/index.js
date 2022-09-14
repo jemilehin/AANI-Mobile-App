@@ -60,13 +60,13 @@ const MyAccount = ({navigation}) => {
       {/* <MessageField/> */}
       <View style={tw`flex-row justify-around py-2` }>
         <BalanceCard 
-            amount={5000} description='Total Paid'
+            amount={0} description='Total Paid'
              color='text-white'
              icon={<Ionicon name='wallet' size={25}  style={tw`my-auto text-white mr-2`}/>}
              bg='bg-green-900'
         />
         <BalanceCard 
-            amount={5000000} description='Outstanding' 
+            amount={0} description='Outstanding' 
             color='text-green-900'
             bg='bg-green-200'
             icon={<Ionicon name='wallet' size={25}  style={tw`my-auto text-green-900 mr-2`}/>}
