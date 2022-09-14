@@ -1,6 +1,6 @@
 
-import { View, SafeAreaView, TextInput, Image,Text, ScrollView } from 'react-native'
-import React from 'react'
+import { View, SafeAreaView, TextInput, Image,Text, ScrollView, Pressable } from 'react-native'
+import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
 
 import TobBar from '../../components/topBar'
@@ -9,7 +9,7 @@ import tw from 'tailwind-react-native-classnames'
 import RoundedButton from '../../components/button/RoundedButton'
 
 export default function EditProfile({navigation}) {
-    const [image, setImage] =useState(null);
+    const [image, setImage] = useState(null);
 
     const pickImage = async () => {
       // No permissions request is necessary for launching the image library
@@ -39,7 +39,7 @@ export default function EditProfile({navigation}) {
                 <Pressable onPress={()=>pickImage()} style={tw`bg-gray-200 mx-3 rounded-t-xl`}>
                     {   image ?
                         <Image  style={tw`h-28 w-28 rounded-full mx-auto my-2`} resizeMode='cover' source={{uri:image}}/>:
-                        <Image  style={tw`h-28 w-28 rounded-full mx-auto my-2`} resizeMode='cover' source={require('../../images/onboarding/phone.png')}/>
+                        <Image  style={tw`h-28 w-28 rounded-full mx-auto my-2`} resizeMode='cover' source={require('../../images/user.png')}/>
                     }
             
                         <Text style={[tw`font-bold mx-auto`,{color:'#0092ED'}]}>Click to change image</Text>
@@ -65,7 +65,7 @@ export default function EditProfile({navigation}) {
 
                 <View style={tw` mt-3  py-1 mx-5`}>
                     <Text style={tw`text-green-900 pb-1`}>Address:</Text>
-                    <Text>No 20, Kings Avenue, Ikoyi, Lagos.</Text>
+                    <Text>{}</Text>
                     <TextInput
                         placeholder='Address'  
                         style={tw`border-b border-gray-600`}
@@ -126,14 +126,18 @@ export default function EditProfile({navigation}) {
                 <View style={tw`w-full mx-5 pb-1 mt-3`}>
                     <Text style={tw`text-green-900`}>Pictures</Text>
                 </View>
+
+
                 <View style={tw`flex-row mx-5 justify-between`}>
                     
-                    <Image  style={tw`h-20 w-20 rounded-lg mx-1`}  source={require('../../images/onboarding/phone.png')}/>
+                    {/* <Image  style={tw`h-20 w-20 rounded-lg mx-1`}  source={require('../../images/onboarding/phone.png')}/>
                     <Image  style={tw`h-20 w-20 rounded-lg mx-auto`}  source={require('../../images/onboarding/phone.png')}/>
                     <Image  style={tw`h-20 w-20 rounded-lg mx-auto`}  source={require('../../images/onboarding/phone.png')}/>
-                    <Image  style={tw`h-20 w-20 rounded-lg mx-auto`}  source={require('../../images/onboarding/phone.png')}/>
+                    <Image  style={tw`h-20 w-20 rounded-lg mx-auto`}  source={require('../../images/onboarding/phone.png')}/> */}
                 </View>
-                <View style={tw`h-20 w-20 border rounded-lg mx-5 my-2`}></View>
+                <View style={[tw`h-20 w-20 border rounded-lg mx-5 my-2 flex-1 justify-center items-center`]}>
+                <Ionicon onPress={()=>pickImage()}  name='ios-add' size={50}/>
+                </View>
 
                 <View style={tw`mt-4 mx-5`}>
                     <RoundedButton text='Update'/>
