@@ -10,13 +10,6 @@ import TodoList from '../components/committee/todoList'
 import { GetNews, GetPublications, LikeDisLikeNews } from '../connection/actions/user.actions'
 
 const Home = ({navigation, route}) => {
-  const data =[
-    {id:1,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../images/onboarding/phone.png')},
-    {id:2,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../images/onboarding/phone.png')},
-    {id:3,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../images/onboarding/phone.png')},
-    {id:4,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../images/onboarding/phone.png')},
-    {id:5,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../images/onboarding/phone.png')},
-  ]
 
   const todoData=[
     {day:'27th', month:'May', body:'Lorem ipsum dolor sit amet, consectetur adipiscing '},
@@ -88,8 +81,10 @@ const Home = ({navigation, route}) => {
       <TobBar
         body={
           <View style={tw`flex-row justify-between `}>
-            <Ionicon  name='menu' onPress={()=>navigation.toggleDrawer()} size={34}/>
-            <Text  style={tw`my-auto px-4`}>Welcome Rasheed</Text>
+            <View style={{flexGrow: 4}}>
+              <Ionicon  name='menu' onPress={()=>navigation.toggleDrawer()} size={34}/>
+            </View>
+            {/* <Text  style={tw`my-auto px-4`}>Welcome Rasheed</Text> */}
             <Pressable onPress={()=>navigation.navigate('profile')}>
               <Image style={tw`h-8 w-8 rounded-full`} source={require('../images/onboarding/phone.png')}/>
             </Pressable>
@@ -125,7 +120,8 @@ const Home = ({navigation, route}) => {
                   <Image style={tw`h-32 w-full rounded-lg`} source={require('../images/onboarding/network.png')}/>
                 </View> 
                  : 
-                 <TodoList data={todoData}/>}
+                 null
+                 }
 
                  {/* feeds: quick links */}
                 <UpperComponent textTitle='News' show={true} count={news !== null ? news.length : 0}/>
@@ -137,7 +133,7 @@ const Home = ({navigation, route}) => {
                   <NewsCard 
                         image={item.image}
                         head={item.name}
-                        body={item.body}
+                        // body={item.body}
                         item={item}
                         navigation = {navigation}
                         isLiked={item.likes}

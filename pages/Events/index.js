@@ -15,8 +15,8 @@ import Member from './member'
 
 const Events = ({navigation}) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
-  // const [events, setEvents] = useState([])
-const Stack = createNativeStackNavigator()
+  const [events, setEvents] = useState([])
+  const Stack = createNativeStackNavigator()
 
   const data =[
         {id:1,title: 'Lorem ipsum dolor sit amet, ', body:'(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultrices varius Mauris ultrices varius.....', picture:require('../../images/onboarding/phone.png')},

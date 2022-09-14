@@ -10,27 +10,24 @@ import { GetGallery } from '../../connection/actions/user.actions'
 
 const Gallery = ({navigation}) => {
 
-  const [gallery, setGallery] = useState(null)
+  const [gallery, setGallery] = useState([])
 
   useEffect(()=>{
-    GetGallery(false, callback)
+    const unsubscribe = navigation.addListener('focus', () => {
+      GetGallery(false, callback,errcallback)
+    });
+
+    return unsubscribe;
   },[])
 
-  const callback =(res)=>{
-    console.log(res)
-    setGallery(res)
+  const callback = (res)=>{
+    // console.log(res.data)
+    setGallery(res.data)
   }
 
-  const data =[
-    {id:1, title:'Monthly Exco Meeting', image:require('../../images/Gallery/1.jpeg')},
-    {id:2, title:'Monthly Exco Meeting', image:require('../../images/Gallery/2.jpeg')},
-    {id:3,title:'Monthly Exco Meeting', image:require('../../images/Gallery/3.jpeg')},
-    {id:4,title:'Monthly Exco Meeting', image:require('../../images/Gallery/4.jpeg')},
-    {id:5,title:'Monthly Exco Meeting', image:require('../../images/Gallery/5.jpeg')},
-    {id:6,title:'Monthly Exco Meeting', image:require('../../images/Gallery/6.jpeg')},
-    {id:7,title:'Monthly Exco Meeting', image:require('../../images/Gallery/7.jpeg')},
-    {id:8,title:'Monthly Exco Meeting', image:require('../../images/Gallery/8.jpeg')},
-  ]
+  const errcallback = (err) => {
+    console.log(err)
+  }
   return (
     <SafeAreaView style={tw`px-4 h-full`}>
       <TobBar
@@ -52,7 +49,7 @@ const Gallery = ({navigation}) => {
       </View>
       {/* <Galler */}
       <FlatList
-        data={data}
+        data={gallery}
         keyExtractor={ (item, index) => item.id }
         // contentContainerStyle={styles.container}
         numColumns={2}
@@ -64,8 +61,8 @@ const Gallery = ({navigation}) => {
             ({item}) => (
               <Pressable style={tw`w-1/2`}  onPress={()=>navigation.navigate('viewGallery', {data:item})}>
                 <GalleryCard
-                  image={item.image}
-                  head={item.title}
+                  image={item.photo_file}
+                  head={item.name}
                   navigation ={navigation}
                 />
               </Pressable>)}

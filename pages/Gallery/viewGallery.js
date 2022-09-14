@@ -16,18 +16,18 @@ const ViewGallery = ({navigation, route}) => {
           </View>
         }
     />
-        <View style={tw`h-1/2 p-3`}>
-          { route.params.data?
+        <View style={tw`h-4/5`}>
+          { route.params.data ?
             <Image  
             resizeMode='cover'
             style={tw`h-full w-full rounded-lg`}
-            source={(route.params.data.image)}/>
+            source={{uri: route.params.data.photo_file}}/>
             :<></>
             }
         </View>
         <View style={tw`px-4 py-2`}>
-            <Text style={tw`text-base font-bold text-green-800 py-1`}>Monthly Exco Meeting</Text>
-            <Text style={tw`text-justify text-green-800 py-1`}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et lacus lacus, proin proin egestas. Augue scelerisque pellentesque nullam montes, pretium. Nisl, in netus Et l</Text>
+            {/* <Text style={tw`text-base font-bold text-green-800 py-1`}>Monthly Exco Meeting</Text> */}
+            <Text style={tw`text-justify text-green-800 py-1`}>{route.params.data.name}</Text>
         </View>  
       
     </View>
