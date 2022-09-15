@@ -7,14 +7,25 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import NewsCard from '../components/News/NewsCard'
 import TobBar from '../components/topBar'
 import TodoList from '../components/committee/todoList'
+import {
+  PanGestureHandler,
+} from "react-native-gesture-handler";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  useAnimatedGestureHandler,
+} from "react-native-reanimated";
 import { GetGallery, GetNews, GetPublications, LikeDisLikeNews } from '../connection/actions/user.actions'
 
 const Home = ({navigation, route}) => {
 
   const [news, setNews] = useState(null)
   const [publications,setPublications] = useState([]);
-  const [gallery,setGallery] = useState([])
-  const [refresh, setRefresh] = useState(false)
+  const [gallery,setGallery] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+
+  const offsetHorizontal = useSharedValue(0);
 
   useEffect(()=>{
     setRefresh(!refresh)
@@ -27,12 +38,15 @@ const Home = ({navigation, route}) => {
   },[])
 
   const gcallback = (res) => {
-    setGallery(res)
+    const reverseArr = res.data.reverse()
+    setGallery(reverseArr)
   }
 
   const gerrcallback = (res) => {
     console.log("error occured")
-  }  
+  }
+
+  // console.log('gallery',gallery)
 
   const likeNews=(data) =>{
     // console.log(like,data)
@@ -45,6 +59,31 @@ const Home = ({navigation, route}) => {
   const pCallback= (res) => {
     setPublications(res.data.data)
   }
+
+  const scrollHorizontal = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: offsetHorizontal.value }],
+    };
+  }, []);
+  const glength = gallery.length
+
+  const gestureHandler = useAnimatedGestureHandler({
+    onStart: (event,context) => {
+      context.translateX = offsetHorizontal.value
+    },
+    onActive: (event,context) => {
+        offsetHorizontal.value = event.translationX + context.translateX
+    },
+    onEnd: (event,context) => {
+      const end = (-332 * glength) + 332
+      if(offsetHorizontal.value > 0){
+        offsetHorizontal.value = withSpring(0)
+      }
+      if(end > offsetHorizontal.value){
+        offsetHorizontal.value = withSpring(end)
+      }
+    }
+  })
 
   const UpperComponent=(props)=>{
     return(
@@ -120,10 +159,14 @@ const Home = ({navigation, route}) => {
             ListHeaderComponent={
               <View>
                 {!route.params || route.params.type != 'committee' ?
-                <View>
-                  <Text style={tw`text-base font-bold mb-2`}> Latest Update </Text>
-                  <Image style={tw`h-32 w-full rounded-lg`} source={require('../images/onboarding/network.png')}/>
-                </View> 
+                <>
+                    <Text style={tw`text-base font-bold mb-2`}> Latest Update </Text>
+                  <PanGestureHandler onGestureEvent={gestureHandler}>
+                    <Animated.View style={[tw`flex-row`,scrollHorizontal]}>
+                      {gallery.map((image) =><Image style={tw`h-32 mx-3 w-11/12 rounded-lg`} source={{uri: image.photo_file}}/>)}
+                    </Animated.View>
+                  </PanGestureHandler>
+                  </>
                  : 
                  null
                  }
