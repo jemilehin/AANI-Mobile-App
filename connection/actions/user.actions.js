@@ -343,14 +343,14 @@ export const GetElections = async (status, callback) => {
 
 // /user/memberlist-info/my_profile/
 // Get Profile
-export const GetProfile = async (status, callback) => {
+export const GetProfile = async (callback) => {
   try {
     const response = await api.get(
-      `tenant/${org_name}/tenant/user/memberlist-info/my_profile/`
+      `tenant/aani/tenant/user/profile/`
     );
 
     if (response.status == 200) {
-      callback(response);
+      callback(response.data.data[0]);
     } else {
       console.log(response.status);
       callback(response.status);
