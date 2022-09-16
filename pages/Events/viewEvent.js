@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, TouchableOpacity,Image } from 'react-native'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import tw from 'tailwind-react-native-classnames'
@@ -11,6 +11,7 @@ import RoundedButton from '../../components/button/RoundedButton'
 import ModalTemplate from '../../components/Modal'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import TobBar from '../../components/topBar'
+import { GetProfile } from '../../connection/actions/user.actions'
 import moment from 'moment'
 
 
@@ -18,8 +19,25 @@ import moment from 'moment'
 const ViewEvent = ({navigation,route}) => {
   const [register, setRegister] = useState(false)
   const [status, setStatus] = useState(false)
+  // const [profile,setProfile] = useState([])
+  const [member,setmember] = useState({})
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            GetProfile(callback)
+        });
+        return unsubscribe;
+    },[])
 
-  console.log(route.params.item)
+    const callback = (data) => {
+      GetMeetinDetails(data.more_info)
+    }
+
+  const GetMeetinDetails = (data) => {
+    for (let index = 0; index < data.length; index++) {
+      member[data[index].name] = data[index].value
+    }
+  }
+
   return (
     <SafeAreaView>
       <TobBar
@@ -34,7 +52,8 @@ const ViewEvent = ({navigation,route}) => {
     <ScrollView style={tw`h-full`}>
       <ModalTemplate 
         visible={register}
-        body={<ModalRegisterComponent setVisible={setRegister} route={route} setStatus={setStatus}/>}
+        body={<ModalRegisterComponent 
+          member={member} setVisible={setRegister} event={route.params.item} setStatus={setStatus}/>}
       />
 
       <ModalTemplate 
@@ -111,6 +130,7 @@ const ViewEvent = ({navigation,route}) => {
 const ModalRegisterComponent =(props)=>{
 
   const [payFee, setPayFee] = useState(false)
+  const member = props.member
   const handleStatus=(status)=>{
     if(status==true){
       props.setStatus(true);
@@ -121,28 +141,30 @@ const ModalRegisterComponent =(props)=>{
     }
 
   }
+
+
   return(
     <View style={tw`bg-white m-auto w-11/12 py-5 rounded-xl`}>
       <Text style={tw`text-center font-bold py-3`}>REGISTER</Text>
       <Text style={tw`px-5 font-bold text-purple-800`}>Name</Text>
-      <Text style={tw`mx-5 font-bold py-1 border-b`}>Chigozie Nwachukwu</Text>
+      <Text style={tw`mx-5 font-bold py-1 border-b`}>{member.Name}</Text>
 
       <View style={tw`py-2`}>
         <Text style={tw`px-5 font-bold text-purple-800`}>Email Address</Text>
-        <Text style={tw`mx-5 font-bold py-1 border-b`}>chigy9@gmail.com</Text>
+        <Text style={tw`mx-5 font-bold py-1 border-b`}>{member.email}</Text>
       </View>
 
       <View style={tw`py-2`}>
         <Text style={tw`px-5 font-bold text-purple-800`}>Phone Number</Text>
-        <Text style={tw`mx-5 font-bold py-1 border-b`}>08143678798</Text>
+        <Text style={tw`mx-5 font-bold py-1 border-b`}>{member["Phone Number"]}</Text>
       </View>
 
       
-      <View style={tw`py-2`}>
-        <Text style={tw`px-5 font-bold text-purple-800`}>Gate Fee</Text>
-        <Text style={tw`mx-5 font-bold py-1 border-b`}>N 5,000</Text>
-      </View>
-{ props.route.params.type=='member' ?
+      {Math.round(props.event.amount) !== 0 ? <View style={tw`py-2`}>
+        <Text style={tw`px-5 font-bold text-purple-800`}>Entry Fee</Text>
+        <Text style={tw`mx-5 font-bold py-1 border-b`}>N {Math.round(props.event.amount)}</Text>
+      </View> : null}
+{/* { props.event.type=='member' ?
 <>
       <View style={tw`py-2 flex-row`}>
         <View style={tw`py-2 flex-row`}>
@@ -169,10 +191,12 @@ const ModalRegisterComponent =(props)=>{
 
         }
       </View></>
-    :<></>}  
+    :<></>}   */}
       <View style={tw`mx-8 flex-row mt-3 mx-auto`}>
         <View style={tw`w-3/6`}> 
-          <RoundedButton text='Pay' pressed={()=>handleStatus(true)}/>
+          <RoundedButton text={Math.round(props.event.amount) !== 0 ? 'Pay' : 'Confirm'} 
+          // pressed={()=>handleStatus(true)}
+          />
         </View>
         <TouchableOpacity onPress={()=>props.setVisible(false)} style={tw`my-auto px-5`}>
           <Text>Cancel</Text>

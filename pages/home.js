@@ -16,7 +16,7 @@ import Animated, {
   withSpring,
   useAnimatedGestureHandler,
 } from "react-native-reanimated";
-import { GetGallery, GetNews, GetPublications, LikeDisLikeNews } from '../connection/actions/user.actions'
+import { GetGallery, GetNews, GetPublications, LikeDisLikeNews, GetProfile } from '../connection/actions/user.actions'
 
 const Home = ({navigation, route}) => {
 
@@ -24,6 +24,7 @@ const Home = ({navigation, route}) => {
   const [publications,setPublications] = useState([]);
   const [gallery,setGallery] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [name,setName] = useState({})
 
   const offsetHorizontal = useSharedValue(0);
 
@@ -34,8 +35,14 @@ const Home = ({navigation, route}) => {
     GetNews(callback)
     GetPublications(pCallback)
     GetGallery(false, gcallback,gerrcallback)
+    GetProfile(profileCall)
         }, 1500);
   },[])
+
+  const profileCall =(res) => {
+    let index = res.more_info.length > 0 ? res.more_info.find(i => i.name === "Name") : null
+    setName(index)
+  }
 
   const gcallback = (res) => {
     const reverseArr = res.data.reverse()
@@ -46,10 +53,7 @@ const Home = ({navigation, route}) => {
     console.log("error occured")
   }
 
-  // console.log('gallery',gallery)
-
   const likeNews=(data) =>{
-    // console.log(like,data)
     LikeDisLikeNews({id: data.id, like:'true', dislike:'false'})
   }
 
@@ -128,7 +132,7 @@ const Home = ({navigation, route}) => {
               <Ionicon  name='menu' onPress={()=>navigation.toggleDrawer()} size={34}/>
             </View>
             <View style={{flexGrow: 2}}></View>
-            {/* <Text  style={tw`my-auto px-4`}>Welcome Rasheed</Text> */}
+            <Text  style={tw`my-auto px-4`}>Welcome {name.value}</Text>
             <Pressable style={{flexGrow: 0.1}} onPress={()=>navigation.navigate('profile')}>
               <Image style={tw`h-8 w-8 rounded-full`} source={require('../images/user.png')}/>
             </Pressable>
@@ -163,7 +167,7 @@ const Home = ({navigation, route}) => {
                     <Text style={tw`text-base font-bold mb-2`}> Latest Update </Text>
                   <PanGestureHandler onGestureEvent={gestureHandler}>
                     <Animated.View style={[tw`flex-row`,scrollHorizontal]}>
-                      {gallery.map((image) =><Image style={tw`h-32 mx-3 w-11/12 rounded-lg`} source={{uri: image.photo_file}}/>)}
+                      {gallery.map((image,index) => <Image resizeMode='stretch' resizeMethod='auto' key={index} style={tw`h-56 mx-3 w-11/12 rounded-lg`} source={{uri: image.photo_file}}/>)}
                     </Animated.View>
                   </PanGestureHandler>
                   </>

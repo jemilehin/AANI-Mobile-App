@@ -15,8 +15,8 @@ const AppWelcomeScreen = ({ navigation }) => {
         </View>
       <View style={tw`my-10`}>
         <View style={tw`px-4 mb-3`}>
-          <Text style={[tw`text-4xl font-bold tracking-widest`,{color: "#365C2A"}]}>AANI</Text>
-          <Text style={tw`text-base tracking-wide`}>already have an account?</Text>
+          <Text style={[tw`text-4xl font-bold`,{color: "#365C2A"}]}>Lagos Chapter</Text>
+          <Text style={tw`text-base tracking-wide`}>Already have an account?</Text>
         </View>
         <View style={tw`px-4 `}>
           <RoundedButton

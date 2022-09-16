@@ -21,25 +21,16 @@ const About = ({navigation}) => {
       
         <View style={tw`h-60 p-3`}>
             <Image  
-            resizeMode='cover'
+            resizeMode='contain'
             style={tw`h-full w-full rounded-lg`}
-            source={require('../images/onboarding/phone.png')}/>
+            source={require('../images/Logo/ANNILogo.png')}/>
         </View>
         <View style={tw`px-4 py-2`}>
-        <Image  resizeMode='cover' style={tw`h-10 w-10 mx-auto rounded-lg mb-4`} source={require('../assets/favicon.png')}/>
-            <Text style={tw`text-base font-bold text-green-800 py-1 text-center text-base`}>Welcome Unity Schools </Text>
-            <Text style={tw`text-justify text-gray-800 py-1`}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing 
-            elit. Et lacus lacus, proin proin egestas. Augue 
-            scelerisque pellentesque nullam montes, pretium. 
-            Nisl, in netus Et lacus lacus, proin proin egestas. 
-            Augue scelerisque pellentesque nullam montes,
-             pretium. Nisl, in netus Lorem ipsum dolor sit amet, consectetur adipiscing 
-            elit. Et lacus lacus, proin proin egestas. Augue 
-            scelerisque pellentesque nullam montes, pretium. 
-            Nisl, in netus Et lacus lacus, proin proin egestas. 
-            Augue scelerisque pellentesque nullam montes,
-             pretium. Nisl, in netus 
+        {/* <Image  resizeMode='cover' style={tw`h-10 w-10 mx-auto rounded-lg mb-4`} source={require('../assets/favicon.png')}/> */}
+            {/* <Text style={tw`text-base font-bold text-green-800 py-1 text-center text-base`}></Text> */}
+            <Text style={[tw`text-justify text-gray-800 py-1`,{fontSize: 20,}]}> 
+AANI stands for Alumni Association of the National Institute (for Policy and Strategic Studies)
+AANI is best described as the national reservoir of knowledge, skills and expertise.
             </Text>
       </View>
     

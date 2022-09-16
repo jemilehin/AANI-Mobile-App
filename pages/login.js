@@ -71,7 +71,7 @@ const Login = ({navigation, route}) => {
       <Image style={tw`mx-auto my-8`} source={require('../images/Logo/ANNILogo.png')}/>
       <View style={tw`mx-10`}>
          <Text style={tw`text-base font-bold`}>{route.params ? route.params.state  + ' Chapter ':''}Login</Text>
-          <Text>Enter login detils.</Text>
+          <Text>Enter login details.</Text>
       </View>
        
         <View style={tw`mt-3 mx-7 py-6 bg-white  shadow-sm rounded-3xl px-5`}>
