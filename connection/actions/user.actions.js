@@ -2,6 +2,7 @@ import api from "../api";
 import localStorage from "react-native-sync-localstorage";
 import { call } from "react-native-reanimated";
 import { data } from "autoprefixer";
+import axios from "axios";
 
 const org_name = "medal";
 export const LoginUser = async (data, callback) => {
@@ -40,23 +41,17 @@ export const LoginUser = async (data, callback) => {
 
 // tenant/{{shortName}}/tenant/news/getyournews/
 //Gets News for a Member
-export const GetNews = async (callback) => {
-  try {
-    const response = await api.get(`tenant/aani/tenant/news/newsview/get_news/`);
-    //    con
-    if (response.status == 200) {
-      callback(response.data.data);
-    } else {
-      console.log(response.status);
-      //   console.log(response.data.statusText)
-      alert(response.status);
-      //   callback(response)
-    }
-  } catch (error) {
-    console.error("newserr", error);
-    // console.log(error.response.detail)
-    // alert(error)
-    // setLoading(false)
+export const GetNews = async (callback,query,errcallback) => {
+  if(query === null || query === undefined){
+      await api.get(`tenant/aani/tenant/news/newsview/get_news/`)
+      .then(response => response.data)
+      .then(data => callback(data))
+      .catch(err => console.log(err))
+  }else{
+    await api.get(`tenant/aani/tenant/news/newsview/get_news/?${query.type}=${query.value}`)
+    .then(response => response.data)
+    .then(data => callback(data))
+    .catch(err => errcallback(err.response.data.message.error))
   }
 };
 
@@ -80,22 +75,20 @@ export const LikeDisLikeNews = async (data, callback,errcallback) => {
 };
 
 //Get Publications
-export const GetPublications = async (callback) => {
-  try {
-    const response = await api.get(
-      `tenant/aani/tenant/publication/getyourpublication/`
-    );
-
-    if (response.status == 200) {
-      callback(response);
-    } else {
-      //   console.log(response.data.status)
-      callback(response.data);
+export const GetPublications = async (callback,query,errcallback) => {
+  if(query === null || query === undefined) {
+        await api.get(
+          `tenant/aani/tenant/publication/getyourpublication/`
+        ).then(response => response.data)
+        .then(data => callback(data))
+        .catch(err => console.log(err))
+    }else{
+      await api.get(
+          `tenant/aani/tenant/publication/getyourpublication/?${query.type}=${query.value}`
+        ).then(response =>  response.data)
+        .then(data => callback(data))
+        .catch(err => errcallback(err.response.data.message.error))
     }
-  } catch (error) {
-    console.error(error);
-    // setLoading(false)
-  }
 };
 
 // Like Publication
@@ -384,3 +377,11 @@ export const GetContestants = async (id, callback, setLoading) => {
     // setLoading(false)
   }
 };
+
+export const MultipleRequest = (arr,callback,errcallback) => {
+  axios.all(arr)
+  .then(axios.spread((...res) => {
+    callback(res)
+  }))
+  .catch(err => errcallback(err.response.data.message.error))
+}

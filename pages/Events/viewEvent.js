@@ -135,11 +135,7 @@ const ModalRegisterComponent =(props)=>{
     if(status==true){
       props.setStatus(true);
       props.setVisible(false)
-
-    }else{
-
     }
-
   }
 
 
