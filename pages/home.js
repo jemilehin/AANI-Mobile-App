@@ -1,4 +1,4 @@
-import { View, Text, TextInput, FlatList,SafeAreaView, ScrollView, Image, StatusBar, Pressable } from 'react-native'
+import { View, Text, TextInput, FlatList,SafeAreaView, ScrollView,ActivityIndicator, Image, StatusBar, Pressable } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import tw from 'tailwind-react-native-classnames'
 import Ionicon from 'react-native-vector-icons/Ionicons'
@@ -16,7 +16,10 @@ import Animated, {
   withSpring,
   useAnimatedGestureHandler,
 } from "react-native-reanimated";
-import { GetGallery, GetNews, GetPublications, LikeDisLikeNews, GetProfile } from '../connection/actions/user.actions'
+import { GetGallery, GetNews, GetPublications, LikeDisLikeNews, GetProfile, MultipleRequest } from '../connection/actions/user.actions'
+import { data } from 'autoprefixer'
+import { RequestCall } from '../components/Modal/RequestCall'
+import api from '../connection/api'
 
 const Home = ({navigation, route}) => {
 
@@ -25,20 +28,42 @@ const Home = ({navigation, route}) => {
   const [gallery,setGallery] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [name,setName] = useState({})
+  const [open,setOpen] = useState(false)
 
   const offsetHorizontal = useSharedValue(0);
-  // const type = route.params.type
+
+  let query = route.params === undefined ? null : route.params.query;
+  console.log('sidemenu',query)
+  const arr = [
+    api.get(`tenant/aani/tenant/news/newsview/get_news/?${query.type}=${query.value}`),
+    api.get(`tenant/aani/tenant/news/newsview/get_news/?${query.type}=${query.value}`)
+  ]
+
+  const load = () => {setOpen(true)}
+
+  if(query !== null){
+    load()
+    MultipleRequest(arr,mCallback,mErrCallback)
+  }
+
+  const mCallback = (res) => {
+    console.log(res)
+  }
+
+  const mErrCallback = (res) => {
+    console.log(res)
+  }
 
   useEffect(()=>{
-    setRefresh(!refresh)
+    setRefresh(!refresh);
+    const unsubscribe = navigation.addListener('focus', () => {
+        GetNews(callback)
+        GetPublications(pCallback)
+        GetGallery(false, gcallback,gerrcallback)
+        GetProfile(profileCall)
+    });
 
-    setTimeout(
-        function() {
-    GetNews(callback,type)
-    GetPublications(pCallback,type)
-    GetGallery(false, gcallback,gerrcallback,type)
-    GetProfile(profileCall,type)
-        }, 1500);
+    return unsubscribe;
   },[])
 
   const profileCall =(res) => {
@@ -55,15 +80,20 @@ const Home = ({navigation, route}) => {
     console.log("error occured")
   }
 
+  // const errcallback = (res) => {
+  //   setOpen(false)
+  //   alert(res)
+  // }
+
   const likeNews=(data) =>{
     LikeDisLikeNews({id: data.id, like:'true', dislike:'false'})
   }
 
   const callback=(res)=>{
-    setNews(res)
+    setNews(res.data)
   }
   const pCallback= (res) => {
-    setPublications(res.data.data)
+    setPublications(res.data)
   }
 
   const scrollHorizontal = useAnimatedStyle(() => {
@@ -71,7 +101,7 @@ const Home = ({navigation, route}) => {
       transform: [{ translateX: offsetHorizontal.value }],
     };
   }, []);
-  const glength = gallery.length
+  const glength = gallery.length;
 
   const gestureHandler = useAnimatedGestureHandler({
     onStart: (event,context) => {
@@ -125,6 +155,7 @@ const Home = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={tw`mx-3`}>
+      <RequestCall open={open} />
       <StatusBar backgroundColor={'#365C2A'} showHideTransition='slide'/>
       {/* <Text>home</Text> */}
       <TobBar

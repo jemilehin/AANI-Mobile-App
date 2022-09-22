@@ -88,17 +88,17 @@ export default function CustomDrawerList({navigation}) {
     const handleSwitch=(val)=>{
         console.log(val)
         if(val==1){
-            setDirectory({...directory, member: !directory.member})
-            navigation.navigate('Home', {type:'member'})
+            setDirectory({exco:false, member:!directory.member,comm:false})
+            navigation.navigate('Home', {query:{type:'member', value: null}})
             setSelected(0)
         }else if(val==2){
-            setDirectory({...directory, exco: !directory.exco})
-            navigation.navigate('Home', {type:'exco'})
+
+            setDirectory({member:false, exco:!directory.exco,comm:false})
+            navigation.navigate('Home', {query: {type:'is_exco', value: 'True'}})
             setSelected(0)
 
         }else{
-            setDirectory({...directory, comm:!directory.comm})
-            navigation.navigate('Home', {type:'committee'})
+            setDirectory({member:false, comm:!directory.comm,exco:false})
             setSelected(0)
             setShowCommittee(!showComiittee)
         }
@@ -134,13 +134,13 @@ export default function CustomDrawerList({navigation}) {
             </View>
             <ScrollView>
 
-            <Pressable onPress={(e)=>handleSwitch(e)} style={tw` flex-row mx-5 justify-between`}>
+            {/* <Pressable onPress={()=>handleSwitch(1)} style={tw` flex-row mx-5 justify-between`}>
                 <View style={tw`flex-row`}>
                     <MaterialIcon name='groups' style={tw`mr-8 my-auto text-gray-500`} size={22} />
                     <Text style={tw`my-auto`}>Members Zone</Text>
                 </View>
                 <Switch value={directory.member} style={tw`my-auto`} />
-            </Pressable>
+            </Pressable> */}
             
             <Pressable onPress={()=>handleSwitch(2)} style={tw`my-1 flex-row justify-between mx-5`}>
                 <View style={tw`flex-row`}>
