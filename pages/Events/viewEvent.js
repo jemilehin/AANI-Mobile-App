@@ -11,7 +11,7 @@ import RoundedButton from '../../components/button/RoundedButton'
 import ModalTemplate from '../../components/Modal'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import TobBar from '../../components/topBar'
-import { GetProfile } from '../../connection/actions/user.actions'
+import { GetProfile, RequestCall } from '../../connection/actions/user.actions'
 import moment from 'moment'
 
 
@@ -135,13 +135,21 @@ const ModalRegisterComponent =(props)=>{
     if(status==true){
       props.setStatus(true);
       props.setVisible(false)
-
-    }else{
-
     }
-
   }
 
+  const registerForEvent = () => {
+    RequestCall('get',null,callback,errcallback,'/event/eventview/register_for_free_event/')
+  }
+
+  const callback = (res) => {
+    props.setStatus(true);
+    props.setVisible(false)
+  }
+
+  const errcallback = (err) => {
+    console.log(res.message.error)
+  }
 
   return(
     <View style={tw`bg-white m-auto w-11/12 py-5 rounded-xl`}>
@@ -194,8 +202,8 @@ const ModalRegisterComponent =(props)=>{
     :<></>}   */}
       <View style={tw`mx-8 flex-row mt-3 mx-auto`}>
         <View style={tw`w-3/6`}> 
-          <RoundedButton text={Math.round(props.event.amount) !== 0 ? 'Pay' : 'Confirm'} 
-          // pressed={()=>handleStatus(true)}
+          <RoundedButton text={Math.round(props.event.amount) !== 0 ? 'Pay' : 'Submit'} 
+          pressed={()=>registerForEvent()}
           />
         </View>
         <TouchableOpacity onPress={()=>props.setVisible(false)} style={tw`my-auto px-5`}>

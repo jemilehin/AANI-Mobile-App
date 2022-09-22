@@ -27,15 +27,17 @@ const Home = ({navigation, route}) => {
   const [name,setName] = useState({})
 
   const offsetHorizontal = useSharedValue(0);
+  // const type = route.params.type
 
   useEffect(()=>{
     setRefresh(!refresh)
+
     setTimeout(
         function() {
-    GetNews(callback)
-    GetPublications(pCallback)
-    GetGallery(false, gcallback,gerrcallback)
-    GetProfile(profileCall)
+    GetNews(callback,type)
+    GetPublications(pCallback,type)
+    GetGallery(false, gcallback,gerrcallback,type)
+    GetProfile(profileCall,type)
         }, 1500);
   },[])
 

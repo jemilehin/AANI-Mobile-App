@@ -40,9 +40,9 @@ export const LoginUser = async (data, callback) => {
 
 // tenant/{{shortName}}/tenant/news/getyournews/
 //Gets News for a Member
-export const GetNews = async (callback) => {
+export const GetNews = async (callback,type) => {
   try {
-    const response = await api.get(`tenant/aani/tenant/news/newsview/get_news/`);
+    const response = await api.get(`tenant/aani/tenant/news/newsview/get_news/${type!==undefined?type:null}`);
     //    con
     if (response.status == 200) {
       callback(response.data.data);
@@ -80,10 +80,10 @@ export const LikeDisLikeNews = async (data, callback,errcallback) => {
 };
 
 //Get Publications
-export const GetPublications = async (callback) => {
+export const GetPublications = async (callback,type) => {
   try {
     const response = await api.get(
-      `tenant/aani/tenant/publication/getyourpublication/`
+      `tenant/aani/tenant/publication/getyourpublication/${type!==undefined?type:null}`
     );
 
     if (response.status == 200) {
@@ -161,10 +161,10 @@ export const GetMyDues = async (status, callback) => {
 // /tenant/dues/AdminManageDue/due_list_and_owning_members/
 // Get Gallery
 
-export const GetGallery = async (status, callback,errcallback) => {
+export const GetGallery = async (status, callback,errcallback,type) => {
   try {
     const response = await api.get(
-      `tenant/aani/tenant/extras/galleryview/member_get_gallery/`
+      `tenant/aani/tenant/extras/galleryview/member_get_gallery/${type!==undefined?type:null}`
     );
 
     if (response.status == 200) {
@@ -346,7 +346,7 @@ export const GetElections = async (status, callback) => {
 export const GetProfile = async (callback) => {
   try {
     const response = await api.get(
-      `tenant/aani/tenant/user/profile/`
+      `tenant/aani/tenant/user/profile/${type!==undefined?type:null}`
     );
 
     if (response.status == 200) {
@@ -384,3 +384,28 @@ export const GetContestants = async (id, callback, setLoading) => {
     // setLoading(false)
   }
 };
+
+export const RequestCall = (type,data,callback,errcallback,path) => {
+  switch (type) {
+    case 'get':
+      api.get(`/tenant/aani/tenant/${path}`)
+      .then(response => response.data)
+      .then(data => callback(data))
+      .catch(err => errcallback(err.response.data))
+      break;
+    case 'post':
+      api.post(`/tenant/aani/tenant/${path}`,data)
+      .then(response => response.data)
+      .then(data => callback(data))
+      .catch(err => errcallback(err.response.data))
+      break;
+    case 'put':
+      api.put(`/tenant/aani/tenant/${path}`)
+      .then(response => response.data)
+      .then(data => callback(data))
+      .catch(err => errcallback(err.response.data))
+      break;
+    default:
+      break;
+  }
+}
