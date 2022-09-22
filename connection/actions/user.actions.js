@@ -157,7 +157,7 @@ export const GetMyDues = async (status, callback) => {
 export const GetGallery = async (status, callback,errcallback,type) => {
   try {
     const response = await api.get(
-      `tenant/aani/tenant/extras/galleryview/member_get_gallery/${type!==undefined?type:null}`
+      `tenant/aani/tenant/extras/galleryview/member_get_gallery/`
     );
 
     if (response.status == 200) {
@@ -339,7 +339,7 @@ export const GetElections = async (status, callback) => {
 export const GetProfile = async (callback) => {
   try {
     const response = await api.get(
-      `tenant/aani/tenant/user/profile/${type!==undefined?type:null}`
+      `tenant/aani/tenant/user/profile/`
     );
 
     if (response.status == 200) {
@@ -402,6 +402,7 @@ export const RequestCall = (type,data,callback,errcallback,path) => {
       break;
   }
 }
+
 export const MultipleRequest = (arr,callback,errcallback) => {
   axios.all(arr)
   .then(axios.spread((...res) => {

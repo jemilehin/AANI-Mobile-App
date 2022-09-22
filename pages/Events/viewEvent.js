@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity,Image } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity,Image, Pressable } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -27,6 +27,8 @@ const ViewEvent = ({navigation,route}) => {
         });
         return unsubscribe;
     },[])
+
+    console.log(route.params.item.id)
 
     const callback = (data) => {
       GetMeetinDetails(data.more_info)
@@ -79,7 +81,9 @@ const ViewEvent = ({navigation,route}) => {
             
             <View style={tw`flex-row my-2 pr-2`}> 
               <MaterialIcon name='location-on' color='purple' size={25}/>
-              <Text style={tw`ml-3`}>{route.params.item.event_access.link === "" ? "No Link attached yet" : route.params.item.event_access.link}</Text>
+              {route.params.item.event_access.link === "" ? <Text style={tw`ml-3`}>No Link attached yet</Text> : 
+                <Pressable style={tw`w-fit px-1 py-1`} onPress={() => console.log('pressed')}><Text style={tw`text-sm`}>Link</Text></Pressable>
+               }
             </View>
 
           </View>
@@ -139,16 +143,17 @@ const ModalRegisterComponent =(props)=>{
   }
 
   const registerForEvent = () => {
-    RequestCall('get',null,callback,errcallback,'/event/eventview/register_for_free_event/')
+    RequestCall('post',{event_id: props.event.id},callback,errcallback,'event/eventview/register_for_free_event/')
   }
 
   const callback = (res) => {
     props.setStatus(true);
     props.setVisible(false)
+    console.log(res)
   }
 
   const errcallback = (err) => {
-    console.log(res.message.error)
+    console.log(err)
   }
 
   return(

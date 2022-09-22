@@ -34,10 +34,10 @@ const Home = ({navigation, route}) => {
 
   let query = route.params === undefined ? null : route.params.query;
   console.log('sidemenu',query)
-  const arr = [
+  const arr = query !== null ? [
     api.get(`tenant/aani/tenant/news/newsview/get_news/?${query.type}=${query.value}`),
     api.get(`tenant/aani/tenant/news/newsview/get_news/?${query.type}=${query.value}`)
-  ]
+  ] : []
 
   const load = () => {setOpen(true)}
 
@@ -69,6 +69,7 @@ const Home = ({navigation, route}) => {
   const profileCall =(res) => {
     let index = res.more_info.length > 0 ? res.more_info.find(i => i.name === "Name") : null
     setName(index)
+    console.log(res)
   }
 
   const gcallback = (res) => {
@@ -77,7 +78,7 @@ const Home = ({navigation, route}) => {
   }
 
   const gerrcallback = (res) => {
-    console.log("error occured")
+    console.log(res.response)
   }
 
   // const errcallback = (res) => {
