@@ -378,25 +378,45 @@ export const GetContestants = async (id, callback, setLoading) => {
   }
 };
 
-export const RequestCall = (type,data,callback,errcallback,path) => {
+export const RequestCall = (type,data,callback,errcallback,path,formdata) => {
+  const contentType = formdata === 'formdata' ? 'multipart/form-data' : null
   switch (type) {
     case 'get':
       api.get(`/tenant/aani/tenant/${path}`)
       .then(response => response.data)
       .then(data => callback(data))
-      .catch(err => errcallback(err.response.data))
+      .catch(err => errcallback(err.response))
       break;
     case 'post':
+
+    const token = localStorage.getItem('token')
+
+      if(formdata === 'formdata'){
+        var request = {
+          body: data,
+          method: 'POST',
+          headers: {
+            'Content-Type': contentType,
+            Authorization : `Token ${token}`
+          },
+        }
+
+        fetch(`https://rel8backend.herokuapp.com/tenant/aani/tenant/${path}`,request)
+        .then(res => res.json())
+        .then(res => callback(res))
+        .catch(err => 
+          errcallback(err))
+      }else{
       api.post(`/tenant/aani/tenant/${path}`,data)
       .then(response => response.data)
       .then(data => callback(data))
-      .catch(err => errcallback(err.response.data))
+      .catch(err => errcallback(err.response))}
       break;
     case 'put':
       api.put(`/tenant/aani/tenant/${path}`)
       .then(response => response.data)
       .then(data => callback(data))
-      .catch(err => errcallback(err.response.data))
+      .catch(err => errcallback(err))
       break;
     default:
       break;
@@ -409,6 +429,5 @@ export const MultipleRequest = (arr,callback,errcallback) => {
     callback(res)
   }))
   .catch(err => {
-    console.log(err.response)
     errcallback(err.response.data.message.error)})
 }
