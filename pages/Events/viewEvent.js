@@ -20,7 +20,9 @@ const ViewEvent = ({navigation,route}) => {
   const [register, setRegister] = useState(false)
   const [status, setStatus] = useState(false)
   // const [profile,setProfile] = useState([])
+  const [link,setLink] = useState(route.params !== undefined ? route.params.item.event_access.link : 'pending')
   const [member,setmember] = useState({})
+  const [responseMessage,setResponseMessage] = useState('')
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             GetProfile(callback)
@@ -28,11 +30,9 @@ const ViewEvent = ({navigation,route}) => {
         return unsubscribe;
     },[])
 
-    console.log(route.params.item.id)
-
-    const callback = (data) => {
-      GetMeetinDetails(data.more_info)
-    }
+  const callback = (data) => {
+    GetMeetinDetails(data.more_info)
+  }
 
   const GetMeetinDetails = (data) => {
     for (let index = 0; index < data.length; index++) {
@@ -54,13 +54,13 @@ const ViewEvent = ({navigation,route}) => {
     <ScrollView style={tw`h-full`}>
       <ModalTemplate 
         visible={register}
-        body={<ModalRegisterComponent 
-          member={member} setVisible={setRegister} event={route.params.item} setStatus={setStatus}/>}
+        body={<ModalRegisterComponent setResponseMessage={setResponseMessage}
+          member={member} setLink={setLink} setVisible={setRegister} event={route.params.item} setStatus={setStatus}/>}
       />
 
       <ModalTemplate 
         visible={status}
-        body={<ModalSucess setVisible={setStatus}  setStatus={setStatus}/>}
+        body={<ModalSucess responseMessage={responseMessage} setVisible={setStatus}  setStatus={setStatus}/>}
       />
 
         {/* <View style={tw`h-60 p-3`}>
@@ -81,7 +81,7 @@ const ViewEvent = ({navigation,route}) => {
             
             <View style={tw`flex-row my-2 pr-2`}> 
               <MaterialIcon name='location-on' color='purple' size={25}/>
-              {route.params.item.event_access.link === "" ? <Text style={tw`ml-3`}>No Link attached yet</Text> : 
+              {link === 'pending' ? <Text style={tw`ml-3`}>No Link attached yet</Text> : 
                 <Pressable style={tw`w-fit px-1 py-1`} onPress={() => console.log('pressed')}><Text style={tw`text-sm`}>Link</Text></Pressable>
                }
             </View>
@@ -111,7 +111,8 @@ const ViewEvent = ({navigation,route}) => {
         {/* //View More */}
         <View style={[tw``,{marginTop: "90%"}]}>
           <Text style={tw`text-purple-800 pt-2 font-bold`}>Gate Fee</Text>
-          <Text style={tw`text-black font-bold`}>{route.params.item.event_access.has_paid ? 'N '+route.params.item.amount: 'Free'}</Text>
+          
+          <Text style={tw`text-black font-bold`}>{!route.params.item.is_paid_event ? <Pressable><Text>Free</Text></Pressable>: 'N '+Math.round(route.params.item.amount)}</Text>
           
           {/* Regiser Button */}
           <View style={tw`my-7 mx-5`}>
@@ -135,25 +136,32 @@ const ModalRegisterComponent =(props)=>{
 
   const [payFee, setPayFee] = useState(false)
   const member = props.member
-  const handleStatus=(status)=>{
-    if(status==true){
-      props.setStatus(true);
-      props.setVisible(false)
-    }
-  }
+  // const handleStatus=(status)=>{
+  //   if(status==true){
+  //     props.setStatus(true);
+  //     props.setVisible(false)
+  //   }
+  // }
 
   const registerForEvent = () => {
-    RequestCall('post',{event_id: props.event.id},callback,errcallback,'event/eventview/register_for_free_event/')
+
+    const formData = new FormData()
+
+    formData.append('event_id', props.event.id)
+    RequestCall('post',formData,callback,errcallback,'event/eventview/register_for_free_event/','formdata')
   }
 
   const callback = (res) => {
     props.setStatus(true);
     props.setVisible(false)
-    console.log(res)
+    if(res.success){
+      props.setResponseMessage(res.message)
+      props.setLink(true)
+    }
   }
 
   const errcallback = (err) => {
-    console.log(err)
+    console.log('err',err)
   }
 
   return(
@@ -172,7 +180,7 @@ const ModalRegisterComponent =(props)=>{
         <Text style={tw`mx-5 font-bold py-1 border-b`}>{member["Phone Number"]}</Text>
       </View>
 
-      
+
       {Math.round(props.event.amount) !== 0 ? <View style={tw`py-2`}>
         <Text style={tw`px-5 font-bold text-purple-800`}>Entry Fee</Text>
         <Text style={tw`mx-5 font-bold py-1 border-b`}>N {Math.round(props.event.amount)}</Text>
@@ -227,7 +235,7 @@ const ModalSucess =(props)=>{
       <Text style={tw`text-center font-bold py-3`}>SUCCESS</Text>
       <MaterialIcon name='check-circle' size={55}  style={tw`text-center text-purple-700 py-3`}/>
       
-      <Text style={tw`text-center pb-7`}>Payment Succesfully made</Text>
+      <Text style={tw`text-center pb-7`}>{props.responseMessage}</Text>
 
       
       <View style={tw`mx-8 flex-row mt-3 mx-auto`}>
