@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity,Image } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity,Image, Pressable } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -11,7 +11,7 @@ import RoundedButton from '../../components/button/RoundedButton'
 import ModalTemplate from '../../components/Modal'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import TobBar from '../../components/topBar'
-import { GetProfile } from '../../connection/actions/user.actions'
+import { GetProfile, RequestCall } from '../../connection/actions/user.actions'
 import moment from 'moment'
 
 
@@ -27,6 +27,8 @@ const ViewEvent = ({navigation,route}) => {
         });
         return unsubscribe;
     },[])
+
+    console.log(route.params.item.id)
 
     const callback = (data) => {
       GetMeetinDetails(data.more_info)
@@ -79,7 +81,9 @@ const ViewEvent = ({navigation,route}) => {
             
             <View style={tw`flex-row my-2 pr-2`}> 
               <MaterialIcon name='location-on' color='purple' size={25}/>
-              <Text style={tw`ml-3`}>{route.params.item.event_access.link === "" ? "No Link attached yet" : route.params.item.event_access.link}</Text>
+              {route.params.item.event_access.link === "" ? <Text style={tw`ml-3`}>No Link attached yet</Text> : 
+                <Pressable style={tw`w-fit px-1 py-1`} onPress={() => console.log('pressed')}><Text style={tw`text-sm`}>Link</Text></Pressable>
+               }
             </View>
 
           </View>
@@ -138,6 +142,19 @@ const ModalRegisterComponent =(props)=>{
     }
   }
 
+  const registerForEvent = () => {
+    RequestCall('post',{event_id: props.event.id},callback,errcallback,'event/eventview/register_for_free_event/')
+  }
+
+  const callback = (res) => {
+    props.setStatus(true);
+    props.setVisible(false)
+    console.log(res)
+  }
+
+  const errcallback = (err) => {
+    console.log(err)
+  }
 
   return(
     <View style={tw`bg-white m-auto w-11/12 py-5 rounded-xl`}>
@@ -190,8 +207,8 @@ const ModalRegisterComponent =(props)=>{
     :<></>}   */}
       <View style={tw`mx-8 flex-row mt-3 mx-auto`}>
         <View style={tw`w-3/6`}> 
-          <RoundedButton text={Math.round(props.event.amount) !== 0 ? 'Pay' : 'Confirm'} 
-          // pressed={()=>handleStatus(true)}
+          <RoundedButton text={Math.round(props.event.amount) !== 0 ? 'Pay' : 'Submit'} 
+          pressed={()=>registerForEvent()}
           />
         </View>
         <TouchableOpacity onPress={()=>props.setVisible(false)} style={tw`my-auto px-5`}>

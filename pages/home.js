@@ -29,30 +29,35 @@ const Home = ({navigation, route}) => {
   const [refresh, setRefresh] = useState(false);
   const [name,setName] = useState({})
   const [open,setOpen] = useState(false)
+  const [load,setLoad] = useState(undefined)
 
   const offsetHorizontal = useSharedValue(0);
-
+  let is_load = route.params === undefined ? false : route.params.is_load;
   let query = route.params === undefined ? null : route.params.query;
-  console.log('sidemenu',query)
-  const arr = [
+  let value = route.params === undefined ? 0 : route.params.val
+
+  const arr = query !== null ? [
     api.get(`tenant/aani/tenant/news/newsview/get_news/?${query.type}=${query.value}`),
-    api.get(`tenant/aani/tenant/news/newsview/get_news/?${query.type}=${query.value}`)
-  ]
+    api.get(`tenant/aani/tenant/publication/getyourpublication/?${query.type}=${query.value}`)
+  ] : []
 
-  const load = () => {setOpen(true)}
-
-  if(query !== null){
-    load()
-    MultipleRequest(arr,mCallback,mErrCallback)
+  const mErrCallback = (res) => {
+    setOpen(false)
+    alert(res)
   }
 
   const mCallback = (res) => {
-    console.log(res)
+    console.log('multiple',res)
+    setOpen(false)
   }
 
-  const mErrCallback = (res) => {
-    console.log(res)
-  }
+  useEffect(() => {
+    if(is_load){
+      setOpen(true)
+      MultipleRequest(arr,mCallback,mErrCallback)
+      console.log('am here')
+    }
+  }, [value])
 
   useEffect(()=>{
     setRefresh(!refresh);
@@ -77,7 +82,7 @@ const Home = ({navigation, route}) => {
   }
 
   const gerrcallback = (res) => {
-    console.log("error occured")
+    console.log(res.response)
   }
 
   // const errcallback = (res) => {
@@ -195,7 +200,7 @@ const Home = ({navigation, route}) => {
             // ListFooterComponent={<View style={tw`h-32`}></View>}
             ListHeaderComponent={
               <View>
-                {!route.params || route.params.type != 'committee' ?
+                {!route.params || route.params.query.type != 'is_exco' ?
                 <>
                     <Text style={tw`text-base font-bold mb-2`}> Latest Update </Text>
                   <PanGestureHandler onGestureEvent={gestureHandler}>

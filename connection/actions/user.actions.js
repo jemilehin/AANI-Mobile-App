@@ -154,7 +154,7 @@ export const GetMyDues = async (status, callback) => {
 // /tenant/dues/AdminManageDue/due_list_and_owning_members/
 // Get Gallery
 
-export const GetGallery = async (status, callback,errcallback) => {
+export const GetGallery = async (status, callback,errcallback,type) => {
   try {
     const response = await api.get(
       `tenant/aani/tenant/extras/galleryview/member_get_gallery/`
@@ -378,10 +378,37 @@ export const GetContestants = async (id, callback, setLoading) => {
   }
 };
 
+export const RequestCall = (type,data,callback,errcallback,path) => {
+  switch (type) {
+    case 'get':
+      api.get(`/tenant/aani/tenant/${path}`)
+      .then(response => response.data)
+      .then(data => callback(data))
+      .catch(err => errcallback(err.response.data))
+      break;
+    case 'post':
+      api.post(`/tenant/aani/tenant/${path}`,data)
+      .then(response => response.data)
+      .then(data => callback(data))
+      .catch(err => errcallback(err.response.data))
+      break;
+    case 'put':
+      api.put(`/tenant/aani/tenant/${path}`)
+      .then(response => response.data)
+      .then(data => callback(data))
+      .catch(err => errcallback(err.response.data))
+      break;
+    default:
+      break;
+  }
+}
+
 export const MultipleRequest = (arr,callback,errcallback) => {
   axios.all(arr)
   .then(axios.spread((...res) => {
     callback(res)
   }))
-  .catch(err => errcallback(err.response.data.message.error))
+  .catch(err => {
+    console.log(err.response)
+    errcallback(err.response.data.message.error)})
 }
