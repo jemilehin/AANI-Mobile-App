@@ -408,5 +408,7 @@ export const MultipleRequest = (arr,callback,errcallback) => {
   .then(axios.spread((...res) => {
     callback(res)
   }))
-  .catch(err => errcallback(err.response.data.message.error))
+  .catch(err => {
+    console.log(err.response)
+    errcallback(err.response.data.message.error)})
 }

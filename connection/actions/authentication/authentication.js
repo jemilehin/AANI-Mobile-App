@@ -16,7 +16,8 @@ export const LoginUser = async (data, callback, errcallback) => {
     }
   } catch (error) {
     errcallback();
-    alert("Incorrect login password or username");
+    // console.log(error.response)
+    alert(error.response.data === undefined ? 'error connecting to network' : error.response._response.data.error[0]);
   }
 };
 export const ValidateMember = async (data, callback, errCallback) => {
@@ -29,7 +30,7 @@ export const ValidateMember = async (data, callback, errCallback) => {
       callback(response.data.data[0].user);
     }
   } catch (error) {
-    errCallback(error);
+    errCallback(error.response.message.error);
   }
 };
 
