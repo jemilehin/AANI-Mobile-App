@@ -17,7 +17,7 @@ import Animated, {
   useAnimatedGestureHandler,
 } from "react-native-reanimated";
 import { GetGallery, GetNews, GetPublications, LikeDisLikeNews, GetProfile, MultipleRequest } from '../connection/actions/user.actions'
-import { data } from 'autoprefixer'
+import localStorage from "react-native-sync-localstorage";
 import { RequestCall } from '../components/Modal/RequestCall'
 import api from '../connection/api'
 
@@ -55,7 +55,6 @@ const Home = ({navigation, route}) => {
     if(is_load){
       setOpen(true)
       MultipleRequest(arr,mCallback,mErrCallback)
-      console.log('am here')
     }
   }, [value])
 
@@ -73,7 +72,9 @@ const Home = ({navigation, route}) => {
 
   const profileCall =(res) => {
     let index = res.more_info.length > 0 ? res.more_info.find(i => i.name === "Name") : null
+    let user_email = res.more_info.find(i => i.name === 'email')['value']
     setName(index)
+    localStorage.setItem('user_email', user_email)
   }
 
   const gcallback = (res) => {
