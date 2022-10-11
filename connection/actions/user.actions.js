@@ -1,7 +1,5 @@
 import api from "../api";
 import localStorage from "react-native-sync-localstorage";
-import { call } from "react-native-reanimated";
-import { data } from "autoprefixer";
 import axios from "axios";
 
 const org_name = "medal";
@@ -277,21 +275,19 @@ export const GetFAQ = async (status, callback) => {
 
 // user/memberlist-info/get_all_members/
 //Get Members
-export const GetMembers = async (status, callback) => {
+export const GetMembers = async (callback,errcalback) => {
   try {
     const response = await api.get(
-      `tenant/${org_name}/tenant/user/memberlist-info/get_all_members/`
+      `tenant/aani/tenant/user/memberlist-info/get_all_members/`
     );
 
     if (response.status == 200) {
-      callback(response);
-    } else {
-      console.log(response.status);
-      callback(response.status);
+      callback(response.data.data);
+      // console.log('true', response.data)
     }
   } catch (error) {
-    console.error(error);
-    // setLoading(false)
+    // console.error('error',error.response);
+    errcalback(error.response)
   }
 };
 

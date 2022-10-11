@@ -16,8 +16,8 @@ export const LoginUser = async (data, callback, errcallback) => {
     }
   } catch (error) {
     errcallback();
-    // console.log(error.response)
-    alert(error.response.data === undefined ? 'error connecting to network' : error.response._response.data.error[0]);
+    // console.log(error.response.data.data.error[0])
+    alert(error.response.data === undefined ? 'error connecting to network' : error.response.data.data.error[0]);
   }
 };
 export const ValidateMember = async (data, callback, errCallback) => {
