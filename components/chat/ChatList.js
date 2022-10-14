@@ -3,8 +3,16 @@ import React from 'react'
 import tw from 'tailwind-react-native-classnames'
 
 const ChatList = (props) => {
+  const navigateTo = (to,object) => {
+    if(props.isMember === false){
+      alert('You are not a member')
+    }else{
+    if(object !== undefined){
+      props.navigation.navigate(to, object)
+    }else props.navigation.navigate(to)}
+  }
   return (
-    <Pressable onPress={()=>props.navigation.navigate('private-single', {id: props.currentUser_id,recipient: props.recipient})} style={tw`rounded-md flex-row my-1 py-3 bg-gray-200`}>
+    <Pressable onPress={()=> navigateTo(props.to, props.passData)} style={tw`rounded-md flex-row my-1 py-3 bg-gray-200`}>
       { props.image ?
       <Image style={tw`h-10  w-10 ml-2 rounded-full`} source={props.image}/>
       :

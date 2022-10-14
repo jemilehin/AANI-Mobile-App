@@ -75,6 +75,7 @@ const Home = ({navigation, route}) => {
     let user_email = res.more_info.find(i => i.name === 'email')['value']
     setName(index)
     localStorage.setItem('user_email', user_email)
+    localStorage.setItem('currentUser', res)
   }
 
   const gcallback = (res) => {

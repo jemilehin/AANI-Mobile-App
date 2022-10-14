@@ -28,7 +28,8 @@ import ViewNews from './pages/News/viewNews';
 import Events from './pages/Events';
 import ViewEvent from './pages/Events/viewEvent';
 import Chat from './pages/Chat';
-import PrivateSingle from './pages/Chat/privateSingle';
+import PrivateSingle from './pages/Chat/Private/privateSingle';
+import GeneralSingle from './pages/Chat/General/singleGeneral';
 import MyAccount from './pages/MyAccount';
 import { Members } from './pages/members';
 import {ViewMember} from './pages/members/ViewMember'
@@ -138,6 +139,7 @@ export default function App() {
         <Stack.Screen name='viewNews' component={ViewNews}/>  
         <Stack.Screen name='viewExco' component={ViewExco}/>  
         <Stack.Screen name='private-single' component={PrivateSingle}/> 
+        <Stack.Screen name='general-single' component={GeneralSingle}/>
         <Stack.Screen name='account' component={MyAccount}/>
         <Stack.Screen name='events' component={Events}/>  
         <Stack.Screen name='viewEvents' component={ViewEvent}/>  
