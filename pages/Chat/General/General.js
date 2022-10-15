@@ -40,8 +40,6 @@ const General = ({navigation}) => {
     console.log(res)
   }
 
-  console.log(currentUser.member_id)
-
   return (
     <View style={tw`h-full`}>
         <FlatList

@@ -23,7 +23,6 @@ const GeneralSingle = ({navigation,route}) => {
     const flatListRef = useRef()
 
     useEffect(() => {
-      console.log(ws.url)
       RequestCall('get',null,callback,errcallback,`chat/?room_name=${commitee}`)
       ws.onopen = (e) => {
         // connection opened
@@ -42,26 +41,7 @@ const GeneralSingle = ({navigation,route}) => {
       }
     },[])
 
-    const [keyboardShow, setKeyboardShow] = useState(undefined)
-
-    useEffect(()=>{
-      const showKeyboard = Keyboard.addListener('keyboardDidShow', () => {
-        setKeyboardShow(true)
-        // flatListRef.current.scrollToIndex(0)
-      })
-      const hideKeyBoard = Keyboard.addListener('keyboardDidHide',()=>{
-        setKeyboardShow(false)
-      })
-      return () => {
-        showKeyboard.remove();
-        hideKeyBoard.remove();
-      }
-    }, [keyboardShow])
-
-    // console.log(commitee)
-
     const callback = (response) => {
-      console.log(response)
       setAllmessages(response.data)
     }
 

@@ -1,4 +1,4 @@
-import { View, Text , Image, Keyboard, FlatList, KeyboardAvoidingView} from 'react-native'
+import { View, Text , Image, FlatList, KeyboardAvoidingView} from 'react-native'
 import React, {useEffect, useRef, useState} from 'react'
 import tw from 'tailwind-react-native-classnames'
 import Ionicon from 'react-native-vector-icons/Ionicons'
@@ -42,26 +42,7 @@ const PrivateSingle = ({navigation,route}) => {
       }
     },[])
 
-    const [keyboardShow, setKeyboardShow] = useState(undefined)
-
-    useEffect(()=>{
-      const showKeyboard = Keyboard.addListener('keyboardDidShow', () => {
-        setKeyboardShow(true)
-        // flatListRef.current.scrollToIndex(0)
-      })
-      const hideKeyBoard = Keyboard.addListener('keyboardDidHide',()=>{
-        setKeyboardShow(false)
-      })
-      return () => {
-        showKeyboard.remove();
-        hideKeyBoard.remove();
-      }
-    }, [keyboardShow])
-
-    // console.log(keyboardShow)
-
     const callback = (response) => {
-      console.log(response)
       setAllmessages(response.data)
     }
 
