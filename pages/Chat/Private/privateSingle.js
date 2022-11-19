@@ -19,7 +19,7 @@ const PrivateSingle = ({navigation,route}) => {
       is_group: false
     })
     const [allmessages, setAllmessages] = useState([])
-    var ws = new WebSocket('ws://rel8backend.herokuapp.com/ws/chat/aani/'+room_name+'/')
+    var ws = new WebSocket('ws://aani-backend-production.up.railway.app/ws/chat/aani/'+room_name+'/')
     const inputRef = useRef()
     const flatListRef = useRef()
 

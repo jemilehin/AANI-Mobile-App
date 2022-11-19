@@ -18,7 +18,7 @@ const GeneralSingle = ({navigation,route}) => {
       is_group: false
     })
     const [allmessages, setAllmessages] = useState([])
-    var ws = new WebSocket('ws://rel8backend.herokuapp.com/ws/commitee_chat/aani/'+commitee.id+'/')
+    var ws = new WebSocket('ws://aani-backend-production.up.railway.app/ws/commitee_chat/aani/'+commitee.id+'/')
     const inputRef = useRef()
     const flatListRef = useRef()
 
@@ -50,7 +50,6 @@ const GeneralSingle = ({navigation,route}) => {
     }
 
     const sendMessage = () => {
-      console.log(message)
       try{
        ws.send(JSON.stringify(message))
         setMessage({...message, message: ''})

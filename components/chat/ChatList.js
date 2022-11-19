@@ -3,10 +3,15 @@ import React from 'react'
 import tw from 'tailwind-react-native-classnames'
 
 const ChatList = (props) => {
+  console.log('data',props.passData)
   const navigateTo = (to,object) => {
     if(props.isMember === false){
       alert('You are not a member')
-    }else{
+    }
+    // if(props.isExco === true){
+    //   props.navigation.navigate(to, object)
+    // }
+    else{
     if(object !== undefined){
       props.navigation.navigate(to, object)
     }else props.navigation.navigate(to)}

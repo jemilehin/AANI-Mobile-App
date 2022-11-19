@@ -1,8 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
+import React, { useState, useEffect, useRef } from 'react';
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { StyleSheet, Image,Text,SafeAreaView, Pressable,View } from 'react-native';
+import { StyleSheet, Image,Text,SafeAreaView, Pressable,View , } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 
 // import OnboardingPage from './pages/onbarding';
@@ -48,7 +51,7 @@ import ViewPublication from './pages/publication/viewPublication';
 import Exco from './pages/exco';
 import ViewExco from './pages/exco/viewExco';
 import Minutes from './pages/minutes';
-import Notifications from './pages/Notification';
+import Notification from './pages/Notification';
 import Profile from './pages/Profile/profile';
 import EditProfile from './pages/Profile/EditProfile';
 import SplashScreen from './pages/splashScreen';
@@ -113,8 +116,73 @@ const TabScreen =()=>{
     </Tab.Navigator>)
 }
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: true,
+  }),
+});
+
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log('token',token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  return token;
+}
+
 
 export default function App() {
+
+  // const [expoPushToken, setExpoPushToken] = useState('');
+  const [notifications, setNotifications] = useState({});
+  // const notificationListener = useRef();
+  // const responseListener = useRef();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync();
+    Notifications.addNotificationReceivedListener(handleNotification)
+    Notifications.addNotificationResponseReceivedListener(handleNotificationResponse);
+
+    // return () => {
+    //   Notifications.removeNotificationSubscription(notificationListener.current);
+    //   Notifications.removeNotificationSubscription(responseListener.current);
+    // };
+  }, []);
+
+  const handleNotification = (notification) => {
+    setNotifications({notification: notification});
+    console.log('notifi', notification);
+  }
+
+  const handleNotificationResponse = (response) => {
+    console.log('notiResponse',response);
+  }
+
 
   return (
     <NavigationContainer>
@@ -144,7 +212,7 @@ export default function App() {
         <Stack.Screen name='events' component={Events}/>  
         <Stack.Screen name='viewEvents' component={ViewEvent}/>  
         <Stack.Screen name='minutes' component={Minutes}/>  
-        <Stack.Screen name='notifications' component={Notifications}/>          
+        <Stack.Screen name='notifications' component={Notification}/>          
         <Stack.Screen name='view-member' component={ViewMember}/>
         <Stack.Screen name='profile' component={Profile}/>
         <Stack.Screen name='editProfile' component={EditProfile}/>

@@ -312,10 +312,10 @@ export const GetExcos = async (status, callback) => {
 };
 
 //Get Events
-export const GetElections = async (status, callback) => {
+export const GetElections = async (callback,errcalback) => {
   try {
     const response = await api.get(
-      `tenant/${org_name}/tenant/election/adminmanageballotbox/list_of_elections/`
+      `tenant/aani/tenant/election/adminmanageballotbox/list_of_elections/`
     );
 
     if (response.status == 200) {
@@ -325,6 +325,7 @@ export const GetElections = async (status, callback) => {
       callback(response.status);
     }
   } catch (error) {
+    errcalback(error.response)
     console.error(error);
     // setLoading(false)
   }
@@ -397,7 +398,7 @@ export const RequestCall = (type,data,callback,errcallback,path,formdata) => {
           },
         }
 
-        fetch(`https://rel8backend.herokuapp.com/tenant/aani/tenant/${path}`,request)
+        fetch(`https://aani-backend-production.up.railway.app/tenant/aani/tenant/${path}`,request)
         .then(res => res.json())
         .then(res => callback(res))
         .catch(err => 

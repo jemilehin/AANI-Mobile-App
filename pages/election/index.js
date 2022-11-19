@@ -20,7 +20,7 @@ export default function Elections({navigation}) {
   
   useEffect(()=>{
     setRefresh(!refresh)
-    GetElections(false, callback)
+    GetElections(callback, null)
   },[])
 
   const callback =(res)=>{
@@ -31,8 +31,10 @@ export default function Elections({navigation}) {
     }else{
         setIsEmpty(true)
         // alert('no')
-}
+    }
   }
+
+  console.log(loading)
   return (
     <SafeAreaView style={tw`h-full`}>
         <TobBar

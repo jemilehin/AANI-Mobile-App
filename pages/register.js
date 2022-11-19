@@ -52,8 +52,9 @@ const Register = ({ navigation, route }) => {
   }, []);
 
   const callback = () => {
-    navigation.navigate("dashboard");
     setLoading(false);
+    alert("Registeration successfull")
+    navigation.navigate("login");
   };
 
   const errCallback = (res) => {

@@ -52,6 +52,7 @@ const General = ({navigation}) => {
             <ChatList 
               name={item.name}
               navigation={navigation}
+              // isExco={item.is_exco}
               to='general-single'
               isMember={checkCurrentUser_a_Member}
               passData={{id: connected_members !== undefined  ? connected_members.user_id : null, commitee: item}}
