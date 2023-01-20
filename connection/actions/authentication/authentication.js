@@ -1,18 +1,23 @@
 import api from "../../api";
 import localStorage from "react-native-sync-localstorage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const LoginUser = async (data, callback, errcallback) => {
   try {
     const response = await api.post(`tenant/aani/tenant/auth/login/`, data);
-    // console.log(response)
-    // alert(org)
+    
+    const loggedIn = await AsyncStorage.getItem('loggedIn')
+    const register = [['loggedIn', 'true'], ['isRegistered', 'true']]
+
     if (response.status == 200) {
       callback(response);
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("org_name", "medal");
       localStorage.setItem("email", data.email);
       localStorage.setItem("password", data.password);
       localStorage.setItem("user_type", response.data.user_type);
+      if(loggedIn === null){
+        await AsyncStorage.multiSet(register)
+      }
     }
   } catch (error) {
     errcallback();
@@ -41,13 +46,15 @@ export const RegisterAsMember = async (data, callback, errCallback) => {
       data
     );
 
+
     if (response.status == 200) {
       callback(response.data);
+      await AsyncStorage.setItem('isRegistered', 'true')
     } else {
       throw new Error(response.data);
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     errCallback(error);
   }
 };

@@ -10,10 +10,10 @@ import TabbedButton from '../../components/button/TabbedButton'
 import { setSelectedLog } from 'react-native/Libraries/LogBox/Data/LogBoxData'
 import ChatsCard from '../../components/chat/ChatsCard'
 import MessageField from '../../components/chat/MessageField'
-import General from './General'
+import General from './General/General'
 import { StackActions } from '@react-navigation/native';
-import Private from './Private';
-import PrivateSingle from './privateSingle';
+import Private from './Private/Private';
+// import PrivateSingle from './privateSingle';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 

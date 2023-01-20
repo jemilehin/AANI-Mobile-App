@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1048406041456",
+    "project_id": "aani-push-notification",
+    "storage_bucket": "aani-push-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048406041456:android:96ab2f7f675204bf7ca5b5",
+        "android_client_info": {
+          "package_name": "com.tomation.AANI"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1048406041456-164ulfdto0g9lo010r42pkbq00f2vvot.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYg15SEX4IkrF0TBwzLxGvnyqmV8BRVrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1048406041456-164ulfdto0g9lo010r42pkbq00f2vvot.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -20,6 +20,7 @@ import { GetGallery, GetNews, GetPublications, LikeDisLikeNews, GetProfile, Mult
 import localStorage from "react-native-sync-localstorage";
 import { RequestCall } from '../components/Modal/RequestCall'
 import api from '../connection/api'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Home = ({navigation, route}) => {
 
@@ -30,6 +31,8 @@ const Home = ({navigation, route}) => {
   const [name,setName] = useState({})
   const [open,setOpen] = useState(false)
   const [load,setLoad] = useState(undefined)
+  const [newsTotalLenght, setNewsLenght] = useState(0)
+  const [publicationsTotalLenght,setPublicationsLenght] = useState(0)
 
   const offsetHorizontal = useSharedValue(0);
   let is_load = route.params === undefined ? false : route.params.is_load;
@@ -47,7 +50,6 @@ const Home = ({navigation, route}) => {
   }
 
   const mCallback = (res) => {
-    console.log('multiple',res)
     setOpen(false)
   }
 
@@ -66,15 +68,16 @@ const Home = ({navigation, route}) => {
         GetGallery(false, gcallback,gerrcallback)
         GetProfile(profileCall)
     });
-
     return unsubscribe;
   },[])
 
+  
   const profileCall =(res) => {
     let index = res.more_info.length > 0 ? res.more_info.find(i => i.name === "Name") : null
     let user_email = res.more_info.find(i => i.name === 'email')['value']
     setName(index)
     localStorage.setItem('user_email', user_email)
+    localStorage.setItem('currentUser', res)
   }
 
   const gcallback = (res) => {
@@ -96,10 +99,12 @@ const Home = ({navigation, route}) => {
   }
 
   const callback=(res)=>{
-    setNews(res.data)
+    setNewsLenght(res.data.length)
+    setNews(res.data.slice(2))
   }
   const pCallback= (res) => {
-    setPublications(res.data)
+    setPublicationsLenght(res.data.length)
+    setPublications(res.data.slice(2))
   }
 
   const scrollHorizontal = useAnimatedStyle(() => {
@@ -127,6 +132,7 @@ const Home = ({navigation, route}) => {
     }
   })
 
+
   const UpperComponent=(props)=>{
     return(
       <View>
@@ -136,6 +142,10 @@ const Home = ({navigation, route}) => {
             <Pressable onPress={()=>navigation.navigate('events')}>
               <MaterialIcon name='event-available' style={tw`text-center pb-2`} color='#C4C4C4' size={35}/>
               <Text style={tw`text-xs`}>Events</Text>
+            </Pressable>
+            <Pressable onPress={()=>navigation.navigate('meetings')}>
+              <MaterialIcon name='event-available' style={tw`text-center pb-2`} color='#C4C4C4' size={35}/>
+              <Text style={tw`text-xs`}>Meetings</Text>
             </Pressable>
             <Pressable onPress={()=>navigation.navigate('gallery')}>
               <FontAwesome name='photo' style={tw`text-center pb-2`} color='#C4C4C4' size={30} />
@@ -215,7 +225,7 @@ const Home = ({navigation, route}) => {
                  }
 
                  {/* feeds: quick links */}
-                <UpperComponent textTitle='News' show={true} count={news !== null ? news.length : 0}/>
+                <UpperComponent textTitle='News' show={true} count={news !== null ? newsTotalLenght : 0}/>
               </View>
             }
             renderItem={
@@ -255,7 +265,7 @@ const Home = ({navigation, route}) => {
                  <TodoList data={todoData}/>} */}
 
                  {/* feeds: quick links */}
-                <UpperComponent textTitle='Publications' show={false} count={publications.length < 1 !== null ? publications.length : 0}/>
+                <UpperComponent textTitle='Publications' show={false} count={publications !== null ? publicationsTotalLenght : 0}/>
               </View>
             }
             renderItem={
@@ -264,7 +274,7 @@ const Home = ({navigation, route}) => {
                   <NewsCard 
                         image={item.image}
                         head={item.name}
-                        body={item.body}
+                        // body={item.body}
                         item={item}
                         navigation = {navigation}
                         isLiked={item.likes}

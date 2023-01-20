@@ -6,26 +6,35 @@ import Ionicon from 'react-native-vector-icons/Ionicons'
 import TabbedButton from '../../components/button/TabbedButton'
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TobBar from '../../components/topBar'
-import National from './national'
-import State from './state'
+import ScheduledMeeting from './scheduledMeeting'
+import RescheduledMeeting from './resheduledMeeting'
 
-const Events = ({navigation}) => {
+const Meetings = ({navigation}) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [events, setEvents] = useState([])
   const Stack = createNativeStackNavigator()
 
+      // useEffect(()=>{
+      //   GetEvents(callback)
+      // },[])
+
+      // const callback = (res) =>{
+      //   setEvents(res.data.data)
+      // }
+
       const handleSelect =(index)=>{
-        
-      if(index==0){
-        navigation.navigate('national')
-        setSelectedIndex(index)
-      }else if(index==1){
-          navigation.navigate('state')
+        if(index==0){
+          navigation.navigate('scheduled_meeting')
           setSelectedIndex(index)
-      }else if(index==2){
-        navigation.navigate('member')
+      }else if(index==1){
+          navigation.navigate('rescheduled_meeting')
           setSelectedIndex(index)
       }
+      // else if(index==2){
+      //   navigation.navigate('member')
+      //     setSelectedIndex(index)
+      //     // alert(index)
+      // }
         // setSelectedIndex(index);
         // if(index==0){
         //   // setSelectedIndex(index);
@@ -41,7 +50,7 @@ const Events = ({navigation}) => {
         body={
           <View style={tw`flex-row justify-between px-3`}>
             <Ionicon name='ios-chevron-back' onPress={()=>navigation.goBack()} size={30}/>
-            <Text style={tw`my-auto font-bold text-base`}>Events</Text>
+            <Text style={tw`my-auto font-bold text-base`}>Meetings</Text>
               <Ionicon name='md-notifications' onPress={()=>navigation.navigate('notifications')} style={tw`text-green-800`} size={30}/>
           </View>
         }
@@ -55,21 +64,15 @@ const Events = ({navigation}) => {
         <Feather name='sliders' style={tw`my-auto`} size={20} color='purple'/>
       </View>
       <View style={tw`flex-row w-full justify-around`}>
-       
-      <TabbedButton text='National' 
+         <TabbedButton text='Scheduled' 
           index={0} selected={selectedIndex} 
           setSelected={setSelectedIndex}
           pressed={()=>handleSelect(0)}
         />
-        <TabbedButton text='State' 
+        <TabbedButton text='Rescheduled' 
           index={1} selected={selectedIndex} 
           setSelected={setSelectedIndex}
-          pressed={()=>handleSelect(1)}  
-        />
-        <TabbedButton text='Member' 
-          index={2} selected={selectedIndex} 
-          setSelected={setSelectedIndex}
-          pressed={()=>handleSelect(2)}
+          pressed={()=>handleSelect(1)}
         />
       </View>
       {/* <View style={tw` flex-row mt-0 `}>
@@ -93,14 +96,13 @@ const Events = ({navigation}) => {
                 //   </Pressable>
                   )}/>
         </View> */}
-        <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName='national'>
+        <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName='scheduled_meeting'>
           {/* <State data={data} navigation={navigation} /> */}
-          <Stack.Screen name='national' component={National}/>
-          <Stack.Screen name='state' component={State}/>
-          {/* <Stack.Screen name='member' component={Member}/> */}
+          <Stack.Screen name='scheduled_meeting' component={ScheduledMeeting}/>
+          <Stack.Screen name='rescheduled_meeting' component={RescheduledMeeting}/>
         </Stack.Navigator>
     </SafeAreaView>
   )
 }
 
-export default Events
+export default Meetings

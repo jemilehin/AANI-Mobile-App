@@ -1,8 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
+import React, { useState, useEffect, useRef } from 'react';
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { StyleSheet, Image,Text,SafeAreaView, Pressable,View } from 'react-native';
+import { StyleSheet, Image,Text,SafeAreaView, Pressable,View , } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 
 // import OnboardingPage from './pages/onbarding';
@@ -28,7 +31,8 @@ import ViewNews from './pages/News/viewNews';
 import Events from './pages/Events';
 import ViewEvent from './pages/Events/viewEvent';
 import Chat from './pages/Chat';
-import PrivateSingle from './pages/Chat/privateSingle';
+import PrivateSingle from './pages/Chat/Private/privateSingle';
+import GeneralSingle from './pages/Chat/General/singleGeneral';
 import MyAccount from './pages/MyAccount';
 import { Members } from './pages/members';
 import {ViewMember} from './pages/members/ViewMember'
@@ -47,17 +51,18 @@ import ViewPublication from './pages/publication/viewPublication';
 import Exco from './pages/exco';
 import ViewExco from './pages/exco/viewExco';
 import Minutes from './pages/minutes';
-import Notifications from './pages/Notification';
+import Notification from './pages/Notification';
 import Profile from './pages/Profile/profile';
 import EditProfile from './pages/Profile/EditProfile';
 import SplashScreen from './pages/splashScreen';
 import Chapters from './pages/onboarding/Chapters';
-import About from './pages/about'
+import About from './pages/about';
+import Meetings from './pages/Meeting';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
-// const navigationRef =useNavigation()
+// const navigationRef = useNavigation()
 
 
 const TabScreen =()=>{
@@ -112,8 +117,72 @@ const TabScreen =()=>{
     </Tab.Navigator>)
 }
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: true,
+  }),
+});
+
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  return token;
+}
+
 
 export default function App() {
+
+  // const [expoPushToken, setExpoPushToken] = useState('');
+  const [notifications, setNotifications] = useState({});
+  // const notificationListener = useRef();
+  // const responseListener = useRef();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync();
+    Notifications.addNotificationReceivedListener(handleNotification)
+    Notifications.addNotificationResponseReceivedListener(handleNotificationResponse);
+
+    // return () => {
+    //   Notifications.removeNotificationSubscription(notificationListener.current);
+    //   Notifications.removeNotificationSubscription(responseListener.current);
+    // };
+  }, []);
+
+  const handleNotification = (notification) => {
+    setNotifications({notification: notification});
+    console.log('notifi', notification);
+  }
+
+  const handleNotificationResponse = (response) => {
+    console.log('notiResponse',response);
+  }
+
 
   return (
     <NavigationContainer>
@@ -138,16 +207,18 @@ export default function App() {
         <Stack.Screen name='viewNews' component={ViewNews}/>  
         <Stack.Screen name='viewExco' component={ViewExco}/>  
         <Stack.Screen name='private-single' component={PrivateSingle}/> 
+        <Stack.Screen name='general-single' component={GeneralSingle}/>
         <Stack.Screen name='account' component={MyAccount}/>
         <Stack.Screen name='events' component={Events}/>  
         <Stack.Screen name='viewEvents' component={ViewEvent}/>  
         <Stack.Screen name='minutes' component={Minutes}/>  
-        <Stack.Screen name='notifications' component={Notifications}/>          
+        <Stack.Screen name='notifications' component={Notification}/>          
         <Stack.Screen name='view-member' component={ViewMember}/>
         <Stack.Screen name='profile' component={Profile}/>
         <Stack.Screen name='editProfile' component={EditProfile}/>
         <Stack.Screen name='verification' component={Chapters}/>
         <Stack.Screen name='about' component={About}/>
+        <Stack.Screen name='meetings' component={Meetings}/>
 
         <Stack.Screen name='dashboard'>
         {()=>(

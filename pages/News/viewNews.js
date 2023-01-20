@@ -9,22 +9,21 @@ import WriteCommentCard from '../../components/News/WriteCommentCard'
 import TobBar from '../../components/topBar'
 import { RequestCall } from '../../components/Modal/RequestCall'
 import { LikeDisLikeNews } from '../../connection/actions/user.actions'
+import { BodyParagraphs } from '../../components/utilitiyFunctions'
+
 
 const ViewNews = ({ navigation, route }) => {
-  console.log(route.params.props)
   const newsProps = route.params.props
-  // console.log(newsProps.item.id)
+  const paragraphs = newsProps.item.paragraphs
   const [comments, setComments] = useState([])
   const [likeOrDislike, setLikeOrDislike] = useState({...likeOrDislike,id: newsProps.item.id, like: false, dislike: false })
   const [loading,setLoading] = useState(false)
 
   const callback = (response) => {
-    console.log(response)
     setLoading(false)
   }
 
   const errcallback = (err) => {
-    console.log(err)
     setLoading(false)
   }
 
@@ -36,7 +35,7 @@ const ViewNews = ({ navigation, route }) => {
           <View style={tw`flex-row pb-1 justify-between px-3`}>
             <Ionicon name='ios-chevron-back' onPress={() => navigation.goBack()} size={30} />
             <Text style={tw`my-auto font-bold text-base`}>News</Text>
-            <Ionicon name='md-notifications' style={tw`text-purple-800`} size={30} />
+            <View></View>
           </View>
         }
       />
@@ -85,13 +84,13 @@ const ViewNews = ({ navigation, route }) => {
           </View>
 
           {/* //Click to show More Comments */}
-          {comments.length < 1 ? null : <Text style={tw`text-purple-800 font-bold`}>View 3 More Comments</Text>}
+          {paragraphs.length < 1 ? null : <BodyParagraphs para={paragraphs} /> }
         </View>
 
         {/* Write Comments Here */}
-        <View>
+        {/* <View>
           <WriteCommentCard />
-        </View>
+        </View> */}
         {/* <View style={tw`h-20`}></View> */}
       </ScrollView>
     </SafeAreaView>

@@ -21,8 +21,7 @@ export const Members  =({navigation})=>{
         {id:9,name: 'LSteve Job', dept:'Accounting', year:'1998'},
         {id:10,name: 'LSteve Job', dept:'Accounting', year:'1998'},
         {id:11,name: 'LSteve Job', dept:'Accounting', year:'1998'},
-        
-      ]
+    ]
 
     const [members, setMembers] = useState(null)
     const [refresh, setRefresh] = useState(false)

@@ -6,10 +6,10 @@ const RoundedButton = (props) => {
   return (
     <TouchableOpacity
       style={[
-        tw`py-2.5 my-2 rounded-full`,
+        tw`py-2.5 my-2 ${ props.rounded === undefined ? 'rounded-full' : props.rounded} ${props.width}`,
         {
           backgroundColor:
-            props.bgColor === undefined ? "#365C2A" : props.bgColor,
+          props.bgColor === undefined ? "#365C2A" : props.bgColor,
           borderWidth: props.borderWidth,
           borderColor: props.borderColor,
         },

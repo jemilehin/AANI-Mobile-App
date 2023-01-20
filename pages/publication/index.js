@@ -6,16 +6,19 @@ import Feather from 'react-native-vector-icons/Feather'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 import TobBar from '../../components/topBar'
 import { GetPublications } from '../../connection/actions/user.actions'
+import { LoadingData } from '../../components/utilitiyFunctions'
 
 const Publication = ({navigation}) => {
   const [data, setData]= useState(null)
+  const [loading,setLoad] = useState(true)
 
   useEffect(()=>{
     GetPublications(callback)
   }, [data])
 
   const callback=(res)=>{
-    setData(res.data.data)
+    setLoad(false)
+    setData(res.data)
   }
 
   return (
@@ -37,8 +40,8 @@ const Publication = ({navigation}) => {
         />
         <Feather name='sliders' style={tw`my-auto`} size={20} color='#365C2A'/>
       </View>
-      <View style={tw` flex-row mt-0 `}>
-        <FlatList
+      <View style={tw` flex-row mt-0 justify-between`}>
+        {data !== null ? <FlatList
             data={data}
             keyExtractor={ (item, index) => item.id }
             numColumns={2}
@@ -49,11 +52,11 @@ const Publication = ({navigation}) => {
                     item={item}
                     image={item.image}
                     head={item.name}
-                    body={item.body}
+                    // body={item.paragraphs}
                     navigation={navigation}
                     to='viewPublication'
                   />
-                  )}/>
+                  )}/> : <LoadingData Loading={loading} text="No publications" />}
         </View>
     </SafeAreaView>
   )

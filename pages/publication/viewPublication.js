@@ -4,9 +4,9 @@ import tw from 'tailwind-react-native-classnames'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 import TobBar from '../../components/topBar'
 import RoundedButton from '../../components/button/RoundedButton'
+import { BodyParagraphs } from '../../components/utilitiyFunctions'
 
 const ViewPublication = ({navigation, route}) => {
-  // console.log(route.params.props.item)
   return (
     <SafeAreaView>
       <TobBar
@@ -14,7 +14,7 @@ const ViewPublication = ({navigation, route}) => {
           <View style={tw`flex-row justify-between px-3`}>
             <Ionicon name='ios-chevron-back' onPress={()=>navigation.goBack()} size={30}/>
             <Text style={tw`my-auto font-bold text-base`}>Publications</Text>
-            <Ionicon name='md-notifications' style={tw`text-purple-800`} size={30}/>
+            <View></View>
           </View>
         }
         />
@@ -32,12 +32,13 @@ const ViewPublication = ({navigation, route}) => {
         </View>
         <View style={tw`px-4 py-2`}>
             <Text style={tw`text-base font-bold text-purple-800 py-1`}>{route.params.props.item.name}</Text>
-            <Text style={tw`text-justify text-gray-800 py-1`}>
+            {/* <Text style={tw`text-justify text-gray-800 py-1`}>
             {route.params.props.item.body}
-            </Text>
+            </Text> */}
       </View>
       <View style={tw`mx-5`}>
-        <RoundedButton text='Download'/>
+        {/* <RoundedButton text='Download'/> */}
+       {route.params.props.item.paragraphs.length > 0 ? <BodyParagraphs para={route.params.props.item.paragraphs} /> : null}
       </View>
       
     </ScrollView>

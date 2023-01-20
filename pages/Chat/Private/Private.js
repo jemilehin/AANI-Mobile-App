@@ -3,9 +3,9 @@ import React,{useEffect, useState} from 'react'
 import localStorage from "react-native-sync-localstorage";
 import tw from 'tailwind-react-native-classnames'
 import Ionicon from 'react-native-vector-icons/Ionicons'
-import ChatsCard from '../../components/chat/ChatsCard'
-import ChatList from '../../components/chat/ChatList'
-import { GetMembers } from '../../connection/actions/user.actions'
+import ChatsCard from '../../../components/chat/ChatsCard'
+import ChatList from '../../../components/chat/ChatList'
+import { GetMembers } from '../../../connection/actions/user.actions'
 
 const Private = ({navigation}) => {
   const [chats, setChats] = useState([])
@@ -43,11 +43,9 @@ const Private = ({navigation}) => {
             <ChatList 
               name={item.member_info.find(x => x.name === 'Name')['value']}
               image={item.picture}
-              // message={item.message}
-              // time={item.time}
               navigation={navigation}
-              currentUser_id={currentUser !== undefined ? currentUser.user : null}
-              recipient={item}
+              to='private-single'
+              passData={{id: currentUser !== undefined ? currentUser.user : null,recipient: item}}
             />   
                 )}
         />
