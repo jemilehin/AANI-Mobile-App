@@ -76,7 +76,6 @@ export default function Chapters({ navigation }) {
             {arrMem.map((val,i) => (
               <View style={tw`my-1 w-11/12 border-b`} key={i}>
                 <Text style={tw`font-light`}>{val.name}</Text>
-                {console.log(val)}
                 <TextInput
                   ref={inputEl}
                   defaultValue={val.value === null || val.value === "NA" ? `Type ${val.name}` : val.value.toString()}
@@ -143,7 +142,7 @@ export default function Chapters({ navigation }) {
             <TouchableOpacity onPress={() => navigation.navigate("login")}>
               <Text style={tw`text-green-800 font-bold`}> Login</Text>
             </TouchableOpacity>
-          </View>
+        </View>
 
         {/* <Pressable onPress={()=>setShowState(!showState)} style={tw`bg-gray-200 rounded-lg flex-row justify-between px-3 py-2.5 mb-3`}>
                 <Text style={tw`text-gray-700`}>Chapter</Text>

@@ -1,4 +1,4 @@
-import { View, Text , Image, FlatList, KeyboardAvoidingView} from 'react-native'
+import { View, Text , Image, FlatList, KeyboardAvoidingView,Keyboard} from 'react-native'
 import React, {useEffect, useRef, useState} from 'react'
 import tw from 'tailwind-react-native-classnames'
 import Ionicon from 'react-native-vector-icons/Ionicons'
@@ -8,6 +8,7 @@ import ChatsCard from '../../../components/chat/ChatsCard'
 import TobBar from '../../../components/topBar'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { RequestCall } from '../../../connection/actions/user.actions'
+import { ScrollView } from 'react-native-gesture-handler'
 
 
 const PrivateSingle = ({navigation,route}) => {
@@ -19,31 +20,61 @@ const PrivateSingle = ({navigation,route}) => {
       is_group: false
     })
     const [allmessages, setAllmessages] = useState([])
-    var ws = new WebSocket('ws://aani-backend-production.up.railway.app/ws/chat/aani/'+room_name+'/')
+    const [ws,setWs] = useState(null)
+    const [keyboardStatus, setKeyboardStatus] = useState(false);
+
+    const url = new WebSocket(`wss://aani-backend-production.up.railway.app/ws/chat/aani/${room_name}/`)
+    
+
+
     const inputRef = useRef()
     const flatListRef = useRef()
 
     useEffect(() => {
+      setWs(url)
       RequestCall('get',null,callback,errcallback,`chat/?room_name=${room_name}`)
-      ws.onopen = (e) => {
-        // connection opened
-        console.log('connecting',e)
+      const keyboardListener = Keyboard.addListener("keyboardDidShow", () => {
+        setKeyboardStatus(true);
+        flatListRef.current.scrollToEnd({animated: false})
+      });
+  
+      const removeKeyboardListener = Keyboard.addListener(
+        "keyboardDidHide",
+        () => {
+          setKeyboardStatus(false);
+          flatListRef.current.scrollToEnd({animated: false})
+        }
+      );
+  
+      return () => {
+        keyboardListener.remove();
+        removeKeyboardListener.remove();
       };
-
-      ws.onmessage = (e) => {
-        // a message was received
-        const response = JSON.parse(e.data)
-        setAllmessages(prevState => [...prevState, response])
-        inputRef.current.clear()
-      };
-
-      ws.onclose = (e) => {
-        console.log('err',e)
-      }
     },[])
+
+    useEffect(() => {
+      if(ws !== null){
+        ws.onopen = (e) => {
+          // connection opened
+          console.log('connecting',e)
+        };
+
+        ws.onmessage = (e) => {
+          // a message was received
+          const response = JSON.parse(e.data)
+          setAllmessages(prevState => [...prevState, response])
+          inputRef.current.clear()
+        };
+
+        ws.onclose = (e) => {
+          console.log('err',e)
+        }
+      }
+    },[allmessages])
 
     const callback = (response) => {
       setAllmessages(response.data)
+      flatListRef.current.scrollToEnd({animated: false})
     }
 
     const errcallback = (err) => {
@@ -75,8 +106,26 @@ const PrivateSingle = ({navigation,route}) => {
           </View>
         }
       />
-       <FlatList
-          ref={flatListRef}
+      <ScrollView 
+        ref={flatListRef}
+        onContentSizeChange={()=> 
+          setTimeout(() => flatListRef.current.scrollToEnd({animated: false}), 200)}
+      >
+        {allmessages.length>0 ?
+          allmessages.map((item,index)=> (
+            <ChatsCard 
+                    // name={item.name}
+                    // image={item.picture}
+                    key={index}
+                    message={item.message}
+                    isme={item.user__id !== undefined ? item.user__id : item.send_user_id}
+                    currentuser_id={currentuser_id}
+                    item={item} />
+          )) : null
+        }
+      </ScrollView>
+       {/* <FlatList
+            ref={flatListRef}
             data={allmessages}
             keyExtractor={ (item, index) => index }
             showsVerticalScrollIndicator={false}
@@ -91,10 +140,10 @@ const PrivateSingle = ({navigation,route}) => {
                     item={item}
             />    
                 )}
-                getItemLayout={(_, index) => (
-                  {length: allmessages.length, offset: 0 * index, index}
-                )}
-        />
+                // getItemLayout={(_, index) => (
+                //   {length: allmessages.length, offset: allmessages.length * index, index}
+                // )}
+        /> */}
         <KeyboardAvoidingView behavior='position' contentContainerStyle={tw`top-0`}>
         <View style={tw`left-1 w-full`}>
               <MessageField 

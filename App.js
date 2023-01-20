@@ -56,12 +56,13 @@ import Profile from './pages/Profile/profile';
 import EditProfile from './pages/Profile/EditProfile';
 import SplashScreen from './pages/splashScreen';
 import Chapters from './pages/onboarding/Chapters';
-import About from './pages/about'
+import About from './pages/about';
+import Meetings from './pages/Meeting';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
-// const navigationRef =useNavigation()
+// const navigationRef = useNavigation()
 
 
 const TabScreen =()=>{
@@ -138,7 +139,6 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log('token',token);
   } else {
     alert('Must use physical device for Push Notifications');
   }
@@ -218,6 +218,7 @@ export default function App() {
         <Stack.Screen name='editProfile' component={EditProfile}/>
         <Stack.Screen name='verification' component={Chapters}/>
         <Stack.Screen name='about' component={About}/>
+        <Stack.Screen name='meetings' component={Meetings}/>
 
         <Stack.Screen name='dashboard'>
         {()=>(

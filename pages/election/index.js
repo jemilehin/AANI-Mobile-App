@@ -25,16 +25,15 @@ export default function Elections({navigation}) {
 
   const callback =(res)=>{
     setLoading(false)
+    console.log('election',res.data)
     if(res.data.data.length>0){
-      setIsEmpty(false)
+        setIsEmpty(false)
         setElections(res.data.data)
     }else{
         setIsEmpty(true)
-        // alert('no')
     }
   }
 
-  console.log(loading)
   return (
     <SafeAreaView style={tw`h-full`}>
         <TobBar

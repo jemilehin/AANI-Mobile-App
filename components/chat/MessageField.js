@@ -40,10 +40,14 @@ const MessageField = (props) => {
         )
         :<></>  
       }
-        <View style={tw`bg-gray-100 flex-row rounded-xl my-auto w-11/12 mx-2 p-3`}>
+        <View style={tw`bg-gray-100 flex-row rounded-xl my-auto w-full mx-2 p-3`}>
         {/* <Text>WriteCommentCard</Text> */}
-        <Ionicon name='attach' size={25} onPress={()=>_pickDocument()}/>
-        <TextInput ref={props.inputRef} onChangeText={text => props.setMessage({...props.message, message: text})} placeholder='Write Message' multiline style={tw`w-10/12`}/>
+        {/* <Ionicon name='attach' size={25} onPress={()=>_pickDocument()}/> */}
+        <TextInput
+          ref={props.inputRef}
+          onChangeText={text => props.setMessage({...props.message, message: text})}
+          // onEndEditing={(e) => props.setMessage({...props.message, message: e.nativeEvent.text})}
+          placeholder='Write Message' multiline style={tw`w-10/12`}/>
         <Ionicon name='md-send' onPress={() => props.sendMessage()} size={25} style={{color:'#365C2A'}}/>
     </View>
 </View>

@@ -2,7 +2,7 @@ import api from "../api";
 import localStorage from "react-native-sync-localstorage";
 import axios from "axios";
 
-const org_name = "medal";
+const org_name = "aani";
 export const LoginUser = async (data, callback) => {
   try {
     const response = await api.post(`tenant/aani/tenant/auth/login/`, data);
@@ -152,20 +152,21 @@ export const GetMyDues = async (status, callback) => {
 // /tenant/dues/AdminManageDue/due_list_and_owning_members/
 // Get Gallery
 
-export const GetGallery = async (status, callback,errcallback,type) => {
+export const GetGallery = async (status, callback,errcallback,extra) => {
+  console.log('extras',extra)
   try {
     const response = await api.get(
-      `tenant/aani/tenant/extras/galleryview/member_get_gallery/`
+      `tenant/aani/tenant/extras/galleryview/member_get_gallery/${extra !== undefined ? '?'+extra : ''}`
     );
 
     if (response.status == 200) {
       callback(response.data.data);
     } else {
-      console.log(response.status);
+      // console.log(response.status);
       callback(response.status);
     }
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     errcallback(error)
     // setLoading(false)
   }
@@ -325,8 +326,7 @@ export const GetElections = async (callback,errcalback) => {
       callback(response.status);
     }
   } catch (error) {
-    errcalback(error.response)
-    console.error(error);
+    errcalback(error.response);
     // setLoading(false)
   }
 };
@@ -371,7 +371,6 @@ export const GetContestants = async (id, callback, setLoading) => {
     console.error(error);
     setLoading(false);
 
-    // setLoading(false)
   }
 };
 

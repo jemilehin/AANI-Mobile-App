@@ -1,10 +1,10 @@
 import { View, FlatList,Text } from 'react-native'
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import NewsCard from '../../components/News/NewsCard'
 import tw from 'tailwind-react-native-classnames'
 import EventsCard from '../../components/Events/EventsCard'
 
-const Member = ({navigation}) => {
+const RescheduledMeeting = ({navigation}) => {
   const [events,setEvents] = useState([])
 
   
@@ -26,10 +26,9 @@ const Member = ({navigation}) => {
                     image={item.picture}
                     head={item.title}
                     body={item.body}
-                    item={item}
                     navigation={navigation}
                     to='viewEvents'
-                    type='member'
+                    type='state'
                   />
                 //   </Pressable>
                   )}/>
@@ -38,4 +37,4 @@ const Member = ({navigation}) => {
   )
 }
 
-export default Member
+export default RescheduledMeeting

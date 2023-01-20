@@ -8,6 +8,7 @@ import ChatsCard from '../../../components/chat/ChatsCard'
 import TobBar from '../../../components/topBar'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { RequestCall } from '../../../connection/actions/user.actions'
+import { ScrollView } from 'react-native-gesture-handler'
 
 
 const GeneralSingle = ({navigation,route}) => {
@@ -18,7 +19,8 @@ const GeneralSingle = ({navigation,route}) => {
       is_group: false
     })
     const [allmessages, setAllmessages] = useState([])
-    var ws = new WebSocket('ws://aani-backend-production.up.railway.app/ws/commitee_chat/aani/'+commitee.id+'/')
+    const [keyboardStatus, setKeyboardStatus] = useState(false);
+    var ws = new WebSocket('wss://aani-backend-production.up.railway.app/ws/commitee_chat/aani/'+commitee.id+'/')
     const inputRef = useRef()
     const flatListRef = useRef()
 
@@ -39,14 +41,34 @@ const GeneralSingle = ({navigation,route}) => {
       ws.onclose = (e) => {
         console.log('err',e)
       }
+
+      const keyboardListener = Keyboard.addListener("keyboardDidShow", () => {
+        setKeyboardStatus(true);
+        flatListRef.current.scrollToEnd({animated: false})
+      });
+  
+      const removeKeyboardListener = Keyboard.addListener(
+        "keyboardDidHide",
+        () => {
+          setKeyboardStatus(false);
+          flatListRef.current.scrollToEnd({animated: false})
+        }
+      );
+  
+      return () => {
+        keyboardListener.remove();
+        removeKeyboardListener.remove();
+      };
     },[])
+
 
     const callback = (response) => {
       setAllmessages(response.data)
+      flatListRef.current.scrollToEnd({animated: false})
     }
 
     const errcallback = (err) => {
-      console.log(err.response)
+      console.log('err',err.data.message)
     }
 
     const sendMessage = () => {
@@ -73,7 +95,25 @@ const GeneralSingle = ({navigation,route}) => {
           </View>
         }
       />
-       <FlatList
+      <ScrollView 
+        ref={flatListRef}
+        onContentSizeChange={()=> 
+          setTimeout(() => flatListRef.current.scrollToEnd({animated: false}), 200)}
+      >
+         {allmessages.length>0 ?
+          allmessages.map((item,index)=> (
+            <ChatsCard 
+            // name={item.name}
+            // image={item.picture}
+            message={item.message}
+            isme={item.user__id !== undefined ? item.user__id : item.send_user_id}
+            currentuser_id={currentuser_id}
+            item={item}
+    />    
+          )) : null
+        }
+      </ScrollView>
+       {/* <FlatList
           ref={flatListRef}
             data={allmessages}
             keyExtractor={ (item, index) => index }
@@ -92,7 +132,7 @@ const GeneralSingle = ({navigation,route}) => {
                 getItemLayout={(_, index) => (
                   {length: allmessages.length, offset: 0 * index, index}
                 )}
-        />
+        /> */}
         <KeyboardAvoidingView behavior='position' contentContainerStyle={tw`top-0`}>
         <View style={tw`left-1 w-full`}>
               <MessageField 

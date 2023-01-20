@@ -1,15 +1,14 @@
 {
   "expo": {
-    "name": "ANNI",
+    "name": "AANI",
     "slug": "AANI",
-    "version": "1.0.1",
+    "version": "1.0.7",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "plugins": [
       [
         "expo-notifications",
         {
-          "icon": "./local/assets/notification-icon.png",
           "color": "#ffffff"
         }
       ]
@@ -35,7 +34,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.tomation.AANI",
-      "versionCode": 2,
+      "versionCode": 8,
       "googleServicesFile": "./google-services.json"
     },
     "web": {

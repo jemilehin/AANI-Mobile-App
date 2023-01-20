@@ -44,11 +44,11 @@ const Notifications = ({navigation}) => {
        </View>
         <View style={tw`flex-row justify-around`}>
             <TabbedButton text='Messages' index={0} selected={selected} pressed={()=>handlePressed(0)}/>
-            <TabbedButton text='Events' index={1} selected={selected} pressed={()=>handlePressed(1)} />
+            {/* <TabbedButton text='Events' index={1} selected={selected} pressed={()=>handlePressed(1)} /> */}
         </View> 
         <Stack.Navigator screenOptions={{headerShown:false}}> 
             <Stack.Screen name='messages' component={Messages}/>
-            <Stack.Screen name='eventNotice' component={EventsNotice}/> 
+            {/* <Stack.Screen name='eventNotice' component={EventsNotice}/>  */}
             
         </Stack.Navigator>
     </SafeAreaView>
